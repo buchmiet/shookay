@@ -1,0 +1,4265 @@
+#include "pch.h"
+#include "UtfConv.h"
+#include <stdlib.h> 
+#include <string.h>
+#include <stdint.h>
+#include <vector>
+#include <string>
+
+
+void UTFConverter::StrToLwrUtf32(std::vector<char32_t>& utf32Text)
+{
+
+	for (char32_t& ch : utf32Text) {
+		if (ch >= 0x41 && ch <= 0x5A) { // US ASCII
+			ch += 0x20;
+		}
+		else {
+			switch (ch) {
+			case 0x00C0:		//	À	0xc3 0x80	LATIN CAPITAL LETTER A WITH GRAVE
+				ch = 0x00E0;	//	� 	0xc3 0xa0	LATIN SMALL LETTER A WITH GRAVE
+				break;
+			case 0x00C1:		//	Á	0xc3 0x81	LATIN CAPITAL LETTER A WITH ACUTE
+				ch = 0x00E1;	//	á	0xc3 0xa1	LATIN SMALL LETTER A WITH ACUTE
+				break;
+			case 0x00C2:		//	Â	0xc3 0x82	LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+				ch = 0x00E2;	//	â	0xc3 0xa2	LATIN SMALL LETTER A WITH CIRCUMFLEX
+				break;
+			case 0x00C3:		//	Ã	0xc3 0x83	LATIN CAPITAL LETTER A WITH TILDE
+				ch = 0x00E3;	//	ã	0xc3 0xa3	LATIN SMALL LETTER A WITH TILDE
+				break;
+			case 0x00C4:		//	Ä	0xc3 0x84	LATIN CAPITAL LETTER A WITH DIAERESIS
+				ch = 0x00E4;	//	ä	0xc3 0xa4	LATIN SMALL LETTER A WITH DIAERESIS
+				break;
+			case 0x00C5:		//	Å	0xc3 0x85	LATIN CAPITAL LETTER A WITH RING ABOVE
+				ch = 0x00E5;	//	å	0xc3 0xa5	LATIN SMALL LETTER A WITH RING ABOVE
+				break;
+			case 0x00C6:		//	Æ	0xc3 0x86	LATIN CAPITAL LETTER AE
+				ch = 0x00E6;	//	æ	0xc3 0xa6	LATIN SMALL LETTER AE
+				break;
+			case 0x00C7:		//	Ç	0xc3 0x87	LATIN CAPITAL LETTER C WITH CEDILLA
+				ch = 0x00E7;	//	ç	0xc3 0xa7	LATIN SMALL LETTER C WITH CEDILLA
+				break;
+			case 0x00C8:		//	È	0xc3 0x88	LATIN CAPITAL LETTER E WITH GRAVE
+				ch = 0x00E8;	//	è	0xc3 0xa8	LATIN SMALL LETTER E WITH GRAVE
+				break;
+			case 0x00C9:		//	É	0xc3 0x89	LATIN CAPITAL LETTER E WITH ACUTE
+				ch = 0x00E9;	//	é	0xc3 0xa9	LATIN SMALL LETTER E WITH ACUTE
+				break;
+			case 0x00CA:		//	Ê	0xc3 0x8a	LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+				ch = 0x00EA;	//	ê	0xc3 0xaa	LATIN SMALL LETTER E WITH CIRCUMFLEX
+				break;
+			case 0x00CB:		//	Ë	0xc3 0x8b	LATIN CAPITAL LETTER E WITH DIAERESIS
+				ch = 0x00EB;	//	ë	0xc3 0xab	LATIN SMALL LETTER E WITH DIAERESIS
+				break;
+			case 0x00CC:		//	Ì	0xc3 0x8c	LATIN CAPITAL LETTER I WITH GRAVE
+				ch = 0x00EC;	//	ì	0xc3 0xac	LATIN SMALL LETTER I WITH GRAVE
+				break;
+			case 0x00CD:		//	Í	0xc3 0x8d	LATIN CAPITAL LETTER I WITH ACUTE
+				ch = 0x00ED;	//	í	0xc3 0xad	LATIN SMALL LETTER I WITH ACUTE
+				break;
+			case 0x00CE:		//	Î	0xc3 0x8e	LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+				ch = 0x00EE;	//	î	0xc3 0xae	LATIN SMALL LETTER I WITH CIRCUMFLEX
+				break;
+			case 0x00CF:		//	Ï	0xc3 0x8f	LATIN CAPITAL LETTER I WITH DIAERESIS
+				ch = 0x00EF;	//	ï	0xc3 0xaf	LATIN SMALL LETTER I WITH DIAERESIS
+				break;
+			case 0x00D0:		//	Ð	0xc3 0x90	LATIN CAPITAL LETTER ETH
+				ch = 0x00F0;	//	ð	0xc3 0xb0	LATIN SMALL LETTER ETH
+				break;
+			case 0x00D1:		//	Ñ	0xc3 0x91	LATIN CAPITAL LETTER N WITH TILDE
+				ch = 0x00F1;	//	ñ	0xc3 0xb1	LATIN SMALL LETTER N WITH TILDE
+				break;
+			case 0x00D2:		//	Ò	0xc3 0x92	LATIN CAPITAL LETTER O WITH GRAVE
+				ch = 0x00F2;	//	ò	0xc3 0xb2	LATIN SMALL LETTER O WITH GRAVE
+				break;
+			case 0x00D3:		//	Ó	0xc3 0x93	LATIN CAPITAL LETTER O WITH ACUTE
+				ch = 0x00F3;	//	ó	0xc3 0xb3	LATIN SMALL LETTER O WITH ACUTE
+				break;
+			case 0x00D4:		//	Ô	0xc3 0x94	LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+				ch = 0x00F4;	//	ô	0xc3 0xb4	LATIN SMALL LETTER O WITH CIRCUMFLEX
+				break;
+			case 0x00D5:		//	Õ	0xc3 0x95	LATIN CAPITAL LETTER O WITH TILDE
+				ch = 0x00F5;	//	õ	0xc3 0xb5	LATIN SMALL LETTER O WITH TILDE
+				break;
+			case 0x00D6:		//	Ö	0xc3 0x96	LATIN CAPITAL LETTER O WITH DIAERESIS
+				ch = 0x00F6;	//	ö	0xc3 0xb6	LATIN SMALL LETTER O WITH DIAERESIS
+				break;
+			case 0x00D8:		//	Ø	0xc3 0x98	LATIN CAPITAL LETTER O WITH STROKE
+				ch = 0x00F8;	//	ø	0xc3 0xb8	LATIN SMALL LETTER O WITH STROKE
+				break;
+			case 0x00D9:		//	Ù	0xc3 0x99	LATIN CAPITAL LETTER U WITH GRAVE
+				ch = 0x00F9;	//	ù	0xc3 0xb9	LATIN SMALL LETTER U WITH GRAVE
+				break;
+			case 0x00DA:		//	Ú	0xc3 0x9a	LATIN CAPITAL LETTER U WITH ACUTE
+				ch = 0x00FA;	//	ú	0xc3 0xba	LATIN SMALL LETTER U WITH ACUTE
+				break;
+			case 0x00DB:		//	Û	0xc3 0x9b	LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+				ch = 0x00FB;	//	û	0xc3 0xbb	LATIN SMALL LETTER U WITH CIRCUMFLEX
+				break;
+			case 0x00DC:		//	Ü	0xc3 0x9c	LATIN CAPITAL LETTER U WITH DIAERESIS
+				ch = 0x00FC;	//	ü	0xc3 0xbc	LATIN SMALL LETTER U WITH DIAERESIS
+				break;
+			case 0x00DD:		//	Ý	0xc3 0x9d	LATIN CAPITAL LETTER Y WITH ACUTE
+				ch = 0x00FD;	//	ý	0xc3 0xbd	LATIN SMALL LETTER Y WITH ACUTE
+				break;
+			case 0x00DE:		//	Þ	0xc3 0x9e	LATIN CAPITAL LETTER THORN
+				ch = 0x00FE;	//	þ	0xc3 0xbe	LATIN SMALL LETTER THORN
+				break;
+			case 0x0100:		//	Ā	0xc4 0x80	LATIN CAPITAL LETTER A WITH MACRON
+				ch = 0x0101;	//	ā	0xc4 0x81	LATIN SMALL LETTER A WITH MACRON
+				break;
+			case 0x0102:		//	Ă	0xc4 0x82	LATIN CAPITAL LETTER A WITH BREVE
+				ch = 0x0103;	//	ă	0xc4 0x83	LATIN SMALL LETTER A WITH BREVE
+				break;
+			case 0x0104:		//	Ą	0xc4 0x84	LATIN CAPITAL LETTER A WITH OGONEK
+				ch = 0x0105;	//	ą	0xc4 0x85	LATIN SMALL LETTER A WITH OGONEK
+				break;
+			case 0x0106:		//	Ć	0xc4 0x86	LATIN CAPITAL LETTER C WITH ACUTE
+				ch = 0x0107;	//	ć	0xc4 0x87	LATIN SMALL LETTER C WITH ACUTE
+				break;
+			case 0x0108:		//	Ĉ	0xc4 0x88	LATIN CAPITAL LETTER C WITH CIRCUMFLEX
+				ch = 0x0109;	//	ĉ	0xc4 0x89	LATIN SMALL LETTER C WITH CIRCUMFLEX
+				break;
+			case 0x010A:		//	Ċ	0xc4 0x8a	LATIN CAPITAL LETTER C WITH DOT ABOVE
+				ch = 0x010B;	//	ċ	0xc4 0x8b	LATIN SMALL LETTER C WITH DOT ABOVE
+				break;
+			case 0x010C:		//	Č	0xc4 0x8c	LATIN CAPITAL LETTER C WITH CARON
+				ch = 0x010D;	//	č	0xc4 0x8d	LATIN SMALL LETTER C WITH CARON
+				break;
+			case 0x010E:		//	Ď	0xc4 0x8e	LATIN CAPITAL LETTER D WITH CARON
+				ch = 0x010F;	//	ď	0xc4 0x8f	LATIN SMALL LETTER D WITH CARON
+				break;
+			case 0x0110:		//	Đ	0xc4 0x90	LATIN CAPITAL LETTER D WITH STROKE
+				ch = 0x0111;	//	đ	0xc4 0x91	LATIN SMALL LETTER D WITH STROKE
+				break;
+			case 0x0112:		//	Ē	0xc4 0x92	LATIN CAPITAL LETTER E WITH MACRON
+				ch = 0x0113;	//	ē	0xc4 0x93	LATIN SMALL LETTER E WITH MACRON
+				break;
+			case 0x0114:		//	Ĕ	0xc4 0x94	LATIN CAPITAL LETTER E WITH BREVE
+				ch = 0x0115;	//	ĕ	0xc4 0x95	LATIN SMALL LETTER E WITH BREVE
+				break;
+			case 0x0116:		//	Ė	0xc4 0x96	LATIN CAPITAL LETTER E WITH DOT ABOVE
+				ch = 0x0117;	//	ė	0xc4 0x97	LATIN SMALL LETTER E WITH DOT ABOVE
+				break;
+			case 0x0118:		//	Ę	0xc4 0x98	LATIN CAPITAL LETTER E WITH OGONEK
+				ch = 0x0119;	//	ę	0xc4 0x99	LATIN SMALL LETTER E WITH OGONEK
+				break;
+			case 0x011A:		//	Ě	0xc4 0x9a	LATIN CAPITAL LETTER E WITH CARON
+				ch = 0x011B;	//	ě	0xc4 0x9b	LATIN SMALL LETTER E WITH CARON
+				break;
+			case 0x011C:		//	Ĝ	0xc4 0x9c	LATIN CAPITAL LETTER G WITH CIRCUMFLEX
+				ch = 0x011D;	//	ĝ	0xc4 0x9d	LATIN SMALL LETTER G WITH CIRCUMFLEX
+				break;
+			case 0x011E:		//	Ğ	0xc4 0x9e	LATIN CAPITAL LETTER G WITH BREVE
+				ch = 0x011F;	//	ğ	0xc4 0x9f	LATIN SMALL LETTER G WITH BREVE
+				break;
+			case 0x0120:		//	� 	0xc4 0xa0	LATIN CAPITAL LETTER G WITH DOT ABOVE
+				ch = 0x0121;	//	ġ	0xc4 0xa1	LATIN SMALL LETTER G WITH DOT ABOVE
+				break;
+			case 0x0122:		//	Ģ	0xc4 0xa2	LATIN CAPITAL LETTER G WITH CEDILLA
+				ch = 0x0123;	//	ģ	0xc4 0xa3	LATIN SMALL LETTER G WITH CEDILLA
+				break;
+			case 0x0124:		//	Ĥ	0xc4 0xa4	LATIN CAPITAL LETTER H WITH CIRCUMFLEX
+				ch = 0x0125;	//	ĥ	0xc4 0xa5	LATIN SMALL LETTER H WITH CIRCUMFLEX
+				break;
+			case 0x0126:		//	Ħ	0xc4 0xa6	LATIN CAPITAL LETTER H WITH STROKE
+				ch = 0x0127;	//	ħ	0xc4 0xa7	LATIN SMALL LETTER H WITH STROKE
+				break;
+			case 0x0128:		//	Ĩ	0xc4 0xa8	LATIN CAPITAL LETTER I WITH TILDE
+				ch = 0x0129;	//	ĩ	0xc4 0xa9	LATIN SMALL LETTER I WITH TILDE
+				break;
+			case 0x012A:		//	Ī	0xc4 0xaa	LATIN CAPITAL LETTER I WITH MACRON
+				ch = 0x012B;	//	ī	0xc4 0xab	LATIN SMALL LETTER I WITH MACRON
+				break;
+			case 0x012C:		//	Ĭ	0xc4 0xac	LATIN CAPITAL LETTER I WITH BREVE
+				ch = 0x012D;	//	ĭ	0xc4 0xad	LATIN SMALL LETTER I WITH BREVE
+				break;
+			case 0x012E:		//	Į	0xc4 0xae	LATIN CAPITAL LETTER I WITH OGONEK
+				ch = 0x012F;	//	į	0xc4 0xaf	LATIN SMALL LETTER I WITH OGONEK
+				break;
+			case 0x0130:		//	İ	0xc4 0xb0	LATIN CAPITAL LETTER I WITH DOT ABOVE
+				ch = 0x0069;	//	i	0x69	LATIN SMALL LETTER I
+				break;
+			case 0x0132:		//	Ĳ	0xc4 0xb2	LATIN CAPITAL LETTER LIGATURE IJ
+				ch = 0x0133;	//	ĳ	0xc4 0xb3	LATIN SMALL LETTER LIGATURE IJ
+				break;
+			case 0x0134:		//	Ĵ	0xc4 0xb4	LATIN CAPITAL LETTER J WITH CIRCUMFLEX
+				ch = 0x0135;	//	ĵ	0xc4 0xb5	LATIN SMALL LETTER J WITH CIRCUMFLEX
+				break;
+			case 0x0136:		//	Ķ	0xc4 0xb6	LATIN CAPITAL LETTER K WITH CEDILLA
+				ch = 0x0137;	//	ķ	0xc4 0xb7	LATIN SMALL LETTER K WITH CEDILLA
+				break;
+			case 0x0139:		//	Ĺ	0xc4 0xb9	LATIN CAPITAL LETTER L WITH ACUTE
+				ch = 0x013A;	//	ĺ	0xc4 0xba	LATIN SMALL LETTER L WITH ACUTE
+				break;
+			case 0x013B:		//	Ļ	0xc4 0xbb	LATIN CAPITAL LETTER L WITH CEDILLA
+				ch = 0x013C;	//	ļ	0xc4 0xbc	LATIN SMALL LETTER L WITH CEDILLA
+				break;
+			case 0x013D:		//	Ľ	0xc4 0xbd	LATIN CAPITAL LETTER L WITH CARON
+				ch = 0x013E;	//	ľ	0xc4 0xbe	LATIN SMALL LETTER L WITH CARON
+				break;
+			case 0x013F:		//	Ŀ	0xc4 0xbf	LATIN CAPITAL LETTER L WITH MIDDLE DOT
+				ch = 0x0140;	//	ŀ	0xc5 0x80	LATIN SMALL LETTER L WITH MIDDLE DOT
+				break;
+			case 0x0141:		//	Ł	0xc5 0x81	LATIN CAPITAL LETTER L WITH STROKE
+				ch = 0x0142;	//	ł	0xc5 0x82	LATIN SMALL LETTER L WITH STROKE
+				break;
+			case 0x0143:		//	Ń	0xc5 0x83	LATIN CAPITAL LETTER N WITH ACUTE
+				ch = 0x0144;	//	ń	0xc5 0x84	LATIN SMALL LETTER N WITH ACUTE
+				break;
+			case 0x0145:		//	Ņ	0xc5 0x85	LATIN CAPITAL LETTER N WITH CEDILLA
+				ch = 0x0146;	//	ņ	0xc5 0x86	LATIN SMALL LETTER N WITH CEDILLA
+				break;
+			case 0x0147:		//	Ň	0xc5 0x87	LATIN CAPITAL LETTER N WITH CARON
+				ch = 0x0148;	//	ň	0xc5 0x88	LATIN SMALL LETTER N WITH CARON
+				break;
+			case 0x014A:		//	Ŋ	0xc5 0x8a	LATIN CAPITAL LETTER ENG
+				ch = 0x014B;	//	ŋ	0xc5 0x8b	LATIN SMALL LETTER ENG
+				break;
+			case 0x014C:		//	Ō	0xc5 0x8c	LATIN CAPITAL LETTER O WITH MACRON
+				ch = 0x014D;	//	ō	0xc5 0x8d	LATIN SMALL LETTER O WITH MACRON
+				break;
+			case 0x014E:		//	Ŏ	0xc5 0x8e	LATIN CAPITAL LETTER O WITH BREVE
+				ch = 0x014F;	//	ŏ	0xc5 0x8f	LATIN SMALL LETTER O WITH BREVE
+				break;
+			case 0x0150:		//	Ő	0xc5 0x90	LATIN CAPITAL LETTER O WITH DOUBLE ACUTE
+				ch = 0x0151;	//	ő	0xc5 0x91	LATIN SMALL LETTER O WITH DOUBLE ACUTE
+				break;
+			case 0x0152:		//	Œ	0xc5 0x92	LATIN CAPITAL LETTER LIGATURE OE
+				ch = 0x0153;	//	œ	0xc5 0x93	LATIN SMALL LETTER LIGATURE OE
+				break;
+			case 0x0154:		//	Ŕ	0xc5 0x94	LATIN CAPITAL LETTER R WITH ACUTE
+				ch = 0x0155;	//	ŕ	0xc5 0x95	LATIN SMALL LETTER R WITH ACUTE
+				break;
+			case 0x0156:		//	Ŗ	0xc5 0x96	LATIN CAPITAL LETTER R WITH CEDILLA
+				ch = 0x0157;	//	ŗ	0xc5 0x97	LATIN SMALL LETTER R WITH CEDILLA
+				break;
+			case 0x0158:		//	Ř	0xc5 0x98	LATIN CAPITAL LETTER R WITH CARON
+				ch = 0x0159;	//	ř	0xc5 0x99	LATIN SMALL LETTER R WITH CARON
+				break;
+			case 0x015A:		//	Ś	0xc5 0x9a	LATIN CAPITAL LETTER S WITH ACUTE
+				ch = 0x015B;	//	ś	0xc5 0x9b	LATIN SMALL LETTER S WITH ACUTE
+				break;
+			case 0x015C:		//	Ŝ	0xc5 0x9c	LATIN CAPITAL LETTER S WITH CIRCUMFLEX
+				ch = 0x015D;	//	ŝ	0xc5 0x9d	LATIN SMALL LETTER S WITH CIRCUMFLEX
+				break;
+			case 0x015E:		//	Ş	0xc5 0x9e	LATIN CAPITAL LETTER S WITH CEDILLA
+				ch = 0x015F;	//	ş	0xc5 0x9f	LATIN SMALL LETTER S WITH CEDILLA
+				break;
+			case 0x0160:		//	� 	0xc5 0xa0	LATIN CAPITAL LETTER S WITH CARON
+				ch = 0x0161;	//	š	0xc5 0xa1	LATIN SMALL LETTER S WITH CARON
+				break;
+			case 0x0162:		//	Ţ	0xc5 0xa2	LATIN CAPITAL LETTER T WITH CEDILLA
+				ch = 0x0163;	//	ţ	0xc5 0xa3	LATIN SMALL LETTER T WITH CEDILLA
+				break;
+			case 0x0164:		//	Ť	0xc5 0xa4	LATIN CAPITAL LETTER T WITH CARON
+				ch = 0x0165;	//	ť	0xc5 0xa5	LATIN SMALL LETTER T WITH CARON
+				break;
+			case 0x0166:		//	Ŧ	0xc5 0xa6	LATIN CAPITAL LETTER T WITH STROKE
+				ch = 0x0167;	//	ŧ	0xc5 0xa7	LATIN SMALL LETTER T WITH STROKE
+				break;
+			case 0x0168:		//	Ũ	0xc5 0xa8	LATIN CAPITAL LETTER U WITH TILDE
+				ch = 0x0169;	//	ũ	0xc5 0xa9	LATIN SMALL LETTER U WITH TILDE
+				break;
+			case 0x016A:		//	Ū	0xc5 0xaa	LATIN CAPITAL LETTER U WITH MACRON
+				ch = 0x016B;	//	ū	0xc5 0xab	LATIN SMALL LETTER U WITH MACRON
+				break;
+			case 0x016C:		//	Ŭ	0xc5 0xac	LATIN CAPITAL LETTER U WITH BREVE
+				ch = 0x016D;	//	ŭ	0xc5 0xad	LATIN SMALL LETTER U WITH BREVE
+				break;
+			case 0x016E:		//	Ů	0xc5 0xae	LATIN CAPITAL LETTER U WITH RING ABOVE
+				ch = 0x016F;	//	ů	0xc5 0xaf	LATIN SMALL LETTER U WITH RING ABOVE
+				break;
+			case 0x0170:		//	Ű	0xc5 0xb0	LATIN CAPITAL LETTER U WITH DOUBLE ACUTE
+				ch = 0x0171;	//	ű	0xc5 0xb1	LATIN SMALL LETTER U WITH DOUBLE ACUTE
+				break;
+			case 0x0172:		//	Ų	0xc5 0xb2	LATIN CAPITAL LETTER U WITH OGONEK
+				ch = 0x0173;	//	ų	0xc5 0xb3	LATIN SMALL LETTER U WITH OGONEK
+				break;
+			case 0x0174:		//	Ŵ	0xc5 0xb4	LATIN CAPITAL LETTER W WITH CIRCUMFLEX
+				ch = 0x0175;	//	ŵ	0xc5 0xb5	LATIN SMALL LETTER W WITH CIRCUMFLEX
+				break;
+			case 0x0176:		//	Ŷ	0xc5 0xb6	LATIN CAPITAL LETTER Y WITH CIRCUMFLEX
+				ch = 0x0177;	//	ŷ	0xc5 0xb7	LATIN SMALL LETTER Y WITH CIRCUMFLEX
+				break;
+			case 0x0178:		//	Ÿ	0xc5 0xb8	LATIN CAPITAL LETTER Y WITH DIAERESIS
+				ch = 0x00FF;	//	ÿ	0xc3 0xbf	LATIN SMALL LETTER Y WITH DIAERESIS
+				break;
+			case 0x0179:		//	Ź	0xc5 0xb9	LATIN CAPITAL LETTER Z WITH ACUTE
+				ch = 0x017A;	//	ź	0xc5 0xba	LATIN SMALL LETTER Z WITH ACUTE
+				break;
+			case 0x017B:		//	Ż	0xc5 0xbb	LATIN CAPITAL LETTER Z WITH DOT ABOVE
+				ch = 0x017C;	//	ż	0xc5 0xbc	LATIN SMALL LETTER Z WITH DOT ABOVE
+				break;
+			case 0x017D:		//	Ž	0xc5 0xbd	LATIN CAPITAL LETTER Z WITH CARON
+				ch = 0x017E;	//	ž	0xc5 0xbe	LATIN SMALL LETTER Z WITH CARON
+				break;
+			case 0x0181:		//	Ɓ	0xc6 0x81	LATIN CAPITAL LETTER B WITH HOOK
+				ch = 0x0253;	//	ɓ	0xc9 0x93	LATIN SMALL LETTER B WITH HOOK
+				break;
+			case 0x0182:		//	Ƃ	0xc6 0x82	LATIN CAPITAL LETTER B WITH TOPBAR
+				ch = 0x0183;	//	ƃ	0xc6 0x83	LATIN SMALL LETTER B WITH TOPBAR
+				break;
+			case 0x0184:		//	Ƅ	0xc6 0x84	LATIN CAPITAL LETTER TONE SIX
+				ch = 0x0185;	//	ƅ	0xc6 0x85	LATIN SMALL LETTER TONE SIX
+				break;
+			case 0x0186:		//	Ɔ	0xc6 0x86	LATIN CAPITAL LETTER OPEN O
+				ch = 0x0254;	//	ɔ	0xc9 0x94	LATIN SMALL LETTER OPEN O
+				break;
+			case 0x0187:		//	Ƈ	0xc6 0x87	LATIN CAPITAL LETTER C WITH HOOK
+				ch = 0x0188;	//	ƈ	0xc6 0x88	LATIN SMALL LETTER C WITH HOOK
+				break;
+			case 0x0189:		//	Ɖ	0xc6 0x89	LATIN CAPITAL LETTER AFRICAN D
+				ch = 0x0256;	//	ɖ	0xc9 0x96	LATIN SMALL LETTER AFRICAN D
+				break;
+			case 0x018A:		//	Ɗ	0xc6 0x8a	LATIN CAPITAL LETTER D WITH HOOK
+				ch = 0x0257;	//	ɗ	0xc9 0x97	LATIN SMALL LETTER D WITH HOOK
+				break;
+			case 0x018B:		//	Ƌ	0xc6 0x8b	LATIN CAPITAL LETTER D WITH TOPBAR
+				ch = 0x018C;	//	ƌ	0xc6 0x8c	LATIN SMALL LETTER D WITH TOPBAR
+				break;
+			case 0x018E:		//	Ǝ	0xc6 0x8e	LATIN CAPITAL LETTER REVERSED E
+				ch = 0x01DD;	//	ǝ	0xC7 0x9D	LATIN SMALL LETTER TURNED E (look mid page 297 https://www.unicode.org/versions/Unicode14.0.0/ch07.pdf)
+				break;
+			case 0x018F:		//	Ə	0xc6 0x8f	LATIN CAPITAL LETTER SCHWA
+				ch = 0x0259;	//	ə	0xc9 0x99	LATIN SMALL LETTER SCHWA
+				break;
+			case 0x0190:		//	Ɛ	0xc6 0x90	LATIN CAPITAL LETTER OPEN E
+				ch = 0x025B;	//	ɛ	0xc9 0x9b	LATIN SMALL LETTER OPEN E
+				break;
+			case 0x0191:		//	Ƒ	0xc6 0x91	LATIN CAPITAL LETTER F WITH HOOK
+				ch = 0x0192;	//	ƒ	0xc6 0x92	LATIN SMALL LETTER F WITH HOOK
+				break;
+			case 0x0193:		//	Ɠ	0xc6 0x93	LATIN CAPITAL LETTER G WITH HOOK
+				ch = 0x0260;	//	� 	0xc9 0xa0	LATIN SMALL LETTER G WITH HOOK
+				break;
+			case 0x0194:		//	Ɣ	0xc6 0x94	LATIN CAPITAL LETTER GAMMA
+				ch = 0x0263;	//	ɣ	0xc9 0xa3	LATIN SMALL LETTER GAMMA
+				break;
+			case 0x0196:		//	Ɩ	0xc6 0x96	LATIN CAPITAL LETTER IOTA
+				ch = 0x0269;	//	ɩ	0xc9 0xa9	LATIN SMALL LETTER IOTA
+				break;
+			case 0x0197:		//	Ɨ	0xc6 0x97	LATIN CAPITAL LETTER I WITH STROKE
+				ch = 0x0268;	//	ɨ	0xc9 0xa8	LATIN SMALL LETTER I WITH STROKE
+				break;
+			case 0x0198:		//	Ƙ	0xc6 0x98	LATIN CAPITAL LETTER K WITH HOOK
+				ch = 0x0199;	//	ƙ	0xc6 0x99	LATIN SMALL LETTER K WITH HOOK
+				break;
+			case 0x019C:		//	Ɯ	0xc6 0x9c	LATIN CAPITAL LETTER TURNED M
+				ch = 0x026F;	//	ɯ	0xc9 0xaf	LATIN SMALL LETTER TURNED M
+				break;
+			case 0x019D:		//	Ɲ	0xc6 0x9d	LATIN CAPITAL LETTER N WITH LEFT HOOK
+				ch = 0x0272;	//	ɲ	0xc9 0xb2	LATIN SMALL LETTER N WITH LEFT HOOK
+				break;
+			case 0x019F:		//	Ɵ	0xc6 0x9f	LATIN CAPITAL LETTER O WITH MIDDLE TILDE
+				ch = 0x0275;	//	ɵ	0xc9 0xb5	LATIN SMALL LETTER O WITH MIDDLE TILDE
+				break;
+			case 0x01A0:		//	� 	0xc6 0xa0	LATIN CAPITAL LETTER O WITH HORN
+				ch = 0x01A1;	//	ơ	0xc6 0xa1	LATIN SMALL LETTER O WITH HORN
+				break;
+			case 0x01A2:		//	Ƣ	0xc6 0xa2	LATIN CAPITAL LETTER OI
+				ch = 0x01A3;	//	ƣ	0xc6 0xa3	LATIN SMALL LETTER OI
+				break;
+			case 0x01A4:		//	Ƥ	0xc6 0xa4	LATIN CAPITAL LETTER P WITH HOOK
+				ch = 0x01A5;	//	ƥ	0xc6 0xa5	LATIN SMALL LETTER P WITH HOOK
+				break;
+			case 0x01A7:		//	Ƨ	0xc6 0xa7	LATIN CAPITAL LETTER TONE TWO
+				ch = 0x01A8;	//	ƨ	0xc6 0xa8	LATIN SMALL LETTER TONE TWO
+				break;
+			case 0x01A9:		//	Ʃ	0xc6 0xa9	LATIN CAPITAL LETTER ESH
+				ch = 0x0283;	//	ʃ	0xca 0x83	LATIN SMALL LETTER ESH
+				break;
+			case 0x01AC:		//	Ƭ	0xc6 0xac	LATIN CAPITAL LETTER T WITH HOOK
+				ch = 0x01AD;	//	ƭ	0xc6 0xad	LATIN SMALL LETTER T WITH HOOK
+				break;
+			case 0x01AE:		//	Ʈ	0xc6 0xae	LATIN CAPITAL LETTER T WITH RETROFLEX HOOK
+				ch = 0x0288;	//	ʈ	0xca 0x88	LATIN SMALL LETTER T WITH RETROFLEX HOOK
+				break;
+			case 0x01AF:		//	Ư	0xc6 0xaf	LATIN CAPITAL LETTER U WITH HORN
+				ch = 0x01B0;	//	ư	0xc6 0xb0	LATIN SMALL LETTER U WITH HORN
+				break;
+			case 0x01B1:		//	Ʊ	0xc6 0xb1	LATIN CAPITAL LETTER UPSILON
+				ch = 0x028A;	//	ʊ	0xca 0x8a	LATIN SMALL LETTER UPSILON
+				break;
+			case 0x01B2:		//	Ʋ	0xc6 0xb2	LATIN CAPITAL LETTER V WITH HOOK
+				ch = 0x028B;	//	ʋ	0xca 0x8b	LATIN SMALL LETTER V WITH HOOK
+				break;
+			case 0x01B3:		//	Ƴ	0xc6 0xb3	LATIN CAPITAL LETTER Y WITH HOOK
+				ch = 0x01B4;	//	ƴ	0xc6 0xb4	LATIN SMALL LETTER Y WITH HOOK
+				break;
+			case 0x01B5:		//	Ƶ	0xc6 0xb5	LATIN CAPITAL LETTER Z WITH STROKE
+				ch = 0x01B6;	//	ƶ	0xc6 0xb6	LATIN SMALL LETTER Z WITH STROKE
+				break;
+			case 0x01B7:		//	Ʒ	0xc6 0xb7	LATIN CAPITAL LETTER EZH
+				ch = 0x0292;	//	ʒ	0xca 0x92	LATIN SMALL LETTER EZH
+				break;
+			case 0x01B8:		//	Ƹ	0xc6 0xb8	LATIN CAPITAL LETTER EZH REVERSED
+				ch = 0x01B9;	//	ƹ	0xc6 0xb9	LATIN SMALL LETTER EZH REVERSED
+				break;
+			case 0x01BC:		//	Ƽ	0xc6 0xbc	LATIN CAPITAL LETTER TONE FIVE
+				ch = 0x01BD;	//	ƽ	0xc6 0xbd	LATIN SMALL LETTER TONE FIVE
+				break;
+			case 0x01C5:		//	ǅ	0xc7 0x85	LATIN CAPITAL LETTER D WITH SMALL Z WITH CARON
+			case 0x01C4:		//	Ǆ	0xc7 0x84	LATIN CAPITAL LETTER DZ WITH CARON
+				ch = 0x01C6;	//	ǆ	0xc7 0x86	LATIN SMALL LETTER DZ WITH CARON
+				break;
+			case 0x01C8:		//	ǈ	0xc7 0x88	LATIN CAPITAL LETTER L WITH SMALL J
+			case 0x01C7:		//	Ǉ	0xc7 0x87	LATIN CAPITAL LETTER LJ
+				ch = 0x01C9;	//	ǉ	0xc7 0x89	LATIN SMALL LETTER LJ
+				break;
+			case 0x01CB:		//	ǋ	0xc7 0x8b	LATIN CAPITAL LETTER N WITH SMALL J
+			case 0x01CA:		//	Ǌ	0xc7 0x8a	LATIN CAPITAL LETTER NJ
+				ch = 0x01CC;	//	ǌ	0xc7 0x8c	LATIN SMALL LETTER NJ
+				break;
+			case 0x01CD:		//	Ǎ	0xc7 0x8d	LATIN CAPITAL LETTER A WITH CARON
+				ch = 0x01CE;	//	ǎ	0xc7 0x8e	LATIN SMALL LETTER A WITH CARON
+				break;
+			case 0x01CF:		//	Ǐ	0xc7 0x8f	LATIN CAPITAL LETTER I WITH CARON
+				ch = 0x01D0;	//	ǐ	0xc7 0x90	LATIN SMALL LETTER I WITH CARON
+				break;
+			case 0x01D1:		//	Ǒ	0xc7 0x91	LATIN CAPITAL LETTER O WITH CARON
+				ch = 0x01D2;	//	ǒ	0xc7 0x92	LATIN SMALL LETTER O WITH CARON
+				break;
+			case 0x01D3:		//	Ǔ	0xc7 0x93	LATIN CAPITAL LETTER U WITH CARON
+				ch = 0x01D4;	//	ǔ	0xc7 0x94	LATIN SMALL LETTER U WITH CARON
+				break;
+			case 0x01D5:		//	Ǖ	0xc7 0x95	LATIN CAPITAL LETTER U WITH DIAERESIS AND MACRON
+				ch = 0x01D6;	//	ǖ	0xc7 0x96	LATIN SMALL LETTER U WITH DIAERESIS AND MACRON
+				break;
+			case 0x01D7:		//	Ǘ	0xc7 0x97	LATIN CAPITAL LETTER U WITH DIAERESIS AND ACUTE
+				ch = 0x01D8;	//	ǘ	0xc7 0x98	LATIN SMALL LETTER U WITH DIAERESIS AND ACUTE
+				break;
+			case 0x01D9:		//	Ǚ	0xc7 0x99	LATIN CAPITAL LETTER U WITH DIAERESIS AND CARON
+				ch = 0x01DA;	//	ǚ	0xc7 0x9a	LATIN SMALL LETTER U WITH DIAERESIS AND CARON
+				break;
+			case 0x01DB:		//	Ǜ	0xc7 0x9b	LATIN CAPITAL LETTER U WITH DIAERESIS AND GRAVE
+				ch = 0x01DC;	//	ǜ	0xc7 0x9c	LATIN SMALL LETTER U WITH DIAERESIS AND GRAVE
+				break;
+			case 0x01DE:		//	Ǟ	0xc7 0x9e	LATIN CAPITAL LETTER A WITH DIAERESIS AND MACRON
+				ch = 0x01DF;	//	ǟ	0xc7 0x9f	LATIN SMALL LETTER A WITH DIAERESIS AND MACRON
+				break;
+			case 0x01E0:		//	� 	0xc7 0xa0	LATIN CAPITAL LETTER A WITH DOT ABOVE AND MACRON
+				ch = 0x01E1;	//	ǡ	0xc7 0xa1	LATIN SMALL LETTER A WITH DOT ABOVE AND MACRON
+				break;
+			case 0x01E2:		//	Ǣ	0xc7 0xa2	LATIN CAPITAL LETTER AE WITH MACRON
+				ch = 0x01E3;	//	ǣ	0xc7 0xa3	LATIN SMALL LETTER AE WITH MACRON
+				break;
+			case 0x01E4:		//	Ǥ	0xc7 0xa4	LATIN CAPITAL LETTER G WITH STROKE
+				ch = 0x01E5;	//	ǥ	0xc7 0xa5	LATIN SMALL LETTER G WITH STROKE
+				break;
+			case 0x01E6:		//	Ǧ	0xc7 0xa6	LATIN CAPITAL LETTER G WITH CARON
+				ch = 0x01E7;	//	ǧ	0xc7 0xa7	LATIN SMALL LETTER G WITH CARON
+				break;
+			case 0x01E8:		//	Ǩ	0xc7 0xa8	LATIN CAPITAL LETTER K WITH CARON
+				ch = 0x01E9;	//	ǩ	0xc7 0xa9	LATIN SMALL LETTER K WITH CARON
+				break;
+			case 0x01EA:		//	Ǫ	0xc7 0xaa	LATIN CAPITAL LETTER O WITH OGONEK
+				ch = 0x01EB;	//	ǫ	0xc7 0xab	LATIN SMALL LETTER O WITH OGONEK
+				break;
+			case 0x01EC:		//	Ǭ	0xc7 0xac	LATIN CAPITAL LETTER O WITH OGONEK AND MACRON
+				ch = 0x01ED;	//	ǭ	0xc7 0xad	LATIN SMALL LETTER O WITH OGONEK AND MACRON
+				break;
+			case 0x01EE:		//	Ǯ	0xc7 0xae	LATIN CAPITAL LETTER EZH WITH CARON
+				ch = 0x01EF;	//	ǯ	0xc7 0xaf	LATIN SMALL LETTER EZH WITH CARON
+				break;
+			case 0x01F1:		//	Ǳ	0xc7 0xb1	LATIN CAPITAL LETTER DZ
+			case 0x01F2:		//	ǲ	0xc7 0xb2	LATIN CAPITAL LETTER D WITH SMALL Z
+				ch = 0x01F3;	//	ǳ	0xc7 0xb3	LATIN SMALL LETTER DZ
+				break;
+			case 0x01F4:		//	Ǵ	0xc7 0xb4	LATIN CAPITAL LETTER G WITH ACUTE
+				ch = 0x01F5;	//	ǵ	0xc7 0xb5	LATIN SMALL LETTER G WITH ACUTE
+				break;
+			case 0x01F6:		//	Ƕ	0xc7 0xb6	LATIN CAPITAL LETTER HWAIR
+				ch = 0x0195;	//	ƕ	0xc6 0x95	LATIN SMALL LETTER HWAIR
+				break;
+			case 0x01F7:		//	Ƿ	0xc7 0xb7	LATIN CAPITAL LETTER WYNN
+				ch = 0x01BF;	//	ƿ	0xc6 0xbf	LATIN SMALL LETTER WYNN
+				break;
+			case 0x01F8:		//	Ǹ	0xc7 0xb8	LATIN CAPITAL LETTER N WITH GRAVE
+				ch = 0x01F9;	//	ǹ	0xc7 0xb9	LATIN SMALL LETTER N WITH GRAVE
+				break;
+			case 0x01FA:		//	Ǻ	0xc7 0xba	LATIN CAPITAL LETTER A WITH RING ABOVE AND ACUTE
+				ch = 0x01FB;	//	ǻ	0xc7 0xbb	LATIN SMALL LETTER A WITH RING ABOVE AND ACUTE
+				break;
+			case 0x01FC:		//	Ǽ	0xc7 0xbc	LATIN CAPITAL LETTER AE WITH ACUTE
+				ch = 0x01FD;	//	ǽ	0xc7 0xbd	LATIN SMALL LETTER AE WITH ACUTE
+				break;
+			case 0x01FE:		//	Ǿ	0xc7 0xbe	LATIN CAPITAL LETTER O WITH STROKE AND ACUTE
+				ch = 0x01FF;	//	ǿ	0xc7 0xbf	LATIN SMALL LETTER O WITH STROKE AND ACUTE
+				break;
+			case 0x0200:		//	Ȁ	0xc8 0x80	LATIN CAPITAL LETTER A WITH DOUBLE GRAVE
+				ch = 0x0201;	//	ȁ	0xc8 0x81	LATIN SMALL LETTER A WITH DOUBLE GRAVE
+				break;
+			case 0x0202:		//	Ȃ	0xc8 0x82	LATIN CAPITAL LETTER A WITH INVERTED BREVE
+				ch = 0x0203;	//	ȃ	0xc8 0x83	LATIN SMALL LETTER A WITH INVERTED BREVE
+				break;
+			case 0x0204:		//	Ȅ	0xc8 0x84	LATIN CAPITAL LETTER E WITH DOUBLE GRAVE
+				ch = 0x0205;	//	ȅ	0xc8 0x85	LATIN SMALL LETTER E WITH DOUBLE GRAVE
+				break;
+			case 0x0206:		//	Ȇ	0xc8 0x86	LATIN CAPITAL LETTER E WITH INVERTED BREVE
+				ch = 0x0207;	//	ȇ	0xc8 0x87	LATIN SMALL LETTER E WITH INVERTED BREVE
+				break;
+			case 0x0208:		//	Ȉ	0xc8 0x88	LATIN CAPITAL LETTER I WITH DOUBLE GRAVE
+				ch = 0x0209;	//	ȉ	0xc8 0x89	LATIN SMALL LETTER I WITH DOUBLE GRAVE
+				break;
+			case 0x020A:		//	Ȋ	0xc8 0x8a	LATIN CAPITAL LETTER I WITH INVERTED BREVE
+				ch = 0x020B;	//	ȋ	0xc8 0x8b	LATIN SMALL LETTER I WITH INVERTED BREVE
+				break;
+			case 0x020C:		//	Ȍ	0xc8 0x8c	LATIN CAPITAL LETTER O WITH DOUBLE GRAVE
+				ch = 0x020D;	//	ȍ	0xc8 0x8d	LATIN SMALL LETTER O WITH DOUBLE GRAVE
+				break;
+			case 0x020E:		//	Ȏ	0xc8 0x8e	LATIN CAPITAL LETTER O WITH INVERTED BREVE
+				ch = 0x020F;	//	ȏ	0xc8 0x8f	LATIN SMALL LETTER O WITH INVERTED BREVE
+				break;
+			case 0x0210:		//	Ȑ	0xc8 0x90	LATIN CAPITAL LETTER R WITH DOUBLE GRAVE
+				ch = 0x0211;	//	ȑ	0xc8 0x91	LATIN SMALL LETTER R WITH DOUBLE GRAVE
+				break;
+			case 0x0212:		//	Ȓ	0xc8 0x92	LATIN CAPITAL LETTER R WITH INVERTED BREVE
+				ch = 0x0213;	//	ȓ	0xc8 0x93	LATIN SMALL LETTER R WITH INVERTED BREVE
+				break;
+			case 0x0214:		//	Ȕ	0xc8 0x94	LATIN CAPITAL LETTER U WITH DOUBLE GRAVE
+				ch = 0x0215;	//	ȕ	0xc8 0x95	LATIN SMALL LETTER U WITH DOUBLE GRAVE
+				break;
+			case 0x0216:		//	Ȗ	0xc8 0x96	LATIN CAPITAL LETTER U WITH INVERTED BREVE
+				ch = 0x0217;	//	ȗ	0xc8 0x97	LATIN SMALL LETTER U WITH INVERTED BREVE
+				break;
+			case 0x0218:		//	Ș	0xc8 0x98	LATIN CAPITAL LETTER S WITH COMMA BELOW
+				ch = 0x0219;	//	ș	0xc8 0x99	LATIN SMALL LETTER S WITH COMMA BELOW
+				break;
+			case 0x021A:		//	Ț	0xc8 0x9a	LATIN CAPITAL LETTER T WITH COMMA BELOW
+				ch = 0x021B;	//	ț	0xc8 0x9b	LATIN SMALL LETTER T WITH COMMA BELOW
+				break;
+			case 0x021C:		//	Ȝ	0xc8 0x9c	LATIN CAPITAL LETTER YOGH
+				ch = 0x021D;	//	ȝ	0xc8 0x9d	LATIN SMALL LETTER YOGH
+				break;
+			case 0x021E:		//	Ȟ	0xc8 0x9e	LATIN CAPITAL LETTER H WITH CARON
+				ch = 0x021F;	//	ȟ	0xc8 0x9f	LATIN SMALL LETTER H WITH CARON
+				break;
+			case 0x0220:		//	� 	0xc8 0xa0	LATIN CAPITAL LETTER N WITH LONG RIGHT LEG
+				ch = 0x019E;	//	ƞ	0xc6 0x9e	LATIN SMALL LETTER N WITH LONG RIGHT LEG
+				break;
+			case 0x0222:		//	Ȣ	0xc8 0xa2	LATIN CAPITAL LETTER OU
+				ch = 0x0223;	//	ȣ	0xc8 0xa3	LATIN SMALL LETTER OU
+				break;
+			case 0x0224:		//	Ȥ	0xc8 0xa4	LATIN CAPITAL LETTER Z WITH HOOK
+				ch = 0x0225;	//	ȥ	0xc8 0xa5	LATIN SMALL LETTER Z WITH HOOK
+				break;
+			case 0x0226:		//	Ȧ	0xc8 0xa6	LATIN CAPITAL LETTER A WITH DOT ABOVE
+				ch = 0x0227;	//	ȧ	0xc8 0xa7	LATIN SMALL LETTER A WITH DOT ABOVE
+				break;
+			case 0x0228:		//	Ȩ	0xc8 0xa8	LATIN CAPITAL LETTER E WITH CEDILLA
+				ch = 0x0229;	//	ȩ	0xc8 0xa9	LATIN SMALL LETTER E WITH CEDILLA
+				break;
+			case 0x022A:		//	Ȫ	0xc8 0xaa	LATIN CAPITAL LETTER O WITH DIAERESIS AND MACRON
+				ch = 0x022B;	//	ȫ	0xc8 0xab	LATIN SMALL LETTER O WITH DIAERESIS AND MACRON
+				break;
+			case 0x022C:		//	Ȭ	0xc8 0xac	LATIN CAPITAL LETTER O WITH TILDE AND MACRON
+				ch = 0x022D;	//	ȭ	0xc8 0xad	LATIN SMALL LETTER O WITH TILDE AND MACRON
+				break;
+			case 0x022E:		//	Ȯ	0xc8 0xae	LATIN CAPITAL LETTER O WITH DOT ABOVE
+				ch = 0x022F;	//	ȯ	0xc8 0xaf	LATIN SMALL LETTER O WITH DOT ABOVE
+				break;
+			case 0x0230:		//	Ȱ	0xc8 0xb0	LATIN CAPITAL LETTER O WITH DOT ABOVE AND MACRON
+				ch = 0x0231;	//	ȱ	0xc8 0xb1	LATIN SMALL LETTER O WITH DOT ABOVE AND MACRON
+				break;
+			case 0x0232:		//	Ȳ	0xc8 0xb2	LATIN CAPITAL LETTER Y WITH MACRON
+				ch = 0x0233;	//	ȳ	0xc8 0xb3	LATIN SMALL LETTER Y WITH MACRON
+				break;
+			case 0x023A:		//	Ⱥ	0xc8 0xba	LATIN CAPITAL LETTER A WITH STROKE
+				ch = 0x2C65;	//	ⱥ	0xe2 0xb1 0xa5	LATIN SMALL LETTER A WITH STROKE
+				break;
+			case 0x023B:		//	Ȼ	0xc8 0xbb	LATIN CAPITAL LETTER C WITH STROKE
+				ch = 0x023C;	//	ȼ	0xc8 0xbc	LATIN SMALL LETTER C WITH STROKE
+				break;
+			case 0x023D:		//	Ƚ	0xc8 0xbd	LATIN CAPITAL LETTER L WITH BAR
+				ch = 0x019A;	//	ƚ	0xc6 0x9a	LATIN SMALL LETTER L WITH BAR
+				break;
+			case 0x023E:		//	Ⱦ	0xc8 0xbe	LATIN CAPITAL LETTER T WITH DIAGONAL STROKE
+				ch = 0x2C66;	//	ⱦ	0xe2 0xb1 0xa6	LATIN SMALL LETTER T WITH DIAGONAL STROKE
+				break;
+			case 0x0241:		//	Ɂ	0xc9 0x81	LATIN CAPITAL LETTER GLOTTAL STOP
+				ch = 0x0242;	//	ɂ	0xc9 0x82	LATIN SMALL LETTER GLOTTAL STOP
+				break;
+			case 0x0243:		//	Ƀ	0xc9 0x83	LATIN CAPITAL LETTER B WITH STROKE
+				ch = 0x0180;	//	ƀ	0xc6 0x80	LATIN SMALL LETTER B WITH STROKE
+				break;
+			case 0x0244:		//	Ʉ	0xc9 0x84	LATIN CAPITAL LETTER U BAR
+				ch = 0x0289;	//	ʉ	0xca 0x89	LATIN SMALL LETTER U BAR
+				break;
+			case 0x0245:		//	Ʌ	0xc9 0x85	LATIN CAPITAL LETTER TURNED V
+				ch = 0x028C;	//	ʌ	0xca 0x8c	LATIN SMALL LETTER TURNED V
+				break;
+			case 0x0246:		//	Ɇ	0xc9 0x86	LATIN CAPITAL LETTER E WITH STROKE
+				ch = 0x0247;	//	ɇ	0xc9 0x87	LATIN SMALL LETTER E WITH STROKE
+				break;
+			case 0x0248:		//	Ɉ	0xc9 0x88	LATIN CAPITAL LETTER J WITH STROKE
+				ch = 0x0249;	//	ɉ	0xc9 0x89	LATIN SMALL LETTER J WITH STROKE
+				break;
+			case 0x024A:		//	Ɋ	0xc9 0x8a	LATIN CAPITAL LETTER SMALL Q WITH HOOK TAIL
+				ch = 0x024B;	//	ɋ	0xc9 0x8b	LATIN SMALL LETTER SMALL Q WITH HOOK TAIL
+				break;
+			case 0x024C:		//	Ɍ	0xc9 0x8c	LATIN CAPITAL LETTER R WITH STROKE
+				ch = 0x024D;	//	ɍ	0xc9 0x8d	LATIN SMALL LETTER R WITH STROKE
+				break;
+			case 0x024E:		//	Ɏ	0xc9 0x8e	LATIN CAPITAL LETTER Y WITH STROKE
+				ch = 0x024F;	//	ɏ	0xc9 0x8f	LATIN SMALL LETTER Y WITH STROKE
+				break;
+			case 0x0370:		//	Ͱ	0xcd 0xb0	GREEK CAPITAL LETTER HETA
+				ch = 0x0371;	//	ͱ	0xcd 0xb1	GREEK SMALL LETTER HETA
+				break;
+			case 0x0372:		//	Ͳ	0xcd 0xb2	GREEK CAPITAL LETTER ARCHAIC SAMPI
+				ch = 0x0373;	//	ͳ	0xcd 0xb3	GREEK SMALL LETTER ARCHAIC SAMPI
+				break;
+			case 0x0376:		//	Ͷ	0xcd 0xb6	GREEK CAPITAL LETTER PAMPHYLIAN DIGAMMA
+				ch = 0x0377;	//	ͷ	0xcd 0xb7	GREEK SMALL LETTER PAMPHYLIAN DIGAMMA
+				break;
+			case 0x037F:		//	Ϳ	0xcd 0xbf	GREEK CAPITAL LETTER YOT
+				ch = 0x03F3;	//	ϳ	0xcf 0xb3	GREEK SMALL LETTER YOT
+				break;
+			case 0x0386:		//	Ά	0xce 0x86	GREEK CAPITAL LETTER ALPHA WITH TONOS
+				ch = 0x03AC;	//	ά	0xce 0xac	GREEK SMALL LETTER ALPHA WITH TONOS
+				break;
+			case 0x0388:		//	Έ	0xce 0x88	GREEK CAPITAL LETTER EPSILON WITH TONOS
+				ch = 0x03AD;	//	έ	0xce 0xad	GREEK SMALL LETTER EPSILON WITH TONOS
+				break;
+			case 0x0389:		//	Ή	0xce 0x89	GREEK CAPITAL LETTER ETA WITH TONOS
+				ch = 0x03AE;	//	ή	0xce 0xae	GREEK SMALL LETTER ETA WITH TONOS
+				break;
+			case 0x038A:		//	Ί	0xce 0x8a	GREEK CAPITAL LETTER IOTA WITH TONOS
+				ch = 0x03AF;	//	ί	0xce 0xaf	GREEK SMALL LETTER IOTA WITH TONOS
+				break;
+			case 0x038C:		//	Ό	0xce 0x8c	GREEK CAPITAL LETTER OMICRON WITH TONOS
+				ch = 0x03CC;	//	ό	0xcf 0x8c	GREEK SMALL LETTER OMICRON WITH TONOS
+				break;
+			case 0x038E:		//	Ύ	0xce 0x8e	GREEK CAPITAL LETTER UPSILON WITH TONOS
+				ch = 0x03CD;	//	ύ	0xcf 0x8d	GREEK SMALL LETTER UPSILON WITH TONOS
+				break;
+			case 0x038F:		//	Ώ	0xce 0x8f	GREEK CAPITAL LETTER OMEGA WITH TONOS
+				ch = 0x03CE;	//	ώ	0xcf 0x8e	GREEK SMALL LETTER OMEGA WITH TONOS
+				break;
+			case 0x0391:		//	Α	0xce 0x91	GREEK CAPITAL LETTER ALPHA
+				ch = 0x03B1;	//	α	0xce 0xb1	GREEK SMALL LETTER ALPHA
+				break;
+			case 0x0392:		//	Β	0xce 0x92	GREEK CAPITAL LETTER BETA
+				ch = 0x03B2;	//	β	0xce 0xb2	GREEK SMALL LETTER BETA
+				break;
+			case 0x0393:		//	Γ	0xce 0x93	GREEK CAPITAL LETTER GAMMA
+				ch = 0x03B3;	//	γ	0xce 0xb3	GREEK SMALL LETTER GAMMA
+				break;
+			case 0x0394:		//	Δ	0xce 0x94	GREEK CAPITAL LETTER DELTA
+				ch = 0x03B4;	//	δ	0xce 0xb4	GREEK SMALL LETTER DELTA
+				break;
+			case 0x0395:		//	Ε	0xce 0x95	GREEK CAPITAL LETTER EPSILON
+				ch = 0x03B5;	//	ε	0xce 0xb5	GREEK SMALL LETTER EPSILON
+				break;
+			case 0x0396:		//	Ζ	0xce 0x96	GREEK CAPITAL LETTER ZETA
+				ch = 0x03B6;	//	ζ	0xce 0xb6	GREEK SMALL LETTER ZETA
+				break;
+			case 0x0397:		//	Η	0xce 0x97	GREEK CAPITAL LETTER ETA
+				ch = 0x03B7;	//	η	0xce 0xb7	GREEK SMALL LETTER ETA
+				break;
+			case 0x0398:		//	Θ	0xce 0x98	GREEK CAPITAL LETTER THETA
+				ch = 0x03B8;	//	θ	0xce 0xb8	GREEK SMALL LETTER THETA
+				break;
+			case 0x0399:		//	Ι	0xce 0x99	GREEK CAPITAL LETTER IOTA
+				ch = 0x03B9;	//	ι	0xce 0xb9	GREEK SMALL LETTER IOTA
+				break;
+			case 0x039A:		//	Κ	0xce 0x9a	GREEK CAPITAL LETTER KAPPA
+				ch = 0x03BA;	//	κ	0xce 0xba	GREEK SMALL LETTER KAPPA
+				break;
+			case 0x039B:		//	Λ	0xce 0x9b	GREEK CAPITAL LETTER LAMDA
+				ch = 0x03BB;	//	λ	0xce 0xbb	GREEK SMALL LETTER LAMDA
+				break;
+			case 0x039C:		//	Μ	0xce 0x9c	GREEK CAPITAL LETTER MU
+				ch = 0x03BC;	//	μ	0xce 0xbc	GREEK SMALL LETTER MU
+				break;
+			case 0x039D:		//	Ν	0xce 0x9d	GREEK CAPITAL LETTER NU
+				ch = 0x03BD;	//	ν	0xce 0xbd	GREEK SMALL LETTER NU
+				break;
+			case 0x039E:		//	Ξ	0xce 0x9e	GREEK CAPITAL LETTER XI
+				ch = 0x03BE;	//	ξ	0xce 0xbe	GREEK SMALL LETTER XI
+				break;
+			case 0x039F:		//	Ο	0xce 0x9f	GREEK CAPITAL LETTER OMICRON
+				ch = 0x03BF;	//	ο	0xce 0xbf	GREEK SMALL LETTER OMICRON
+				break;
+			case 0x03A0:		//	� 	0xce 0xa0	GREEK CAPITAL LETTER PI
+				ch = 0x03C0;	//	π	0xcf 0x80	GREEK SMALL LETTER PI
+				break;
+			case 0x03A1:		//	Ρ	0xce 0xa1	GREEK CAPITAL LETTER RHO
+				ch = 0x03C1;	//	ρ	0xcf 0x81	GREEK SMALL LETTER RHO
+				break;
+			case 0x03C2:		//	ς	0xcf 0x82	GREEK SMALL FINAL SIGMA // To handle sigma as the same character in search
+			case 0x03A3:		//	Σ	0xce 0xa3	GREEK CAPITAL LETTER SIGMA
+				ch = 0x03C3;	//	σ	0xcf 0x83	GREEK SMALL LETTER SIGMA
+				break;
+			case 0x03A4:		//	Τ	0xce 0xa4	GREEK CAPITAL LETTER TAU
+				ch = 0x03C4;	//	τ	0xcf 0x84	GREEK SMALL LETTER TAU
+				break;
+			case 0x03A5:		//	Υ	0xce 0xa5	GREEK CAPITAL LETTER UPSILON
+				ch = 0x03C5;	//	υ	0xcf 0x85	GREEK SMALL LETTER UPSILON
+				break;
+			case 0x03A6:		//	Φ	0xce 0xa6	GREEK CAPITAL LETTER PHI
+				ch = 0x03C6;	//	φ	0xcf 0x86	GREEK SMALL LETTER PHI
+				break;
+			case 0x03A7:		//	Χ	0xce 0xa7	GREEK CAPITAL LETTER CHI
+				ch = 0x03C7;	//	χ	0xcf 0x87	GREEK SMALL LETTER CHI
+				break;
+			case 0x03A8:		//	Ψ	0xce 0xa8	GREEK CAPITAL LETTER PSI
+				ch = 0x03C8;	//	ψ	0xcf 0x88	GREEK SMALL LETTER PSI
+				break;
+			case 0x03A9:		//	Ω	0xce 0xa9	GREEK CAPITAL LETTER OMEGA
+				ch = 0x03C9;	//	ω	0xcf 0x89	GREEK SMALL LETTER OMEGA
+				break;
+			case 0x03AA:		//	Ϊ	0xce 0xaa	GREEK CAPITAL LETTER IOTA WITH DIALYTIKA
+				ch = 0x03CA;	//	ϊ	0xcf 0x8a	GREEK SMALL LETTER IOTA WITH DIALYTIKA
+				break;
+			case 0x03AB:		//	Ϋ	0xce 0xab	GREEK CAPITAL LETTER UPSILON WITH DIALYTIKA
+				ch = 0x03CB;	//	ϋ	0xcf 0x8b	GREEK SMALL LETTER UPSILON WITH DIALYTIKA
+				break;
+			case 0x03CF:		//	Ϗ	0xcf 0x8f	GREEK CAPITAL LETTER KAI SYMBOL
+				ch = 0x03D7;	//	ϗ	0xcf 0x97	GREEK SMALL LETTER KAI SYMBOL
+				break;
+			case 0x03D8:		//	Ϙ	0xcf 0x98	GREEK CAPITAL LETTER ARCHAIC KOPPA
+				ch = 0x03D9;	//	ϙ	0xcf 0x99	GREEK SMALL LETTER ARCHAIC KOPPA
+				break;
+			case 0x03DA:		//	Ϛ	0xcf 0x9a	GREEK CAPITAL LETTER STIGMA
+				ch = 0x03DB;	//	ϛ	0xcf 0x9b	GREEK SMALL LETTER STIGMA
+				break;
+			case 0x03DC:		//	Ϝ	0xcf 0x9c	GREEK CAPITAL LETTER DIGAMMA
+				ch = 0x03DD;	//	ϝ	0xcf 0x9d	GREEK SMALL LETTER DIGAMMA
+				break;
+			case 0x03DE:		//	Ϟ	0xcf 0x9e	GREEK CAPITAL LETTER KOPPA
+				ch = 0x03DF;	//	ϟ	0xcf 0x9f	GREEK SMALL LETTER KOPPA
+				break;
+			case 0x03E0:		//	� 	0xcf 0xa0	GREEK CAPITAL LETTER SAMPI
+				ch = 0x03E1;	//	ϡ	0xcf 0xa1	GREEK SMALL LETTER SAMPI
+				break;
+			case 0x03E2:		//	Ϣ	0xcf 0xa2	COPTIC CAPITAL LETTER SHEI
+				ch = 0x03E3;	//	ϣ	0xcf 0xa3	COPTIC SMALL LETTER SHEI
+				break;
+			case 0x03E4:		//	Ϥ	0xcf 0xa4	COPTIC CAPITAL LETTER FEI
+				ch = 0x03E5;	//	ϥ	0xcf 0xa5	COPTIC SMALL LETTER FEI
+				break;
+			case 0x03E6:		//	Ϧ	0xcf 0xa6	COPTIC CAPITAL LETTER KHEI
+				ch = 0x03E7;	//	ϧ	0xcf 0xa7	COPTIC SMALL LETTER KHEI
+				break;
+			case 0x03E8:		//	Ϩ	0xcf 0xa8	COPTIC CAPITAL LETTER HORI
+				ch = 0x03E9;	//	ϩ	0xcf 0xa9	COPTIC SMALL LETTER HORI
+				break;
+			case 0x03EA:		//	Ϫ	0xcf 0xaa	COPTIC CAPITAL LETTER GANGIA
+				ch = 0x03EB;	//	ϫ	0xcf 0xab	COPTIC SMALL LETTER GANGIA
+				break;
+			case 0x03EC:		//	Ϭ	0xcf 0xac	COPTIC CAPITAL LETTER SHIMA
+				ch = 0x03ED;	//	ϭ	0xcf 0xad	COPTIC SMALL LETTER SHIMA
+				break;
+			case 0x03EE:		//	Ϯ	0xcf 0xae	COPTIC CAPITAL LETTER DEI
+				ch = 0x03EF;	//	ϯ	0xcf 0xaf	COPTIC SMALL LETTER DEI
+				break;
+			case 0x03F4:		//	ϴ	0xcf 0xb4	GREEK CAPITAL LETTER THETA SYMBOL
+				ch = 0x03D1;	//	ϑ	0xcf 0x91	GREEK SMALL LETTER THETA SYMBOL
+				break;
+			case 0x03F7:		//	Ϸ	0xcf 0xb7	GREEK CAPITAL LETTER SHO
+				ch = 0x03F8;	//	ϸ	0xcf 0xb8	GREEK SMALL LETTER SHO
+				break;
+			case 0x03F9:		//	Ϲ	0xcf 0xb9	GREEK CAPITAL LETTER LUNATE SIGMA SYMBOL
+				ch = 0x03F2;	//	ϲ	0xcf 0xb2	GREEK SMALL LETTER LUNATE SIGMA SYMBOL
+				break;
+			case 0x03FA:		//	Ϻ	0xcf 0xba	GREEK CAPITAL LETTER SAN
+				ch = 0x03FB;	//	ϻ	0xcf 0xbb	GREEK SMALL LETTER SAN
+				break;
+			case 0x03FD:		//	Ͻ	0xcf 0xbd	GREEK CAPITAL LETTER REVERSED LUNATE SIGMA SYMBOL
+				ch = 0x037B;	//	ͻ	0xcd 0xbb	GREEK SMALL LETTER REVERSED LUNATE SIGMA SYMBOL
+				break;
+			case 0x03FE:		//	Ͼ	0xcf 0xbe	GREEK CAPITAL LETTER DOTTED LUNATE SIGMA SYMBOL
+				ch = 0x037C;	//	ͼ	0xcd 0xbc	GREEK SMALL LETTER DOTTED LUNATE SIGMA SYMBOL
+				break;
+			case 0x03FF:		//	Ͽ	0xcf 0xbf	GREEK CAPITAL LETTER REVERSED DOTTED LUNATE SIGMA SYMBOL
+				ch = 0x037D;	//	ͽ	0xcd 0xbd	GREEK SMALL LETTER REVERSED DOTTED LUNATE SIGMA SYMBOL
+				break;
+			case 0x0400:		//	Ѐ	0xd0 0x80	CYRILLIC CAPITAL LETTER IE WITH GRAVE
+				ch = 0x0450;	//	ѐ	0xd1 0x90	CYRILLIC SMALL LETTER IE WITH GRAVE
+				break;
+			case 0x0401:		//	Ё	0xd0 0x81	CYRILLIC CAPITAL LETTER IO
+				ch = 0x0451;	//	ё	0xd1 0x91	CYRILLIC SMALL LETTER IO
+				break;
+			case 0x0402:		//	Ђ	0xd0 0x82	CYRILLIC CAPITAL LETTER DJE
+				ch = 0x0452;	//	ђ	0xd1 0x92	CYRILLIC SMALL LETTER DJE
+				break;
+			case 0x0403:		//	Ѓ	0xd0 0x83	CYRILLIC CAPITAL LETTER GJE
+				ch = 0x0453;	//	ѓ	0xd1 0x93	CYRILLIC SMALL LETTER GJE
+				break;
+			case 0x0404:		//	Є	0xd0 0x84	CYRILLIC CAPITAL LETTER UKRAINIAN IE
+				ch = 0x0454;	//	є	0xd1 0x94	CYRILLIC SMALL LETTER UKRAINIAN IE
+				break;
+			case 0x0405:		//	Ѕ	0xd0 0x85	CYRILLIC CAPITAL LETTER DZE
+				ch = 0x0455;	//	ѕ	0xd1 0x95	CYRILLIC SMALL LETTER DZE
+				break;
+			case 0x0406:		//	І	0xd0 0x86	CYRILLIC CAPITAL LETTER BYELORUSSIAN-UKRAINIAN I
+				ch = 0x0456;	//	і	0xd1 0x96	CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
+				break;
+			case 0x0407:		//	Ї	0xd0 0x87	CYRILLIC CAPITAL LETTER YI
+				ch = 0x0457;	//	ї	0xd1 0x97	CYRILLIC SMALL LETTER YI
+				break;
+			case 0x0408:		//	Ј	0xd0 0x88	CYRILLIC CAPITAL LETTER JE
+				ch = 0x0458;	//	ј	0xd1 0x98	CYRILLIC SMALL LETTER JE
+				break;
+			case 0x0409:		//	Љ	0xd0 0x89	CYRILLIC CAPITAL LETTER LJE
+				ch = 0x0459;	//	љ	0xd1 0x99	CYRILLIC SMALL LETTER LJE
+				break;
+			case 0x040A:		//	Њ	0xd0 0x8a	CYRILLIC CAPITAL LETTER NJE
+				ch = 0x045A;	//	њ	0xd1 0x9a	CYRILLIC SMALL LETTER NJE
+				break;
+			case 0x040B:		//	Ћ	0xd0 0x8b	CYRILLIC CAPITAL LETTER TSHE
+				ch = 0x045B;	//	ћ	0xd1 0x9b	CYRILLIC SMALL LETTER TSHE
+				break;
+			case 0x040C:		//	Ќ	0xd0 0x8c	CYRILLIC CAPITAL LETTER KJE
+				ch = 0x045C;	//	ќ	0xd1 0x9c	CYRILLIC SMALL LETTER KJE
+				break;
+			case 0x040D:		//	Ѝ	0xd0 0x8d	CYRILLIC CAPITAL LETTER I WITH GRAVE
+				ch = 0x045D;	//	ѝ	0xd1 0x9d	CYRILLIC SMALL LETTER I WITH GRAVE
+				break;
+			case 0x040E:		//	Ў	0xd0 0x8e	CYRILLIC CAPITAL LETTER SHORT U
+				ch = 0x045E;	//	ў	0xd1 0x9e	CYRILLIC SMALL LETTER SHORT U
+				break;
+			case 0x040F:		//	Џ	0xd0 0x8f	CYRILLIC CAPITAL LETTER DZHE
+				ch = 0x045F;	//	џ	0xd1 0x9f	CYRILLIC SMALL LETTER DZHE
+				break;
+			case 0x0410:		//	А	0xd0 0x90	CYRILLIC CAPITAL LETTER A
+				ch = 0x0430;	//	а	0xd0 0xb0	CYRILLIC SMALL LETTER A
+				break;
+			case 0x0411:		//	Б	0xd0 0x91	CYRILLIC CAPITAL LETTER BE
+				ch = 0x0431;	//	б	0xd0 0xb1	CYRILLIC SMALL LETTER BE
+				break;
+			case 0x0412:		//	В	0xd0 0x92	CYRILLIC CAPITAL LETTER VE
+				ch = 0x0432;	//	в	0xd0 0xb2	CYRILLIC SMALL LETTER VE
+				break;
+			case 0x0413:		//	Г	0xd0 0x93	CYRILLIC CAPITAL LETTER GHE
+				ch = 0x0433;	//	г	0xd0 0xb3	CYRILLIC SMALL LETTER GHE
+				break;
+			case 0x0414:		//	Д	0xd0 0x94	CYRILLIC CAPITAL LETTER DE
+				ch = 0x0434;	//	д	0xd0 0xb4	CYRILLIC SMALL LETTER DE
+				break;
+			case 0x0415:		//	Е	0xd0 0x95	CYRILLIC CAPITAL LETTER IE
+				ch = 0x0435;	//	е	0xd0 0xb5	CYRILLIC SMALL LETTER IE
+				break;
+			case 0x0416:		//	Ж	0xd0 0x96	CYRILLIC CAPITAL LETTER ZHE
+				ch = 0x0436;	//	ж	0xd0 0xb6	CYRILLIC SMALL LETTER ZHE
+				break;
+			case 0x0417:		//	З	0xd0 0x97	CYRILLIC CAPITAL LETTER ZE
+				ch = 0x0437;	//	з	0xd0 0xb7	CYRILLIC SMALL LETTER ZE
+				break;
+			case 0x0418:		//	И	0xd0 0x98	CYRILLIC CAPITAL LETTER I
+				ch = 0x0438;	//	и	0xd0 0xb8	CYRILLIC SMALL LETTER I
+				break;
+			case 0x0419:		//	Й	0xd0 0x99	CYRILLIC CAPITAL LETTER SHORT I
+				ch = 0x0439;	//	й	0xd0 0xb9	CYRILLIC SMALL LETTER SHORT I
+				break;
+			case 0x041A:		//	К	0xd0 0x9a	CYRILLIC CAPITAL LETTER KA
+				ch = 0x043A;	//	к	0xd0 0xba	CYRILLIC SMALL LETTER KA
+				break;
+			case 0x041B:		//	Л	0xd0 0x9b	CYRILLIC CAPITAL LETTER EL
+				ch = 0x043B;	//	л	0xd0 0xbb	CYRILLIC SMALL LETTER EL
+				break;
+			case 0x041C:		//	М	0xd0 0x9c	CYRILLIC CAPITAL LETTER EM
+				ch = 0x043C;	//	м	0xd0 0xbc	CYRILLIC SMALL LETTER EM
+				break;
+			case 0x041D:		//	Н	0xd0 0x9d	CYRILLIC CAPITAL LETTER EN
+				ch = 0x043D;	//	н	0xd0 0xbd	CYRILLIC SMALL LETTER EN
+				break;
+			case 0x041E:		//	О	0xd0 0x9e	CYRILLIC CAPITAL LETTER O
+				ch = 0x043E;	//	о	0xd0 0xbe	CYRILLIC SMALL LETTER O
+				break;
+			case 0x041F:		//	П	0xd0 0x9f	CYRILLIC CAPITAL LETTER PE
+				ch = 0x043F;	//	п	0xd0 0xbf	CYRILLIC SMALL LETTER PE
+				break;
+			case 0x0420:		//	� 	0xd0 0xa0	CYRILLIC CAPITAL LETTER ER
+				ch = 0x0440;	//	р	0xd1 0x80	CYRILLIC SMALL LETTER ER
+				break;
+			case 0x0421:		//	С	0xd0 0xa1	CYRILLIC CAPITAL LETTER ES
+				ch = 0x0441;	//	с	0xd1 0x81	CYRILLIC SMALL LETTER ES
+				break;
+			case 0x0422:		//	Т	0xd0 0xa2	CYRILLIC CAPITAL LETTER TE
+				ch = 0x0442;	//	т	0xd1 0x82	CYRILLIC SMALL LETTER TE
+				break;
+			case 0x0423:		//	У	0xd0 0xa3	CYRILLIC CAPITAL LETTER U
+				ch = 0x0443;	//	у	0xd1 0x83	CYRILLIC SMALL LETTER U
+				break;
+			case 0x0424:		//	Ф	0xd0 0xa4	CYRILLIC CAPITAL LETTER EF
+				ch = 0x0444;	//	ф	0xd1 0x84	CYRILLIC SMALL LETTER EF
+				break;
+			case 0x0425:		//	Х	0xd0 0xa5	CYRILLIC CAPITAL LETTER HA
+				ch = 0x0445;	//	х	0xd1 0x85	CYRILLIC SMALL LETTER HA
+				break;
+			case 0x0426:		//	Ц	0xd0 0xa6	CYRILLIC CAPITAL LETTER TSE
+				ch = 0x0446;	//	ц	0xd1 0x86	CYRILLIC SMALL LETTER TSE
+				break;
+			case 0x0427:		//	Ч	0xd0 0xa7	CYRILLIC CAPITAL LETTER CHE
+				ch = 0x0447;	//	ч	0xd1 0x87	CYRILLIC SMALL LETTER CHE
+				break;
+			case 0x0428:		//	Ш	0xd0 0xa8	CYRILLIC CAPITAL LETTER SHA
+				ch = 0x0448;	//	ш	0xd1 0x88	CYRILLIC SMALL LETTER SHA
+				break;
+			case 0x0429:		//	Щ	0xd0 0xa9	CYRILLIC CAPITAL LETTER SHCHA
+				ch = 0x0449;	//	щ	0xd1 0x89	CYRILLIC SMALL LETTER SHCHA
+				break;
+			case 0x042A:		//	Ъ	0xd0 0xaa	CYRILLIC CAPITAL LETTER HARD SIGN
+				ch = 0x044A;	//	ъ	0xd1 0x8a	CYRILLIC SMALL LETTER HARD SIGN
+				break;
+			case 0x042B:		//	Ы	0xd0 0xab	CYRILLIC CAPITAL LETTER YERU
+				ch = 0x044B;	//	ы	0xd1 0x8b	CYRILLIC SMALL LETTER YERU
+				break;
+			case 0x042C:		//	Ь	0xd0 0xac	CYRILLIC CAPITAL LETTER SOFT SIGN
+				ch = 0x044C;	//	ь	0xd1 0x8c	CYRILLIC SMALL LETTER SOFT SIGN
+				break;
+			case 0x042D:		//	Э	0xd0 0xad	CYRILLIC CAPITAL LETTER E
+				ch = 0x044D;	//	э	0xd1 0x8d	CYRILLIC SMALL LETTER E
+				break;
+			case 0x042E:		//	Ю	0xd0 0xae	CYRILLIC CAPITAL LETTER YU
+				ch = 0x044E;	//	ю	0xd1 0x8e	CYRILLIC SMALL LETTER YU
+				break;
+			case 0x042F:		//	Я	0xd0 0xaf	CYRILLIC CAPITAL LETTER YA
+				ch = 0x044F;	//	я	0xd1 0x8f	CYRILLIC SMALL LETTER YA
+				break;
+			case 0x0460:		//	� 	0xd1 0xa0	CYRILLIC CAPITAL LETTER OMEGA
+				ch = 0x0461;	//	ѡ	0xd1 0xa1	CYRILLIC SMALL LETTER OMEGA
+				break;
+			case 0x0462:		//	Ѣ	0xd1 0xa2	CYRILLIC CAPITAL LETTER YAT
+				ch = 0x0463;	//	ѣ	0xd1 0xa3	CYRILLIC SMALL LETTER YAT
+				break;
+			case 0x0464:		//	Ѥ	0xd1 0xa4	CYRILLIC CAPITAL LETTER IOTIFIED E
+				ch = 0x0465;	//	ѥ	0xd1 0xa5	CYRILLIC SMALL LETTER IOTIFIED E
+				break;
+			case 0x0466:		//	Ѧ	0xd1 0xa6	CYRILLIC CAPITAL LETTER LITTLE YUS
+				ch = 0x0467;	//	ѧ	0xd1 0xa7	CYRILLIC SMALL LETTER LITTLE YUS
+				break;
+			case 0x0468:		//	Ѩ	0xd1 0xa8	CYRILLIC CAPITAL LETTER IOTIFIED LITTLE YUS
+				ch = 0x0469;	//	ѩ	0xd1 0xa9	CYRILLIC SMALL LETTER IOTIFIED LITTLE YUS
+				break;
+			case 0x046A:		//	Ѫ	0xd1 0xaa	CYRILLIC CAPITAL LETTER BIG YUS
+				ch = 0x046B;	//	ѫ	0xd1 0xab	CYRILLIC SMALL LETTER BIG YUS
+				break;
+			case 0x046C:		//	Ѭ	0xd1 0xac	CYRILLIC CAPITAL LETTER IOTIFIED BIG YUS
+				ch = 0x046D;	//	ѭ	0xd1 0xad	CYRILLIC SMALL LETTER IOTIFIED BIG YUS
+				break;
+			case 0x046E:		//	Ѯ	0xd1 0xae	CYRILLIC CAPITAL LETTER KSI
+				ch = 0x046F;	//	ѯ	0xd1 0xaf	CYRILLIC SMALL LETTER KSI
+				break;
+			case 0x0470:		//	Ѱ	0xd1 0xb0	CYRILLIC CAPITAL LETTER PSI
+				ch = 0x0471;	//	ѱ	0xd1 0xb1	CYRILLIC SMALL LETTER PSI
+				break;
+			case 0x0472:		//	Ѳ	0xd1 0xb2	CYRILLIC CAPITAL LETTER FITA
+				ch = 0x0473;	//	ѳ	0xd1 0xb3	CYRILLIC SMALL LETTER FITA
+				break;
+			case 0x0474:		//	Ѵ	0xd1 0xb4	CYRILLIC CAPITAL LETTER IZHITSA
+				ch = 0x0475;	//	ѵ	0xd1 0xb5	CYRILLIC SMALL LETTER IZHITSA
+				break;
+			case 0x0476:		//	Ѷ	0xd1 0xb6	CYRILLIC CAPITAL LETTER IZHITSA WITH DOUBLE GRAVE ACCENT
+				ch = 0x0477;	//	ѷ	0xd1 0xb7	CYRILLIC SMALL LETTER IZHITSA WITH DOUBLE GRAVE ACCENT
+				break;
+			case 0x0478:		//	Ѹ	0xd1 0xb8	CYRILLIC CAPITAL LETTER UK
+				ch = 0x0479;	//	ѹ	0xd1 0xb9	CYRILLIC SMALL LETTER UK
+				break;
+			case 0x047A:		//	Ѻ	0xd1 0xba	CYRILLIC CAPITAL LETTER ROUND OMEGA
+				ch = 0x047B;	//	ѻ	0xd1 0xbb	CYRILLIC SMALL LETTER ROUND OMEGA
+				break;
+			case 0x047C:		//	Ѽ	0xd1 0xbc	CYRILLIC CAPITAL LETTER OMEGA WITH TITLO
+				ch = 0x047D;	//	ѽ	0xd1 0xbd	CYRILLIC SMALL LETTER OMEGA WITH TITLO
+				break;
+			case 0x047E:		//	Ѿ	0xd1 0xbe	CYRILLIC CAPITAL LETTER OT
+				ch = 0x047F;	//	ѿ	0xd1 0xbf	CYRILLIC SMALL LETTER OT
+				break;
+			case 0x0480:		//	Ҁ	0xd2 0x80	CYRILLIC CAPITAL LETTER KOPPA
+				ch = 0x0481;	//	ҁ	0xd2 0x81	CYRILLIC SMALL LETTER KOPPA
+				break;
+			case 0x048A:		//	Ҋ	0xd2 0x8a	CYRILLIC CAPITAL LETTER SHORT I WITH TAIL
+				ch = 0x048B;	//	ҋ	0xd2 0x8b	CYRILLIC SMALL LETTER SHORT I WITH TAIL
+				break;
+			case 0x048C:		//	Ҍ	0xd2 0x8c	CYRILLIC CAPITAL LETTER SEMISOFT SIGN
+				ch = 0x048D;	//	ҍ	0xd2 0x8d	CYRILLIC SMALL LETTER SEMISOFT SIGN
+				break;
+			case 0x048E:		//	Ҏ	0xd2 0x8e	CYRILLIC CAPITAL LETTER ER WITH TICK
+				ch = 0x048F;	//	ҏ	0xd2 0x8f	CYRILLIC SMALL LETTER ER WITH TICK
+				break;
+			case 0x0490:		//	Ґ	0xd2 0x90	CYRILLIC CAPITAL LETTER GHE WITH UPTURN
+				ch = 0x0491;	//	ґ	0xd2 0x91	CYRILLIC SMALL LETTER GHE WITH UPTURN
+				break;
+			case 0x0492:		//	Ғ	0xd2 0x92	CYRILLIC CAPITAL LETTER GHE WITH STROKE
+				ch = 0x0493;	//	ғ	0xd2 0x93	CYRILLIC SMALL LETTER GHE WITH STROKE
+				break;
+			case 0x0494:		//	Ҕ	0xd2 0x94	CYRILLIC CAPITAL LETTER GHE WITH MIDDLE HOOK
+				ch = 0x0495;	//	ҕ	0xd2 0x95	CYRILLIC SMALL LETTER GHE WITH MIDDLE HOOK
+				break;
+			case 0x0496:		//	Җ	0xd2 0x96	CYRILLIC CAPITAL LETTER ZHE WITH DESCENDER
+				ch = 0x0497;	//	җ	0xd2 0x97	CYRILLIC SMALL LETTER ZHE WITH DESCENDER
+				break;
+			case 0x0498:		//	Ҙ	0xd2 0x98	CYRILLIC CAPITAL LETTER ZE WITH DESCENDER
+				ch = 0x0499;	//	ҙ	0xd2 0x99	CYRILLIC SMALL LETTER ZE WITH DESCENDER
+				break;
+			case 0x049A:		//	Қ	0xd2 0x9a	CYRILLIC CAPITAL LETTER KA WITH DESCENDER
+				ch = 0x049B;	//	қ	0xd2 0x9b	CYRILLIC SMALL LETTER KA WITH DESCENDER
+				break;
+			case 0x049C:		//	Ҝ	0xd2 0x9c	CYRILLIC CAPITAL LETTER KA WITH VERTICAL STROKE
+				ch = 0x049D;	//	ҝ	0xd2 0x9d	CYRILLIC SMALL LETTER KA WITH VERTICAL STROKE
+				break;
+			case 0x049E:		//	Ҟ	0xd2 0x9e	CYRILLIC CAPITAL LETTER KA WITH STROKE
+				ch = 0x049F;	//	ҟ	0xd2 0x9f	CYRILLIC SMALL LETTER KA WITH STROKE
+				break;
+			case 0x04A0:		//	� 	0xd2 0xa0	CYRILLIC CAPITAL LETTER BASHKIR KA
+				ch = 0x04A1;	//	ҡ	0xd2 0xa1	CYRILLIC SMALL LETTER BASHKIR KA
+				break;
+			case 0x04A2:		//	Ң	0xd2 0xa2	CYRILLIC CAPITAL LETTER EN WITH DESCENDER
+				ch = 0x04A3;	//	ң	0xd2 0xa3	CYRILLIC SMALL LETTER EN WITH DESCENDER
+				break;
+			case 0x04A4:		//	Ҥ	0xd2 0xa4	CYRILLIC CAPITAL LETTER LIGATURE EN GHE
+				ch = 0x04A5;	//	ҥ	0xd2 0xa5	CYRILLIC SMALL LETTER LIGATURE EN GHE
+				break;
+			case 0x04A6:		//	Ҧ	0xd2 0xa6	CYRILLIC CAPITAL LETTER PE WITH MIDDLE HOOK
+				ch = 0x04A7;	//	ҧ	0xd2 0xa7	CYRILLIC SMALL LETTER PE WITH MIDDLE HOOK
+				break;
+			case 0x04A8:		//	Ҩ	0xd2 0xa8	CYRILLIC CAPITAL LETTER ABKHASIAN HA
+				ch = 0x04A9;	//	ҩ	0xd2 0xa9	CYRILLIC SMALL LETTER ABKHASIAN HA
+				break;
+			case 0x04AA:		//	Ҫ	0xd2 0xaa	CYRILLIC CAPITAL LETTER ES WITH DESCENDER
+				ch = 0x04AB;	//	ҫ	0xd2 0xab	CYRILLIC SMALL LETTER ES WITH DESCENDER
+				break;
+			case 0x04AC:		//	Ҭ	0xd2 0xac	CYRILLIC CAPITAL LETTER TE WITH DESCENDER
+				ch = 0x04AD;	//	ҭ	0xd2 0xad	CYRILLIC SMALL LETTER TE WITH DESCENDER
+				break;
+			case 0x04AE:		//	Ү	0xd2 0xae	CYRILLIC CAPITAL LETTER STRAIGHT U
+				ch = 0x04AF;	//	ү	0xd2 0xaf	CYRILLIC SMALL LETTER STRAIGHT U
+				break;
+			case 0x04B0:		//	Ұ	0xd2 0xb0	CYRILLIC CAPITAL LETTER STRAIGHT U WITH STROKE
+				ch = 0x04B1;	//	ұ	0xd2 0xb1	CYRILLIC SMALL LETTER STRAIGHT U WITH STROKE
+				break;
+			case 0x04B2:		//	Ҳ	0xd2 0xb2	CYRILLIC CAPITAL LETTER HA WITH DESCENDER
+				ch = 0x04B3;	//	ҳ	0xd2 0xb3	CYRILLIC SMALL LETTER HA WITH DESCENDER
+				break;
+			case 0x04B4:		//	Ҵ	0xd2 0xb4	CYRILLIC CAPITAL LETTER LIGATURE TE TSE
+				ch = 0x04B5;	//	ҵ	0xd2 0xb5	CYRILLIC SMALL LETTER LIGATURE TE TSE
+				break;
+			case 0x04B6:		//	Ҷ	0xd2 0xb6	CYRILLIC CAPITAL LETTER CHE WITH DESCENDER
+				ch = 0x04B7;	//	ҷ	0xd2 0xb7	CYRILLIC SMALL LETTER CHE WITH DESCENDER
+				break;
+			case 0x04B8:		//	Ҹ	0xd2 0xb8	CYRILLIC CAPITAL LETTER CHE WITH VERTICAL STROKE
+				ch = 0x04B9;	//	ҹ	0xd2 0xb9	CYRILLIC SMALL LETTER CHE WITH VERTICAL STROKE
+				break;
+			case 0x04BA:		//	Һ	0xd2 0xba	CYRILLIC CAPITAL LETTER SHHA
+				ch = 0x04BB;	//	һ	0xd2 0xbb	CYRILLIC SMALL LETTER SHHA
+				break;
+			case 0x04BC:		//	Ҽ	0xd2 0xbc	CYRILLIC CAPITAL LETTER ABKHASIAN CHE
+				ch = 0x04BD;	//	ҽ	0xd2 0xbd	CYRILLIC SMALL LETTER ABKHASIAN CHE
+				break;
+			case 0x04BE:		//	Ҿ	0xd2 0xbe	CYRILLIC CAPITAL LETTER ABKHASIAN CHE WITH DESCENDER
+				ch = 0x04BF;	//	ҿ	0xd2 0xbf	CYRILLIC SMALL LETTER ABKHASIAN CHE WITH DESCENDER
+				break;
+			case 0x04C0:		//	Ӏ	0xd3 0x80	CYRILLIC CAPITAL LETTER PALOCHKA
+				ch = 0x04CF;	//	ӏ	0xd3 0x8f	CYRILLIC SMALL LETTER PALOCHKA
+				break;
+			case 0x04C1:		//	Ӂ	0xd3 0x81	CYRILLIC CAPITAL LETTER ZHE WITH BREVE
+				ch = 0x04C2;	//	ӂ	0xd3 0x82	CYRILLIC SMALL LETTER ZHE WITH BREVE
+				break;
+			case 0x04C3:		//	Ӄ	0xd3 0x83	CYRILLIC CAPITAL LETTER KA WITH HOOK
+				ch = 0x04C4;	//	ӄ	0xd3 0x84	CYRILLIC SMALL LETTER KA WITH HOOK
+				break;
+			case 0x04C5:		//	Ӆ	0xd3 0x85	CYRILLIC CAPITAL LETTER EL WITH TAIL
+				ch = 0x04C6;	//	ӆ	0xd3 0x86	CYRILLIC SMALL LETTER EL WITH TAIL
+				break;
+			case 0x04C7:		//	Ӈ	0xd3 0x87	CYRILLIC CAPITAL LETTER EN WITH HOOK
+				ch = 0x04C8;	//	ӈ	0xd3 0x88	CYRILLIC SMALL LETTER EN WITH HOOK
+				break;
+			case 0x04C9:		//	Ӊ	0xd3 0x89	CYRILLIC CAPITAL LETTER EN WITH TAIL
+				ch = 0x04CA;	//	ӊ	0xd3 0x8a	CYRILLIC SMALL LETTER EN WITH TAIL
+				break;
+			case 0x04CB:		//	Ӌ	0xd3 0x8b	CYRILLIC CAPITAL LETTER KHAKASSIAN CHE
+				ch = 0x04CC;	//	ӌ	0xd3 0x8c	CYRILLIC SMALL LETTER KHAKASSIAN CHE
+				break;
+			case 0x04CD:		//	Ӎ	0xd3 0x8d	CYRILLIC CAPITAL LETTER EM WITH TAIL
+				ch = 0x04CE;	//	ӎ	0xd3 0x8e	CYRILLIC SMALL LETTER EM WITH TAIL
+				break;
+			case 0x04D0:		//	Ӑ	0xd3 0x90	CYRILLIC CAPITAL LETTER A WITH BREVE
+				ch = 0x04D1;	//	ӑ	0xd3 0x91	CYRILLIC SMALL LETTER A WITH BREVE
+				break;
+			case 0x04D2:		//	Ӓ	0xd3 0x92	CYRILLIC CAPITAL LETTER A WITH DIAERESIS
+				ch = 0x04D3;	//	ӓ	0xd3 0x93	CYRILLIC SMALL LETTER A WITH DIAERESIS
+				break;
+			case 0x04D4:		//	Ӕ	0xd3 0x94	CYRILLIC CAPITAL LETTER LIGATURE A IE
+				ch = 0x04D5;	//	ӕ	0xd3 0x95	CYRILLIC SMALL LETTER LIGATURE A IE
+				break;
+			case 0x04D6:		//	Ӗ	0xd3 0x96	CYRILLIC CAPITAL LETTER IE WITH BREVE
+				ch = 0x04D7;	//	ӗ	0xd3 0x97	CYRILLIC SMALL LETTER IE WITH BREVE
+				break;
+			case 0x04D8:		//	Ә	0xd3 0x98	CYRILLIC CAPITAL LETTER SCHWA
+				ch = 0x04D9;	//	ә	0xd3 0x99	CYRILLIC SMALL LETTER SCHWA
+				break;
+			case 0x04DA:		//	Ӛ	0xd3 0x9a	CYRILLIC CAPITAL LETTER SCHWA WITH DIAERESIS
+				ch = 0x04DB;	//	ӛ	0xd3 0x9b	CYRILLIC SMALL LETTER SCHWA WITH DIAERESIS
+				break;
+			case 0x04DC:		//	Ӝ	0xd3 0x9c	CYRILLIC CAPITAL LETTER ZHE WITH DIAERESIS
+				ch = 0x04DD;	//	ӝ	0xd3 0x9d	CYRILLIC SMALL LETTER ZHE WITH DIAERESIS
+				break;
+			case 0x04DE:		//	Ӟ	0xd3 0x9e	CYRILLIC CAPITAL LETTER ZE WITH DIAERESIS
+				ch = 0x04DF;	//	ӟ	0xd3 0x9f	CYRILLIC SMALL LETTER ZE WITH DIAERESIS
+				break;
+			case 0x04E0:		//	� 	0xd3 0xa0	CYRILLIC CAPITAL LETTER ABKHASIAN DZE
+				ch = 0x04E1;	//	ӡ	0xd3 0xa1	CYRILLIC SMALL LETTER ABKHASIAN DZE
+				break;
+			case 0x04E2:		//	Ӣ	0xd3 0xa2	CYRILLIC CAPITAL LETTER I WITH MACRON
+				ch = 0x04E3;	//	ӣ	0xd3 0xa3	CYRILLIC SMALL LETTER I WITH MACRON
+				break;
+			case 0x04E4:		//	Ӥ	0xd3 0xa4	CYRILLIC CAPITAL LETTER I WITH DIAERESIS
+				ch = 0x04E5;	//	ӥ	0xd3 0xa5	CYRILLIC SMALL LETTER I WITH DIAERESIS
+				break;
+			case 0x04E6:		//	Ӧ	0xd3 0xa6	CYRILLIC CAPITAL LETTER O WITH DIAERESIS
+				ch = 0x04E7;	//	ӧ	0xd3 0xa7	CYRILLIC SMALL LETTER O WITH DIAERESIS
+				break;
+			case 0x04E8:		//	Ө	0xd3 0xa8	CYRILLIC CAPITAL LETTER BARRED O
+				ch = 0x04E9;	//	ө	0xd3 0xa9	CYRILLIC SMALL LETTER BARRED O
+				break;
+			case 0x04EA:		//	Ӫ	0xd3 0xaa	CYRILLIC CAPITAL LETTER BARRED O WITH DIAERESIS
+				ch = 0x04EB;	//	ӫ	0xd3 0xab	CYRILLIC SMALL LETTER BARRED O WITH DIAERESIS
+				break;
+			case 0x04EC:		//	Ӭ	0xd3 0xac	CYRILLIC CAPITAL LETTER E WITH DIAERESIS
+				ch = 0x04ED;	//	ӭ	0xd3 0xad	CYRILLIC SMALL LETTER E WITH DIAERESIS
+				break;
+			case 0x04EE:		//	Ӯ	0xd3 0xae	CYRILLIC CAPITAL LETTER U WITH MACRON
+				ch = 0x04EF;	//	ӯ	0xd3 0xaf	CYRILLIC SMALL LETTER U WITH MACRON
+				break;
+			case 0x04F0:		//	Ӱ	0xd3 0xb0	CYRILLIC CAPITAL LETTER U WITH DIAERESIS
+				ch = 0x04F1;	//	ӱ	0xd3 0xb1	CYRILLIC SMALL LETTER U WITH DIAERESIS
+				break;
+			case 0x04F2:		//	Ӳ	0xd3 0xb2	CYRILLIC CAPITAL LETTER U WITH DOUBLE ACUTE
+				ch = 0x04F3;	//	ӳ	0xd3 0xb3	CYRILLIC SMALL LETTER U WITH DOUBLE ACUTE
+				break;
+			case 0x04F4:		//	Ӵ	0xd3 0xb4	CYRILLIC CAPITAL LETTER CHE WITH DIAERESIS
+				ch = 0x04F5;	//	ӵ	0xd3 0xb5	CYRILLIC SMALL LETTER CHE WITH DIAERESIS
+				break;
+			case 0x04F6:		//	Ӷ	0xd3 0xb6	CYRILLIC CAPITAL LETTER GHE WITH DESCENDER
+				ch = 0x04F7;	//	ӷ	0xd3 0xb7	CYRILLIC SMALL LETTER GHE WITH DESCENDER
+				break;
+			case 0x04F8:		//	Ӹ	0xd3 0xb8	CYRILLIC CAPITAL LETTER YERU WITH DIAERESIS
+				ch = 0x04F9;	//	ӹ	0xd3 0xb9	CYRILLIC SMALL LETTER YERU WITH DIAERESIS
+				break;
+			case 0x04FA:		//	Ӻ	0xd3 0xba	CYRILLIC CAPITAL LETTER GHE WITH STROKE AND HOOK
+				ch = 0x04FB;	//	ӻ	0xd3 0xbb	CYRILLIC SMALL LETTER GHE WITH STROKE AND HOOK
+				break;
+			case 0x04FC:		//	Ӽ	0xd3 0xbc	CYRILLIC CAPITAL LETTER HA WITH HOOK
+				ch = 0x04FD;	//	ӽ	0xd3 0xbd	CYRILLIC SMALL LETTER HA WITH HOOK
+				break;
+			case 0x04FE:		//	Ӿ	0xd3 0xbe	CYRILLIC CAPITAL LETTER HA WITH STROKE
+				ch = 0x04FF;	//	ӿ	0xd3 0xbf	CYRILLIC SMALL LETTER HA WITH STROKE
+				break;
+			case 0x0500:		//	Ԁ	0xd4 0x80	CYRILLIC CAPITAL LETTER KOMI DE
+				ch = 0x0501;	//	ԁ	0xd4 0x81	CYRILLIC SMALL LETTER KOMI DE
+				break;
+			case 0x0502:		//	Ԃ	0xd4 0x82	CYRILLIC CAPITAL LETTER KOMI DJE
+				ch = 0x0503;	//	ԃ	0xd4 0x83	CYRILLIC SMALL LETTER KOMI DJE
+				break;
+			case 0x0504:		//	Ԅ	0xd4 0x84	CYRILLIC CAPITAL LETTER KOMI ZJE
+				ch = 0x0505;	//	ԅ	0xd4 0x85	CYRILLIC SMALL LETTER KOMI ZJE
+				break;
+			case 0x0506:		//	Ԇ	0xd4 0x86	CYRILLIC CAPITAL LETTER KOMI DZJE
+				ch = 0x0507;	//	ԇ	0xd4 0x87	CYRILLIC SMALL LETTER KOMI DZJE
+				break;
+			case 0x0508:		//	Ԉ	0xd4 0x88	CYRILLIC CAPITAL LETTER KOMI LJE
+				ch = 0x0509;	//	ԉ	0xd4 0x89	CYRILLIC SMALL LETTER KOMI LJE
+				break;
+			case 0x050A:		//	Ԋ	0xd4 0x8a	CYRILLIC CAPITAL LETTER KOMI NJE
+				ch = 0x050B;	//	ԋ	0xd4 0x8b	CYRILLIC SMALL LETTER KOMI NJE
+				break;
+			case 0x050C:		//	Ԍ	0xd4 0x8c	CYRILLIC CAPITAL LETTER KOMI SJE
+				ch = 0x050D;	//	ԍ	0xd4 0x8d	CYRILLIC SMALL LETTER KOMI SJE
+				break;
+			case 0x050E:		//	Ԏ	0xd4 0x8e	CYRILLIC CAPITAL LETTER KOMI TJE
+				ch = 0x050F;	//	ԏ	0xd4 0x8f	CYRILLIC SMALL LETTER KOMI TJE
+				break;
+			case 0x0510:		//	Ԑ	0xd4 0x90	CYRILLIC CAPITAL LETTER REVERSED ZE
+				ch = 0x0511;	//	ԑ	0xd4 0x91	CYRILLIC SMALL LETTER REVERSED ZE
+				break;
+			case 0x0512:		//	Ԓ	0xd4 0x92	CYRILLIC CAPITAL LETTER EL WITH HOOK
+				ch = 0x0513;	//	ԓ	0xd4 0x93	CYRILLIC SMALL LETTER EL WITH HOOK
+				break;
+			case 0x0514:		//	Ԕ	0xd4 0x94	CYRILLIC CAPITAL LETTER LHA
+				ch = 0x0515;	//	ԕ	0xd4 0x95	CYRILLIC SMALL LETTER LHA
+				break;
+			case 0x0516:		//	Ԗ	0xd4 0x96	CYRILLIC CAPITAL LETTER RHA
+				ch = 0x0517;	//	ԗ	0xd4 0x97	CYRILLIC SMALL LETTER RHA
+				break;
+			case 0x0518:		//	Ԙ	0xd4 0x98	CYRILLIC CAPITAL LETTER YAE
+				ch = 0x0519;	//	ԙ	0xd4 0x99	CYRILLIC SMALL LETTER YAE
+				break;
+			case 0x051A:		//	Ԛ	0xd4 0x9a	CYRILLIC CAPITAL LETTER QA
+				ch = 0x051B;	//	ԛ	0xd4 0x9b	CYRILLIC SMALL LETTER QA
+				break;
+			case 0x051C:		//	Ԝ	0xd4 0x9c	CYRILLIC CAPITAL LETTER WE
+				ch = 0x051D;	//	ԝ	0xd4 0x9d	CYRILLIC SMALL LETTER WE
+				break;
+			case 0x051E:		//	Ԟ	0xd4 0x9e	CYRILLIC CAPITAL LETTER ALEUT KA
+				ch = 0x051F;	//	ԟ	0xd4 0x9f	CYRILLIC SMALL LETTER ALEUT KA
+				break;
+			case 0x0520:		//	� 	0xd4 0xa0	CYRILLIC CAPITAL LETTER EL WITH MIDDLE HOOK
+				ch = 0x0521;	//	ԡ	0xd4 0xa1	CYRILLIC SMALL LETTER EL WITH MIDDLE HOOK
+				break;
+			case 0x0522:		//	Ԣ	0xd4 0xa2	CYRILLIC CAPITAL LETTER EN WITH MIDDLE HOOK
+				ch = 0x0523;	//	ԣ	0xd4 0xa3	CYRILLIC SMALL LETTER EN WITH MIDDLE HOOK
+				break;
+			case 0x0524:		//	Ԥ	0xd4 0xa4	CYRILLIC CAPITAL LETTER PE WITH DESCENDER
+				ch = 0x0525;	//	ԥ	0xd4 0xa5	CYRILLIC SMALL LETTER PE WITH DESCENDER
+				break;
+			case 0x0526:		//	Ԧ	0xd4 0xa6	CYRILLIC CAPITAL LETTER SHHA WITH DESCENDER
+				ch = 0x0527;	//	ԧ	0xd4 0xa7	CYRILLIC SMALL LETTER SHHA WITH DESCENDER
+				break;
+			case 0x0528:		//	Ԩ	0xd4 0xa8	CYRILLIC CAPITAL LETTER EN WITH LEFT HOOK
+				ch = 0x0529;	//	ԩ	0xd4 0xa9	CYRILLIC SMALL LETTER EN WITH LEFT HOOK
+				break;
+			case 0x052A:		//	Ԫ	0xd4 0xaa	CYRILLIC CAPITAL LETTER DZZHE
+				ch = 0x052B;	//	ԫ	0xd4 0xab	CYRILLIC SMALL LETTER DZZHE
+				break;
+			case 0x052C:		//	Ԭ	0xd4 0xac	CYRILLIC CAPITAL LETTER DCHE
+				ch = 0x052D;	//	ԭ	0xd4 0xad	CYRILLIC SMALL LETTER DCHE
+				break;
+			case 0x052E:		//	Ԯ	0xd4 0xae	CYRILLIC CAPITAL LETTER EL WITH DESCENDER
+				ch = 0x052F;	//	ԯ	0xd4 0xaf	CYRILLIC SMALL LETTER EL WITH DESCENDER
+				break;
+			case 0x0531:		//	Ա	0xd4 0xb1	ARMENIAN CAPITAL LETTER AYB
+				ch = 0x0561;	//	ա	0xd5 0xa1	ARMENIAN SMALL LETTER AYB
+				break;
+			case 0x0532:		//	Բ	0xd4 0xb2	ARMENIAN CAPITAL LETTER BEN
+				ch = 0x0562;	//	բ	0xd5 0xa2	ARMENIAN SMALL LETTER BEN
+				break;
+			case 0x0533:		//	Գ	0xd4 0xb3	ARMENIAN CAPITAL LETTER GIM
+				ch = 0x0563;	//	գ	0xd5 0xa3	ARMENIAN SMALL LETTER GIM
+				break;
+			case 0x0534:		//	Դ	0xd4 0xb4	ARMENIAN CAPITAL LETTER DA
+				ch = 0x0564;	//	դ	0xd5 0xa4	ARMENIAN SMALL LETTER DA
+				break;
+			case 0x0535:		//	Ե	0xd4 0xb5	ARMENIAN CAPITAL LETTER ECH
+				ch = 0x0565;	//	ե	0xd5 0xa5	ARMENIAN SMALL LETTER ECH
+				break;
+			case 0x0536:		//	Զ	0xd4 0xb6	ARMENIAN CAPITAL LETTER ZA
+				ch = 0x0566;	//	զ	0xd5 0xa6	ARMENIAN SMALL LETTER ZA
+				break;
+			case 0x0537:		//	Է	0xd4 0xb7	ARMENIAN CAPITAL LETTER EH
+				ch = 0x0567;	//	է	0xd5 0xa7	ARMENIAN SMALL LETTER EH
+				break;
+			case 0x0538:		//	Ը	0xd4 0xb8	ARMENIAN CAPITAL LETTER ET
+				ch = 0x0568;	//	ը	0xd5 0xa8	ARMENIAN SMALL LETTER ET
+				break;
+			case 0x0539:		//	Թ	0xd4 0xb9	ARMENIAN CAPITAL LETTER TO
+				ch = 0x0569;	//	թ	0xd5 0xa9	ARMENIAN SMALL LETTER TO
+				break;
+			case 0x053A:		//	Ժ	0xd4 0xba	ARMENIAN CAPITAL LETTER ZHE
+				ch = 0x056A;	//	ժ	0xd5 0xaa	ARMENIAN SMALL LETTER ZHE
+				break;
+			case 0x053B:		//	Ի	0xd4 0xbb	ARMENIAN CAPITAL LETTER INI
+				ch = 0x056B;	//	ի	0xd5 0xab	ARMENIAN SMALL LETTER INI
+				break;
+			case 0x053C:		//	Լ	0xd4 0xbc	ARMENIAN CAPITAL LETTER LIWN
+				ch = 0x056C;	//	լ	0xd5 0xac	ARMENIAN SMALL LETTER LIWN
+				break;
+			case 0x053D:		//	Խ	0xd4 0xbd	ARMENIAN CAPITAL LETTER XEH
+				ch = 0x056D;	//	խ	0xd5 0xad	ARMENIAN SMALL LETTER XEH
+				break;
+			case 0x053E:		//	Ծ	0xd4 0xbe	ARMENIAN CAPITAL LETTER CA
+				ch = 0x056E;	//	ծ	0xd5 0xae	ARMENIAN SMALL LETTER CA
+				break;
+			case 0x053F:		//	Կ	0xd4 0xbf	ARMENIAN CAPITAL LETTER KEN
+				ch = 0x056F;	//	կ	0xd5 0xaf	ARMENIAN SMALL LETTER KEN
+				break;
+			case 0x0540:		//	Հ	0xd5 0x80	ARMENIAN CAPITAL LETTER HO
+				ch = 0x0570;	//	հ	0xd5 0xb0	ARMENIAN SMALL LETTER HO
+				break;
+			case 0x0541:		//	Ձ	0xd5 0x81	ARMENIAN CAPITAL LETTER JA
+				ch = 0x0571;	//	ձ	0xd5 0xb1	ARMENIAN SMALL LETTER JA
+				break;
+			case 0x0542:		//	Ղ	0xd5 0x82	ARMENIAN CAPITAL LETTER GHAD
+				ch = 0x0572;	//	ղ	0xd5 0xb2	ARMENIAN SMALL LETTER GHAD
+				break;
+			case 0x0543:		//	Ճ	0xd5 0x83	ARMENIAN CAPITAL LETTER CHEH
+				ch = 0x0573;	//	ճ	0xd5 0xb3	ARMENIAN SMALL LETTER CHEH
+				break;
+			case 0x0544:		//	Մ	0xd5 0x84	ARMENIAN CAPITAL LETTER MEN
+				ch = 0x0574;	//	մ	0xd5 0xb4	ARMENIAN SMALL LETTER MEN
+				break;
+			case 0x0545:		//	Յ	0xd5 0x85	ARMENIAN CAPITAL LETTER YI
+				ch = 0x0575;	//	յ	0xd5 0xb5	ARMENIAN SMALL LETTER YI
+				break;
+			case 0x0546:		//	Ն	0xd5 0x86	ARMENIAN CAPITAL LETTER NOW
+				ch = 0x0576;	//	ն	0xd5 0xb6	ARMENIAN SMALL LETTER NOW
+				break;
+			case 0x0547:		//	Շ	0xd5 0x87	ARMENIAN CAPITAL LETTER SHA
+				ch = 0x0577;	//	շ	0xd5 0xb7	ARMENIAN SMALL LETTER SHA
+				break;
+			case 0x0548:		//	Ո	0xd5 0x88	ARMENIAN CAPITAL LETTER VO
+				ch = 0x0578;	//	ո	0xd5 0xb8	ARMENIAN SMALL LETTER VO
+				break;
+			case 0x0549:		//	Չ	0xd5 0x89	ARMENIAN CAPITAL LETTER CHA
+				ch = 0x0579;	//	չ	0xd5 0xb9	ARMENIAN SMALL LETTER CHA
+				break;
+			case 0x054A:		//	Պ	0xd5 0x8a	ARMENIAN CAPITAL LETTER PEH
+				ch = 0x057A;	//	պ	0xd5 0xba	ARMENIAN SMALL LETTER PEH
+				break;
+			case 0x054B:		//	Ջ	0xd5 0x8b	ARMENIAN CAPITAL LETTER JHEH
+				ch = 0x057B;	//	ջ	0xd5 0xbb	ARMENIAN SMALL LETTER JHEH
+				break;
+			case 0x054C:		//	Ռ	0xd5 0x8c	ARMENIAN CAPITAL LETTER RA
+				ch = 0x057C;	//	ռ	0xd5 0xbc	ARMENIAN SMALL LETTER RA
+				break;
+			case 0x054D:		//	Ս	0xd5 0x8d	ARMENIAN CAPITAL LETTER SEH
+				ch = 0x057D;	//	ս	0xd5 0xbd	ARMENIAN SMALL LETTER SEH
+				break;
+			case 0x054E:		//	Վ	0xd5 0x8e	ARMENIAN CAPITAL LETTER VEW
+				ch = 0x057E;	//	վ	0xd5 0xbe	ARMENIAN SMALL LETTER VEW
+				break;
+			case 0x054F:		//	Տ	0xd5 0x8f	ARMENIAN CAPITAL LETTER TIWN
+				ch = 0x057F;	//	տ	0xd5 0xbf	ARMENIAN SMALL LETTER TIWN
+				break;
+			case 0x0550:		//	Ր	0xd5 0x90	ARMENIAN CAPITAL LETTER REH
+				ch = 0x0580;	//	ր	0xd6 0x80	ARMENIAN SMALL LETTER REH
+				break;
+			case 0x0551:		//	Ց	0xd5 0x91	ARMENIAN CAPITAL LETTER CO
+				ch = 0x0581;	//	ց	0xd6 0x81	ARMENIAN SMALL LETTER CO
+				break;
+			case 0x0552:		//	Ւ	0xd5 0x92	ARMENIAN CAPITAL LETTER YIWN
+				ch = 0x0582;	//	ւ	0xd6 0x82	ARMENIAN SMALL LETTER YIWN
+				break;
+			case 0x0553:		//	Փ	0xd5 0x93	ARMENIAN CAPITAL LETTER PIWR
+				ch = 0x0583;	//	փ	0xd6 0x83	ARMENIAN SMALL LETTER PIWR
+				break;
+			case 0x0554:		//	Ք	0xd5 0x94	ARMENIAN CAPITAL LETTER KEH
+				ch = 0x0584;	//	ք	0xd6 0x84	ARMENIAN SMALL LETTER KEH
+				break;
+			case 0x0555:		//	Օ	0xd5 0x95	ARMENIAN CAPITAL LETTER OH
+				ch = 0x0585;	//	օ	0xd6 0x85	ARMENIAN SMALL LETTER OH
+				break;
+			case 0x0556:		//	Ֆ	0xd5 0x96	ARMENIAN CAPITAL LETTER FEH
+				ch = 0x0586;	//	ֆ	0xd6 0x86	ARMENIAN SMALL LETTER FEH
+				break;
+			case 0x10A0:		//	� 	0xe1 0x82 0xa0	GEORGIAN LETTER AN
+				ch = 0x10D0;	//	ა	0xe1 0x83 0x90	GEORGIAN SMALL LETTER AN
+				break;
+			case 0x10A1:		//	Ⴁ	0xe1 0x82 0xa1	GEORGIAN LETTER BAN
+				ch = 0x10D1;	//	ბ	0xe1 0x83 0x91	GEORGIAN SMALL LETTER BAN
+				break;
+			case 0x10A2:		//	Ⴂ	0xe1 0x82 0xa2	GEORGIAN LETTER GAN
+				ch = 0x10D2;	//	გ	0xe1 0x83 0x92	GEORGIAN SMALL LETTER GAN
+				break;
+			case 0x10A3:		//	Ⴃ	0xe1 0x82 0xa3	GEORGIAN LETTER DON
+				ch = 0x10D3;	//	დ	0xe1 0x83 0x93	GEORGIAN SMALL LETTER DON
+				break;
+			case 0x10A4:		//	Ⴄ	0xe1 0x82 0xa4	GEORGIAN LETTER EN
+				ch = 0x10D4;	//	ე	0xe1 0x83 0x94	GEORGIAN SMALL LETTER EN
+				break;
+			case 0x10A5:		//	Ⴅ	0xe1 0x82 0xa5	GEORGIAN LETTER VIN
+				ch = 0x10D5;	//	ვ	0xe1 0x83 0x95	GEORGIAN SMALL LETTER VIN
+				break;
+			case 0x10A6:		//	Ⴆ	0xe1 0x82 0xa6	GEORGIAN LETTER ZEN
+				ch = 0x10D6;	//	ზ	0xe1 0x83 0x96	GEORGIAN SMALL LETTER ZEN
+				break;
+			case 0x10A7:		//	Ⴇ	0xe1 0x82 0xa7	GEORGIAN LETTER TAN
+				ch = 0x10D7;	//	თ	0xe1 0x83 0x97	GEORGIAN SMALL LETTER TAN
+				break;
+			case 0x10A8:		//	Ⴈ	0xe1 0x82 0xa8	GEORGIAN LETTER IN
+				ch = 0x10D8;	//	ი	0xe1 0x83 0x98	GEORGIAN SMALL LETTER IN
+				break;
+			case 0x10A9:		//	Ⴉ	0xe1 0x82 0xa9	GEORGIAN LETTER KAN
+				ch = 0x10D9;	//	კ	0xe1 0x83 0x99	GEORGIAN SMALL LETTER KAN
+				break;
+			case 0x10AA:		//	Ⴊ	0xe1 0x82 0xaa	GEORGIAN LETTER LAS
+				ch = 0x10DA;	//	ლ	0xe1 0x83 0x9a	GEORGIAN SMALL LETTER LAS
+				break;
+			case 0x10AB:		//	Ⴋ	0xe1 0x82 0xab	GEORGIAN LETTER MAN
+				ch = 0x10DB;	//	მ	0xe1 0x83 0x9b	GEORGIAN SMALL LETTER MAN
+				break;
+			case 0x10AC:		//	Ⴌ	0xe1 0x82 0xac	GEORGIAN LETTER NAR
+				ch = 0x10DC;	//	ნ	0xe1 0x83 0x9c	GEORGIAN SMALL LETTER NAR
+				break;
+			case 0x10AD:		//	Ⴍ	0xe1 0x82 0xad	GEORGIAN LETTER ON
+				ch = 0x10DD;	//	ო	0xe1 0x83 0x9d	GEORGIAN SMALL LETTER ON
+				break;
+			case 0x10AE:		//	Ⴎ	0xe1 0x82 0xae	GEORGIAN LETTER PAR
+				ch = 0x10DE;	//	პ	0xe1 0x83 0x9e	GEORGIAN SMALL LETTER PAR
+				break;
+			case 0x10AF:		//	Ⴏ	0xe1 0x82 0xaf	GEORGIAN LETTER ZHAR
+				ch = 0x10DF;	//	ჟ	0xe1 0x83 0x9f	GEORGIAN SMALL LETTER ZHAR
+				break;
+			case 0x10B0:		//	Ⴐ	0xe1 0x82 0xb0	GEORGIAN LETTER RAE
+				ch = 0x10E0;	//	� 	0xe1 0x83 0xa0	GEORGIAN SMALL LETTER RAE
+				break;
+			case 0x10B1:		//	Ⴑ	0xe1 0x82 0xb1	GEORGIAN LETTER SAN
+				ch = 0x10E1;	//	ს	0xe1 0x83 0xa1	GEORGIAN SMALL LETTER SAN
+				break;
+			case 0x10B2:		//	Ⴒ	0xe1 0x82 0xb2	GEORGIAN LETTER TAR
+				ch = 0x10E2;	//	ტ	0xe1 0x83 0xa2	GEORGIAN SMALL LETTER TAR
+				break;
+			case 0x10B3:		//	Ⴓ	0xe1 0x82 0xb3	GEORGIAN LETTER UN
+				ch = 0x10E3;	//	უ	0xe1 0x83 0xa3	GEORGIAN SMALL LETTER UN
+				break;
+			case 0x10B4:		//	Ⴔ	0xe1 0x82 0xb4	GEORGIAN LETTER PHAR
+				ch = 0x10E4;	//	ფ	0xe1 0x83 0xa4	GEORGIAN SMALL LETTER PHAR
+				break;
+			case 0x10B5:		//	Ⴕ	0xe1 0x82 0xb5	GEORGIAN LETTER KHAR
+				ch = 0x10E5;	//	ქ	0xe1 0x83 0xa5	GEORGIAN SMALL LETTER KHAR
+				break;
+			case 0x10B6:		//	Ⴖ	0xe1 0x82 0xb6	GEORGIAN LETTER GHAN
+				ch = 0x10E6;	//	ღ	0xe1 0x83 0xa6	GEORGIAN SMALL LETTER GHAN
+				break;
+			case 0x10B7:		//	Ⴗ	0xe1 0x82 0xb7	GEORGIAN LETTER QAR
+				ch = 0x10E7;	//	ყ	0xe1 0x83 0xa7	GEORGIAN SMALL LETTER QAR
+				break;
+			case 0x10B8:		//	Ⴘ	0xe1 0x82 0xb8	GEORGIAN LETTER SHIN
+				ch = 0x10E8;	//	შ	0xe1 0x83 0xa8	GEORGIAN SMALL LETTER SHIN
+				break;
+			case 0x10B9:		//	Ⴙ	0xe1 0x82 0xb9	GEORGIAN LETTER CHIN
+				ch = 0x10E9;	//	ჩ	0xe1 0x83 0xa9	GEORGIAN SMALL LETTER CHIN
+				break;
+			case 0x10BA:		//	Ⴚ	0xe1 0x82 0xba	GEORGIAN LETTER CAN
+				ch = 0x10EA;	//	ც	0xe1 0x83 0xaa	GEORGIAN SMALL LETTER CAN
+				break;
+			case 0x10BB:		//	Ⴛ	0xe1 0x82 0xbb	GEORGIAN LETTER JIL
+				ch = 0x10EB;	//	ძ	0xe1 0x83 0xab	GEORGIAN SMALL LETTER JIL
+				break;
+			case 0x10BC:		//	Ⴜ	0xe1 0x82 0xbc	GEORGIAN LETTER CIL
+				ch = 0x10EC;	//	წ	0xe1 0x83 0xac	GEORGIAN SMALL LETTER CIL
+				break;
+			case 0x10BD:		//	Ⴝ	0xe1 0x82 0xbd	GEORGIAN LETTER CHAR
+				ch = 0x10ED;	//	ჭ	0xe1 0x83 0xad	GEORGIAN SMALL LETTER CHAR
+				break;
+			case 0x10BE:		//	Ⴞ	0xe1 0x82 0xbe	GEORGIAN LETTER XAN
+				ch = 0x10EE;	//	ხ	0xe1 0x83 0xae	GEORGIAN SMALL LETTER XAN
+				break;
+			case 0x10BF:		//	Ⴟ	0xe1 0x82 0xbf	GEORGIAN LETTER JHAN
+				ch = 0x10EF;	//	ჯ	0xe1 0x83 0xaf	GEORGIAN SMALL LETTER JHAN
+				break;
+			case 0x10C0:		//	Ⴠ	0xe1 0x83 0x80	GEORGIAN LETTER HAE
+				ch = 0x10F0;	//	ჰ	0xe1 0x83 0xb0	GEORGIAN SMALL LETTER HAE
+				break;
+			case 0x10C1:		//	Ⴡ	0xe1 0x83 0x81	GEORGIAN LETTER HE
+				ch = 0x10F1;	//	ჱ	0xe1 0x83 0xb1	GEORGIAN SMALL LETTER HE
+				break;
+			case 0x10C2:		//	Ⴢ	0xe1 0x83 0x82	GEORGIAN LETTER HIE
+				ch = 0x10F2;	//	ჲ	0xe1 0x83 0xb2	GEORGIAN SMALL LETTER HIE
+				break;
+			case 0x10C3:		//	Ⴣ	0xe1 0x83 0x83	GEORGIAN LETTER WE
+				ch = 0x10F3;	//	ჳ	0xe1 0x83 0xb3	GEORGIAN SMALL LETTER WE
+				break;
+			case 0x10C4:		//	Ⴤ	0xe1 0x83 0x84	GEORGIAN LETTER HAR
+				ch = 0x10F4;	//	ჴ	0xe1 0x83 0xb4	GEORGIAN SMALL LETTER HAR
+				break;
+			case 0x10C5:		//	Ⴥ	0xe1 0x83 0x85	GEORGIAN LETTER HOE
+				ch = 0x10F5;	//	ჵ	0xe1 0x83 0xb5	GEORGIAN SMALL LETTER HOE
+				break;
+			case 0x10C7:		//	Ⴧ	0xe1 0x83 0x87	GEORGIAN LETTER YN
+				ch = 0x10F7;	//	ჷ	0xe1 0x83 0xb7	GEORGIAN SMALL LETTER YN
+				break;
+			case 0x10CD:		//	Ⴭ	0xe1 0x83 0x8d	GEORGIAN LETTER AEN
+				ch = 0x10FD;	//	ჽ	0xe1 0x83 0xbd	GEORGIAN SMALL LETTER AEN
+				break;
+			case 0x13A0:		//	� 	0xe1 0x8e 0xa0	CHEROKEE CAPITAL LETTER A
+				ch = 0xAB70;	//	ꭰ	0xea 0xad 0xb0	CHEROKEE SMALL LETTER A
+				break;
+			case 0x13A1:		//	Ꭱ	0xe1 0x8e 0xa1	CHEROKEE CAPITAL LETTER E
+				ch = 0xAB71;	//	ꭱ	0xea 0xad 0xb1	CHEROKEE SMALL LETTER E
+				break;
+			case 0x13A2:		//	Ꭲ	0xe1 0x8e 0xa2	CHEROKEE CAPITAL LETTER I
+				ch = 0xAB72;	//	ꭲ	0xea 0xad 0xb2	CHEROKEE SMALL LETTER I
+				break;
+			case 0x13A3:		//	Ꭳ	0xe1 0x8e 0xa3	CHEROKEE CAPITAL LETTER O
+				ch = 0xAB73;	//	ꭳ	0xea 0xad 0xb3	CHEROKEE SMALL LETTER O
+				break;
+			case 0x13A4:		//	Ꭴ	0xe1 0x8e 0xa4	CHEROKEE CAPITAL LETTER U
+				ch = 0xAB74;	//	ꭴ	0xea 0xad 0xb4	CHEROKEE SMALL LETTER U
+				break;
+			case 0x13A5:		//	Ꭵ	0xe1 0x8e 0xa5	CHEROKEE CAPITAL LETTER V
+				ch = 0xAB75;	//	ꭵ	0xea 0xad 0xb5	CHEROKEE SMALL LETTER V
+				break;
+			case 0x13A6:		//	Ꭶ	0xe1 0x8e 0xa6	CHEROKEE CAPITAL LETTER GA
+				ch = 0xAB76;	//	ꭶ	0xea 0xad 0xb6	CHEROKEE SMALL LETTER GA
+				break;
+			case 0x13A7:		//	Ꭷ	0xe1 0x8e 0xa7	CHEROKEE CAPITAL LETTER KA
+				ch = 0xAB77;	//	ꭷ	0xea 0xad 0xb7	CHEROKEE SMALL LETTER KA
+				break;
+			case 0x13A8:		//	Ꭸ	0xe1 0x8e 0xa8	CHEROKEE CAPITAL LETTER GE
+				ch = 0xAB78;	//	ꭸ	0xea 0xad 0xb8	CHEROKEE SMALL LETTER GE
+				break;
+			case 0x13A9:		//	Ꭹ	0xe1 0x8e 0xa9	CHEROKEE CAPITAL LETTER GI
+				ch = 0xAB79;	//	ꭹ	0xea 0xad 0xb9	CHEROKEE SMALL LETTER GI
+				break;
+			case 0x13AA:		//	Ꭺ	0xe1 0x8e 0xaa	CHEROKEE CAPITAL LETTER GO
+				ch = 0xAB7A;	//	ꭺ	0xea 0xad 0xba	CHEROKEE SMALL LETTER GO
+				break;
+			case 0x13AB:		//	Ꭻ	0xe1 0x8e 0xab	CHEROKEE CAPITAL LETTER GU
+				ch = 0xAB7B;	//	ꭻ	0xea 0xad 0xbb	CHEROKEE SMALL LETTER GU
+				break;
+			case 0x13AC:		//	Ꭼ	0xe1 0x8e 0xac	CHEROKEE CAPITAL LETTER GV
+				ch = 0xAB7C;	//	ꭼ	0xea 0xad 0xbc	CHEROKEE SMALL LETTER GV
+				break;
+			case 0x13AD:		//	Ꭽ	0xe1 0x8e 0xad	CHEROKEE CAPITAL LETTER HA
+				ch = 0xAB7D;	//	ꭽ	0xea 0xad 0xbd	CHEROKEE SMALL LETTER HA
+				break;
+			case 0x13AE:		//	Ꭾ	0xe1 0x8e 0xae	CHEROKEE CAPITAL LETTER HE
+				ch = 0xAB7E;	//	ꭾ	0xea 0xad 0xbe	CHEROKEE SMALL LETTER HE
+				break;
+			case 0x13AF:		//	Ꭿ	0xe1 0x8e 0xaf	CHEROKEE CAPITAL LETTER HI
+				ch = 0xAB7F;	//	ꭿ	0xea 0xad 0xbf	CHEROKEE SMALL LETTER HI
+				break;
+			case 0x13B0:		//	Ꮀ	0xe1 0x8e 0xb0	CHEROKEE CAPITAL LETTER HO
+				ch = 0xAB80;	//	ꮀ	0xea 0xae 0x80	CHEROKEE SMALL LETTER HO
+				break;
+			case 0x13B1:		//	Ꮁ	0xe1 0x8e 0xb1	CHEROKEE CAPITAL LETTER HU
+				ch = 0xAB81;	//	ꮁ	0xea 0xae 0x81	CHEROKEE SMALL LETTER HU
+				break;
+			case 0x13B2:		//	Ꮂ	0xe1 0x8e 0xb2	CHEROKEE CAPITAL LETTER HV
+				ch = 0xAB82;	//	ꮂ	0xea 0xae 0x82	CHEROKEE SMALL LETTER HV
+				break;
+			case 0x13B3:		//	Ꮃ	0xe1 0x8e 0xb3	CHEROKEE CAPITAL LETTER LA
+				ch = 0xAB83;	//	ꮃ	0xea 0xae 0x83	CHEROKEE SMALL LETTER LA
+				break;
+			case 0x13B4:		//	Ꮄ	0xe1 0x8e 0xb4	CHEROKEE CAPITAL LETTER LE
+				ch = 0xAB84;	//	ꮄ	0xea 0xae 0x84	CHEROKEE SMALL LETTER LE
+				break;
+			case 0x13B5:		//	Ꮅ	0xe1 0x8e 0xb5	CHEROKEE CAPITAL LETTER LI
+				ch = 0xAB85;	//	ꮅ	0xea 0xae 0x85	CHEROKEE SMALL LETTER LI
+				break;
+			case 0x13B6:		//	Ꮆ	0xe1 0x8e 0xb6	CHEROKEE CAPITAL LETTER LO
+				ch = 0xAB86;	//	ꮆ	0xea 0xae 0x86	CHEROKEE SMALL LETTER LO
+				break;
+			case 0x13B7:		//	Ꮇ	0xe1 0x8e 0xb7	CHEROKEE CAPITAL LETTER LU
+				ch = 0xAB87;	//	ꮇ	0xea 0xae 0x87	CHEROKEE SMALL LETTER LU
+				break;
+			case 0x13B8:		//	Ꮈ	0xe1 0x8e 0xb8	CHEROKEE CAPITAL LETTER LV
+				ch = 0xAB88;	//	ꮈ	0xea 0xae 0x88	CHEROKEE SMALL LETTER LV
+				break;
+			case 0x13B9:		//	Ꮉ	0xe1 0x8e 0xb9	CHEROKEE CAPITAL LETTER MA
+				ch = 0xAB89;	//	ꮉ	0xea 0xae 0x89	CHEROKEE SMALL LETTER MA
+				break;
+			case 0x13BA:		//	Ꮊ	0xe1 0x8e 0xba	CHEROKEE CAPITAL LETTER ME
+				ch = 0xAB8A;	//	ꮊ	0xea 0xae 0x8a	CHEROKEE SMALL LETTER ME
+				break;
+			case 0x13BB:		//	Ꮋ	0xe1 0x8e 0xbb	CHEROKEE CAPITAL LETTER MI
+				ch = 0xAB8B;	//	ꮋ	0xea 0xae 0x8b	CHEROKEE SMALL LETTER MI
+				break;
+			case 0x13BC:		//	Ꮌ	0xe1 0x8e 0xbc	CHEROKEE CAPITAL LETTER MO
+				ch = 0xAB8C;	//	ꮌ	0xea 0xae 0x8c	CHEROKEE SMALL LETTER MO
+				break;
+			case 0x13BD:		//	Ꮍ	0xe1 0x8e 0xbd	CHEROKEE CAPITAL LETTER MU
+				ch = 0xAB8D;	//	ꮍ	0xea 0xae 0x8d	CHEROKEE SMALL LETTER MU
+				break;
+			case 0x13BE:		//	Ꮎ	0xe1 0x8e 0xbe	CHEROKEE CAPITAL LETTER NA
+				ch = 0xAB8E;	//	ꮎ	0xea 0xae 0x8e	CHEROKEE SMALL LETTER NA
+				break;
+			case 0x13BF:		//	Ꮏ	0xe1 0x8e 0xbf	CHEROKEE CAPITAL LETTER HNA
+				ch = 0xAB8F;	//	ꮏ	0xea 0xae 0x8f	CHEROKEE SMALL LETTER HNA
+				break;
+			case 0x13C0:		//	Ꮐ	0xe1 0x8f 0x80	CHEROKEE CAPITAL LETTER NAH
+				ch = 0xAB90;	//	ꮐ	0xea 0xae 0x90	CHEROKEE SMALL LETTER NAH
+				break;
+			case 0x13C1:		//	Ꮑ	0xe1 0x8f 0x81	CHEROKEE CAPITAL LETTER NE
+				ch = 0xAB91;	//	ꮑ	0xea 0xae 0x91	CHEROKEE SMALL LETTER NE
+				break;
+			case 0x13C2:		//	Ꮒ	0xe1 0x8f 0x82	CHEROKEE CAPITAL LETTER NI
+				ch = 0xAB92;	//	ꮒ	0xea 0xae 0x92	CHEROKEE SMALL LETTER NI
+				break;
+			case 0x13C3:		//	Ꮓ	0xe1 0x8f 0x83	CHEROKEE CAPITAL LETTER NO
+				ch = 0xAB93;	//	ꮓ	0xea 0xae 0x93	CHEROKEE SMALL LETTER NO
+				break;
+			case 0x13C4:		//	Ꮔ	0xe1 0x8f 0x84	CHEROKEE CAPITAL LETTER NU
+				ch = 0xAB94;	//	ꮔ	0xea 0xae 0x94	CHEROKEE SMALL LETTER NU
+				break;
+			case 0x13C5:		//	Ꮕ	0xe1 0x8f 0x85	CHEROKEE CAPITAL LETTER NV
+				ch = 0xAB95;	//	ꮕ	0xea 0xae 0x95	CHEROKEE SMALL LETTER NV
+				break;
+			case 0x13C6:		//	Ꮖ	0xe1 0x8f 0x86	CHEROKEE CAPITAL LETTER QUA
+				ch = 0xAB96;	//	ꮖ	0xea 0xae 0x96	CHEROKEE SMALL LETTER QUA
+				break;
+			case 0x13C7:		//	Ꮗ	0xe1 0x8f 0x87	CHEROKEE CAPITAL LETTER QUE
+				ch = 0xAB97;	//	ꮗ	0xea 0xae 0x97	CHEROKEE SMALL LETTER QUE
+				break;
+			case 0x13C8:		//	Ꮘ	0xe1 0x8f 0x88	CHEROKEE CAPITAL LETTER QUI
+				ch = 0xAB98;	//	ꮘ	0xea 0xae 0x98	CHEROKEE SMALL LETTER QUI
+				break;
+			case 0x13C9:		//	Ꮙ	0xe1 0x8f 0x89	CHEROKEE CAPITAL LETTER QUO
+				ch = 0xAB99;	//	ꮙ	0xea 0xae 0x99	CHEROKEE SMALL LETTER QUO
+				break;
+			case 0x13CA:		//	Ꮚ	0xe1 0x8f 0x8a	CHEROKEE CAPITAL LETTER QUU
+				ch = 0xAB9A;	//	ꮚ	0xea 0xae 0x9a	CHEROKEE SMALL LETTER QUU
+				break;
+			case 0x13CB:		//	Ꮛ	0xe1 0x8f 0x8b	CHEROKEE CAPITAL LETTER QUV
+				ch = 0xAB9B;	//	ꮛ	0xea 0xae 0x9b	CHEROKEE SMALL LETTER QUV
+				break;
+			case 0x13CC:		//	Ꮜ	0xe1 0x8f 0x8c	CHEROKEE CAPITAL LETTER SA
+				ch = 0xAB9C;	//	ꮜ	0xea 0xae 0x9c	CHEROKEE SMALL LETTER SA
+				break;
+			case 0x13CD:		//	Ꮝ	0xe1 0x8f 0x8d	CHEROKEE CAPITAL LETTER S
+				ch = 0xAB9D;	//	ꮝ	0xea 0xae 0x9d	CHEROKEE SMALL LETTER S
+				break;
+			case 0x13CE:		//	Ꮞ	0xe1 0x8f 0x8e	CHEROKEE CAPITAL LETTER SE
+				ch = 0xAB9E;	//	ꮞ	0xea 0xae 0x9e	CHEROKEE SMALL LETTER SE
+				break;
+			case 0x13CF:		//	Ꮟ	0xe1 0x8f 0x8f	CHEROKEE CAPITAL LETTER SI
+				ch = 0xAB9F;	//	ꮟ	0xea 0xae 0x9f	CHEROKEE SMALL LETTER SI
+				break;
+			case 0x13D0:		//	Ꮠ	0xe1 0x8f 0x90	CHEROKEE CAPITAL LETTER SO
+				ch = 0xABA0;	//	� 	0xea 0xae 0xa0	CHEROKEE SMALL LETTER SO
+				break;
+			case 0x13D1:		//	Ꮡ	0xe1 0x8f 0x91	CHEROKEE CAPITAL LETTER SU
+				ch = 0xABA1;	//	ꮡ	0xea 0xae 0xa1	CHEROKEE SMALL LETTER SU
+				break;
+			case 0x13D2:		//	Ꮢ	0xe1 0x8f 0x92	CHEROKEE CAPITAL LETTER SV
+				ch = 0xABA2;	//	ꮢ	0xea 0xae 0xa2	CHEROKEE SMALL LETTER SV
+				break;
+			case 0x13D3:		//	Ꮣ	0xe1 0x8f 0x93	CHEROKEE CAPITAL LETTER DA
+				ch = 0xABA3;	//	ꮣ	0xea 0xae 0xa3	CHEROKEE SMALL LETTER DA
+				break;
+			case 0x13D4:		//	Ꮤ	0xe1 0x8f 0x94	CHEROKEE CAPITAL LETTER TA
+				ch = 0xABA4;	//	ꮤ	0xea 0xae 0xa4	CHEROKEE SMALL LETTER TA
+				break;
+			case 0x13D5:		//	Ꮥ	0xe1 0x8f 0x95	CHEROKEE CAPITAL LETTER DE
+				ch = 0xABA5;	//	ꮥ	0xea 0xae 0xa5	CHEROKEE SMALL LETTER DE
+				break;
+			case 0x13D6:		//	Ꮦ	0xe1 0x8f 0x96	CHEROKEE CAPITAL LETTER TE
+				ch = 0xABA6;	//	ꮦ	0xea 0xae 0xa6	CHEROKEE SMALL LETTER TE
+				break;
+			case 0x13D7:		//	Ꮧ	0xe1 0x8f 0x97	CHEROKEE CAPITAL LETTER DI
+				ch = 0xABA7;	//	ꮧ	0xea 0xae 0xa7	CHEROKEE SMALL LETTER DI
+				break;
+			case 0x13D8:		//	Ꮨ	0xe1 0x8f 0x98	CHEROKEE CAPITAL LETTER TI
+				ch = 0xABA8;	//	ꮨ	0xea 0xae 0xa8	CHEROKEE SMALL LETTER TI
+				break;
+			case 0x13D9:		//	Ꮩ	0xe1 0x8f 0x99	CHEROKEE CAPITAL LETTER DO
+				ch = 0xABA9;	//	ꮩ	0xea 0xae 0xa9	CHEROKEE SMALL LETTER DO
+				break;
+			case 0x13DA:		//	Ꮪ	0xe1 0x8f 0x9a	CHEROKEE CAPITAL LETTER DU
+				ch = 0xABAA;	//	ꮪ	0xea 0xae 0xaa	CHEROKEE SMALL LETTER DU
+				break;
+			case 0x13DB:		//	Ꮫ	0xe1 0x8f 0x9b	CHEROKEE CAPITAL LETTER DV
+				ch = 0xABAB;	//	ꮫ	0xea 0xae 0xab	CHEROKEE SMALL LETTER DV
+				break;
+			case 0x13DC:		//	Ꮬ	0xe1 0x8f 0x9c	CHEROKEE CAPITAL LETTER DLA
+				ch = 0xABAC;	//	ꮬ	0xea 0xae 0xac	CHEROKEE SMALL LETTER DLA
+				break;
+			case 0x13DD:		//	Ꮭ	0xe1 0x8f 0x9d	CHEROKEE CAPITAL LETTER TLA
+				ch = 0xABAD;	//	ꮭ	0xea 0xae 0xad	CHEROKEE SMALL LETTER TLA
+				break;
+			case 0x13DE:		//	Ꮮ	0xe1 0x8f 0x9e	CHEROKEE CAPITAL LETTER TLE
+				ch = 0xABAE;	//	ꮮ	0xea 0xae 0xae	CHEROKEE SMALL LETTER TLE
+				break;
+			case 0x13DF:		//	Ꮯ	0xe1 0x8f 0x9f	CHEROKEE CAPITAL LETTER TLI
+				ch = 0xABAF;	//	ꮯ	0xea 0xae 0xaf	CHEROKEE SMALL LETTER TLI
+				break;
+			case 0x13E0:		//	� 	0xe1 0x8f 0xa0	CHEROKEE CAPITAL LETTER TLO
+				ch = 0xABB0;	//	ꮰ	0xea 0xae 0xb0	CHEROKEE SMALL LETTER TLO
+				break;
+			case 0x13E1:		//	Ꮱ	0xe1 0x8f 0xa1	CHEROKEE CAPITAL LETTER TLU
+				ch = 0xABB1;	//	ꮱ	0xea 0xae 0xb1	CHEROKEE SMALL LETTER TLU
+				break;
+			case 0x13E2:		//	Ꮲ	0xe1 0x8f 0xa2	CHEROKEE CAPITAL LETTER TLV
+				ch = 0xABB2;	//	ꮲ	0xea 0xae 0xb2	CHEROKEE SMALL LETTER TLV
+				break;
+			case 0x13E3:		//	Ꮳ	0xe1 0x8f 0xa3	CHEROKEE CAPITAL LETTER TSA
+				ch = 0xABB3;	//	ꮳ	0xea 0xae 0xb3	CHEROKEE SMALL LETTER TSA
+				break;
+			case 0x13E4:		//	Ꮴ	0xe1 0x8f 0xa4	CHEROKEE CAPITAL LETTER TSE
+				ch = 0xABB4;	//	ꮴ	0xea 0xae 0xb4	CHEROKEE SMALL LETTER TSE
+				break;
+			case 0x13E5:		//	Ꮵ	0xe1 0x8f 0xa5	CHEROKEE CAPITAL LETTER TSI
+				ch = 0xABB5;	//	ꮵ	0xea 0xae 0xb5	CHEROKEE SMALL LETTER TSI
+				break;
+			case 0x13E6:		//	Ꮶ	0xe1 0x8f 0xa6	CHEROKEE CAPITAL LETTER TSO
+				ch = 0xABB6;	//	ꮶ	0xea 0xae 0xb6	CHEROKEE SMALL LETTER TSO
+				break;
+			case 0x13E7:		//	Ꮷ	0xe1 0x8f 0xa7	CHEROKEE CAPITAL LETTER TSU
+				ch = 0xABB7;	//	ꮷ	0xea 0xae 0xb7	CHEROKEE SMALL LETTER TSU
+				break;
+			case 0x13E8:		//	Ꮸ	0xe1 0x8f 0xa8	CHEROKEE CAPITAL LETTER TSV
+				ch = 0xABB8;	//	ꮸ	0xea 0xae 0xb8	CHEROKEE SMALL LETTER TSV
+				break;
+			case 0x13E9:		//	Ꮹ	0xe1 0x8f 0xa9	CHEROKEE CAPITAL LETTER WA
+				ch = 0xABB9;	//	ꮹ	0xea 0xae 0xb9	CHEROKEE SMALL LETTER WA
+				break;
+			case 0x13EA:		//	Ꮺ	0xe1 0x8f 0xaa	CHEROKEE CAPITAL LETTER WE
+				ch = 0xABBA;	//	ꮺ	0xea 0xae 0xba	CHEROKEE SMALL LETTER WE
+				break;
+			case 0x13EB:		//	Ꮻ	0xe1 0x8f 0xab	CHEROKEE CAPITAL LETTER WI
+				ch = 0xABBB;	//	ꮻ	0xea 0xae 0xbb	CHEROKEE SMALL LETTER WI
+				break;
+			case 0x13EC:		//	Ꮼ	0xe1 0x8f 0xac	CHEROKEE CAPITAL LETTER WO
+				ch = 0xABBC;	//	ꮼ	0xea 0xae 0xbc	CHEROKEE SMALL LETTER WO
+				break;
+			case 0x13ED:		//	Ꮽ	0xe1 0x8f 0xad	CHEROKEE CAPITAL LETTER WU
+				ch = 0xABBD;	//	ꮽ	0xea 0xae 0xbd	CHEROKEE SMALL LETTER WU
+				break;
+			case 0x13EE:		//	Ꮾ	0xe1 0x8f 0xae	CHEROKEE CAPITAL LETTER WV
+				ch = 0xABBE;	//	ꮾ	0xea 0xae 0xbe	CHEROKEE SMALL LETTER WV
+				break;
+			case 0x13EF:		//	Ꮿ	0xe1 0x8f 0xaf	CHEROKEE CAPITAL LETTER YA
+				ch = 0xABBF;	//	ꮿ	0xea 0xae 0xbf	CHEROKEE SMALL LETTER YA
+				break;
+			case 0x13F0:		//	Ᏸ	0xe1 0x8f 0xb0	CHEROKEE CAPITAL LETTER YE
+				ch = 0x13F8;	//	ᏸ	0xe1 0x8f 0xb8	CHEROKEE SMALL LETTER YE
+				break;
+			case 0x13F1:		//	Ᏹ	0xe1 0x8f 0xb1	CHEROKEE CAPITAL LETTER YI
+				ch = 0x13F9;	//	ᏹ	0xe1 0x8f 0xb9	CHEROKEE SMALL LETTER YI
+				break;
+			case 0x13F2:		//	Ᏺ	0xe1 0x8f 0xb2	CHEROKEE CAPITAL LETTER YO
+				ch = 0x13FA;	//	ᏺ	0xe1 0x8f 0xba	CHEROKEE SMALL LETTER YO
+				break;
+			case 0x13F3:		//	Ᏻ	0xe1 0x8f 0xb3	CHEROKEE CAPITAL LETTER YU
+				ch = 0x13FB;	//	ᏻ	0xe1 0x8f 0xbb	CHEROKEE SMALL LETTER YU
+				break;
+			case 0x13F4:		//	Ᏼ	0xe1 0x8f 0xb4	CHEROKEE CAPITAL LETTER YV
+				ch = 0x13FC;	//	ᏼ	0xe1 0x8f 0xbc	CHEROKEE SMALL LETTER YV
+				break;
+			case 0x13F5:		//	Ᏽ	0xe1 0x8f 0xb5	CHEROKEE CAPITAL LETTER MV
+				ch = 0x13FD;	//	ᏽ	0xe1 0x8f 0xbd	CHEROKEE SMALL LETTER MV
+				break;
+			case 0x1C90:		//	Ა	0xe1 0xb2 0x90	GEORGIAN CAPITAL LETTER AN
+				ch = 0x10D0;	//	ა	0xe1 0x83 0x90	GEORGIAN SMALL LETTER AN
+				break;
+			case 0x1C91:		//	Ბ	0xe1 0xb2 0x91	GEORGIAN CAPITAL LETTER BAN
+				ch = 0x10D1;	//	ბ	0xe1 0x83 0x91	GEORGIAN SMALL LETTER BAN
+				break;
+			case 0x1C92:		//	Გ	0xe1 0xb2 0x92	GEORGIAN CAPITAL LETTER GAN
+				ch = 0x10D2;	//	გ	0xe1 0x83 0x92	GEORGIAN SMALL LETTER GAN
+				break;
+			case 0x1C93:		//	Დ	0xe1 0xb2 0x93	GEORGIAN CAPITAL LETTER DON
+				ch = 0x10D3;	//	დ	0xe1 0x83 0x93	GEORGIAN SMALL LETTER DON
+				break;
+			case 0x1C94:		//	Ე	0xe1 0xb2 0x94	GEORGIAN CAPITAL LETTER EN
+				ch = 0x10D4;	//	ე	0xe1 0x83 0x94	GEORGIAN SMALL LETTER EN
+				break;
+			case 0x1C95:		//	Ვ	0xe1 0xb2 0x95	GEORGIAN CAPITAL LETTER VIN
+				ch = 0x10D5;	//	ვ	0xe1 0x83 0x95	GEORGIAN SMALL LETTER VIN
+				break;
+			case 0x1C96:		//	Ზ	0xe1 0xb2 0x96	GEORGIAN CAPITAL LETTER ZEN
+				ch = 0x10D6;	//	ზ	0xe1 0x83 0x96	GEORGIAN SMALL LETTER ZEN
+				break;
+			case 0x1C97:		//	Თ	0xe1 0xb2 0x97	GEORGIAN CAPITAL LETTER TAN
+				ch = 0x10D7;	//	თ	0xe1 0x83 0x97	GEORGIAN SMALL LETTER TAN
+				break;
+			case 0x1C98:		//	Ი	0xe1 0xb2 0x98	GEORGIAN CAPITAL LETTER IN
+				ch = 0x10D8;	//	ი	0xe1 0x83 0x98	GEORGIAN SMALL LETTER IN
+				break;
+			case 0x1C99:		//	Კ	0xe1 0xb2 0x99	GEORGIAN CAPITAL LETTER KAN
+				ch = 0x10D9;	//	კ	0xe1 0x83 0x99	GEORGIAN SMALL LETTER KAN
+				break;
+			case 0x1C9A:		//	Ლ	0xe1 0xb2 0x9a	GEORGIAN CAPITAL LETTER LAS
+				ch = 0x10DA;	//	ლ	0xe1 0x83 0x9a	GEORGIAN SMALL LETTER LAS
+				break;
+			case 0x1C9B:		//	Მ	0xe1 0xb2 0x9b	GEORGIAN CAPITAL LETTER MAN
+				ch = 0x10DB;	//	მ	0xe1 0x83 0x9b	GEORGIAN SMALL LETTER MAN
+				break;
+			case 0x1C9C:		//	Ნ	0xe1 0xb2 0x9c	GEORGIAN CAPITAL LETTER NAR
+				ch = 0x10DC;	//	ნ	0xe1 0x83 0x9c	GEORGIAN SMALL LETTER NAR
+				break;
+			case 0x1C9D:		//	Ო	0xe1 0xb2 0x9d	GEORGIAN CAPITAL LETTER ON
+				ch = 0x10DD;	//	ო	0xe1 0x83 0x9d	GEORGIAN SMALL LETTER ON
+				break;
+			case 0x1C9E:		//	Პ	0xe1 0xb2 0x9e	GEORGIAN CAPITAL LETTER PAR
+				ch = 0x10DE;	//	პ	0xe1 0x83 0x9e	GEORGIAN SMALL LETTER PAR
+				break;
+			case 0x1C9F:		//	Ჟ	0xe1 0xb2 0x9f	GEORGIAN CAPITAL LETTER ZHAR
+				ch = 0x10DF;	//	ჟ	0xe1 0x83 0x9f	GEORGIAN SMALL LETTER ZHAR
+				break;
+			case 0x1CA0:		//	� 	0xe1 0xb2 0xa0	GEORGIAN CAPITAL LETTER RAE
+				ch = 0x10E0;	//	� 	0xe1 0x83 0xa0	GEORGIAN SMALL LETTER RAE
+				break;
+			case 0x1CA1:		//	Ს	0xe1 0xb2 0xa1	GEORGIAN CAPITAL LETTER SAN
+				ch = 0x10E1;	//	ს	0xe1 0x83 0xa1	GEORGIAN SMALL LETTER SAN
+				break;
+			case 0x1CA2:		//	Ტ	0xe1 0xb2 0xa2	GEORGIAN CAPITAL LETTER TAR
+				ch = 0x10E2;	//	ტ	0xe1 0x83 0xa2	GEORGIAN SMALL LETTER TAR
+				break;
+			case 0x1CA3:		//	Უ	0xe1 0xb2 0xa3	GEORGIAN CAPITAL LETTER UN
+				ch = 0x10E3;	//	უ	0xe1 0x83 0xa3	GEORGIAN SMALL LETTER UN
+				break;
+			case 0x1CA4:		//	Ფ	0xe1 0xb2 0xa4	GEORGIAN CAPITAL LETTER PHAR
+				ch = 0x10E4;	//	ფ	0xe1 0x83 0xa4	GEORGIAN SMALL LETTER PHAR
+				break;
+			case 0x1CA5:		//	Ქ	0xe1 0xb2 0xa5	GEORGIAN CAPITAL LETTER KHAR
+				ch = 0x10E5;	//	ქ	0xe1 0x83 0xa5	GEORGIAN SMALL LETTER KHAR
+				break;
+			case 0x1CA6:		//	Ღ	0xe1 0xb2 0xa6	GEORGIAN CAPITAL LETTER GHAN
+				ch = 0x10E6;	//	ღ	0xe1 0x83 0xa6	GEORGIAN SMALL LETTER GHAN
+				break;
+			case 0x1CA7:		//	Ყ	0xe1 0xb2 0xa7	GEORGIAN CAPITAL LETTER QAR
+				ch = 0x10E7;	//	ყ	0xe1 0x83 0xa7	GEORGIAN SMALL LETTER QAR
+				break;
+			case 0x1CA8:		//	Შ	0xe1 0xb2 0xa8	GEORGIAN CAPITAL LETTER SHIN
+				ch = 0x10E8;	//	შ	0xe1 0x83 0xa8	GEORGIAN SMALL LETTER SHIN
+				break;
+			case 0x1CA9:		//	Ჩ	0xe1 0xb2 0xa9	GEORGIAN CAPITAL LETTER CHIN
+				ch = 0x10E9;	//	ჩ	0xe1 0x83 0xa9	GEORGIAN SMALL LETTER CHIN
+				break;
+			case 0x1CAA:		//	Ც	0xe1 0xb2 0xaa	GEORGIAN CAPITAL LETTER CAN
+				ch = 0x10EA;	//	ც	0xe1 0x83 0xaa	GEORGIAN SMALL LETTER CAN
+				break;
+			case 0x1CAB:		//	Ძ	0xe1 0xb2 0xab	GEORGIAN CAPITAL LETTER JIL
+				ch = 0x10EB;	//	ძ	0xe1 0x83 0xab	GEORGIAN SMALL LETTER JIL
+				break;
+			case 0x1CAC:		//	Წ	0xe1 0xb2 0xac	GEORGIAN CAPITAL LETTER CIL
+				ch = 0x10EC;	//	წ	0xe1 0x83 0xac	GEORGIAN SMALL LETTER CIL
+				break;
+			case 0x1CAD:		//	Ჭ	0xe1 0xb2 0xad	GEORGIAN CAPITAL LETTER CHAR
+				ch = 0x10ED;	//	ჭ	0xe1 0x83 0xad	GEORGIAN SMALL LETTER CHAR
+				break;
+			case 0x1CAE:		//	Ხ	0xe1 0xb2 0xae	GEORGIAN CAPITAL LETTER XAN
+				ch = 0x10EE;	//	ხ	0xe1 0x83 0xae	GEORGIAN SMALL LETTER XAN
+				break;
+			case 0x1CAF:		//	Ჯ	0xe1 0xb2 0xaf	GEORGIAN CAPITAL LETTER JHAN
+				ch = 0x10EF;	//	ჯ	0xe1 0x83 0xaf	GEORGIAN SMALL LETTER JHAN
+				break;
+			case 0x1CB0:		//	Ჰ	0xe1 0xb2 0xb0	GEORGIAN CAPITAL LETTER HAE
+				ch = 0x10F0;	//	ჰ	0xe1 0x83 0xb0	GEORGIAN SMALL LETTER HAE
+				break;
+			case 0x1CB1:		//	Ჱ	0xe1 0xb2 0xb1	GEORGIAN CAPITAL LETTER HE
+				ch = 0x10F1;	//	ჱ	0xe1 0x83 0xb1	GEORGIAN SMALL LETTER HE
+				break;
+			case 0x1CB2:		//	Ჲ	0xe1 0xb2 0xb2	GEORGIAN CAPITAL LETTER HIE
+				ch = 0x10F2;	//	ჲ	0xe1 0x83 0xb2	GEORGIAN SMALL LETTER HIE
+				break;
+			case 0x1CB3:		//	Ჳ	0xe1 0xb2 0xb3	GEORGIAN CAPITAL LETTER WE
+				ch = 0x10F3;	//	ჳ	0xe1 0x83 0xb3	GEORGIAN SMALL LETTER WE
+				break;
+			case 0x1CB4:		//	Ჴ	0xe1 0xb2 0xb4	GEORGIAN CAPITAL LETTER HAR
+				ch = 0x10F4;	//	ჴ	0xe1 0x83 0xb4	GEORGIAN SMALL LETTER HAR
+				break;
+			case 0x1CB5:		//	Ჵ	0xe1 0xb2 0xb5	GEORGIAN CAPITAL LETTER HOE
+				ch = 0x10F5;	//	ჵ	0xe1 0x83 0xb5	GEORGIAN SMALL LETTER HOE
+				break;
+			case 0x1CB6:		//	Ჶ	0xe1 0xb2 0xb6	GEORGIAN CAPITAL LETTER FI
+				ch = 0x10F6;	//	ჶ	0xe1 0x83 0xb6	GEORGIAN SMALL LETTER FI
+				break;
+			case 0x1CB7:		//	Ჷ	0xe1 0xb2 0xb7	GEORGIAN CAPITAL LETTER YN
+				ch = 0x10F7;	//	ჷ	0xe1 0x83 0xb7	GEORGIAN SMALL LETTER YN
+				break;
+			case 0x1CB8:		//	Ჸ	0xe1 0xb2 0xb8	GEORGIAN CAPITAL LETTER ELIFI
+				ch = 0x10F8;	//	ჸ	0xe1 0x83 0xb8	GEORGIAN SMALL LETTER ELIFI
+				break;
+			case 0x1CB9:		//	Ჹ	0xe1 0xb2 0xb9	GEORGIAN CAPITAL LETTER TURNED GAN
+				ch = 0x10F9;	//	ჹ	0xe1 0x83 0xb9	GEORGIAN SMALL LETTER TURNED GAN
+				break;
+			case 0x1CBA:		//	Ჺ	0xe1 0xb2 0xba	GEORGIAN CAPITAL LETTER AIN
+				ch = 0x10FA;	//	ჺ	0xe1 0x83 0xba	GEORGIAN SMALL LETTER AIN
+				break;
+			case 0x1CBD:		//	Ჽ	0xe1 0xb2 0xbd	GEORGIAN CAPITAL LETTER AEN
+				ch = 0x10FD;	//	ჽ	0xe1 0x83 0xbd	GEORGIAN SMALL LETTER AEN
+				break;
+			case 0x1CBE:		//	Ჾ	0xe1 0xb2 0xbe	GEORGIAN CAPITAL LETTER HARD SIGN
+				ch = 0x10FE;	//	ჾ	0xe1 0x83 0xbe	GEORGIAN SMALL LETTER HARD SIGN
+				break;
+			case 0x1CBF:		//	Ჿ	0xe1 0xb2 0xbf	GEORGIAN CAPITAL LETTER LABIAL SIGN
+				ch = 0x10FF;	//	ჿ	0xe1 0x83 0xbf	GEORGIAN SMALL LETTER LABIAL SIGN
+				break;
+			case 0x1E00:		//	Ḁ	0xe1 0xb8 0x80	LATIN CAPITAL LETTER A WITH RING BELOW
+				ch = 0x1E01;	//	ḁ	0xe1 0xb8 0x81	LATIN SMALL LETTER A WITH RING BELOW
+				break;
+			case 0x1E02:		//	Ḃ	0xe1 0xb8 0x82	LATIN CAPITAL LETTER B WITH DOT ABOVE
+				ch = 0x1E03;	//	ḃ	0xe1 0xb8 0x83	LATIN SMALL LETTER B WITH DOT ABOVE
+				break;
+			case 0x1E04:		//	Ḅ	0xe1 0xb8 0x84	LATIN CAPITAL LETTER B WITH DOT BELOW
+				ch = 0x1E05;	//	ḅ	0xe1 0xb8 0x85	LATIN SMALL LETTER B WITH DOT BELOW
+				break;
+			case 0x1E06:		//	Ḇ	0xe1 0xb8 0x86	LATIN CAPITAL LETTER B WITH LINE BELOW
+				ch = 0x1E07;	//	ḇ	0xe1 0xb8 0x87	LATIN SMALL LETTER B WITH LINE BELOW
+				break;
+			case 0x1E08:		//	Ḉ	0xe1 0xb8 0x88	LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
+				ch = 0x1E09;	//	ḉ	0xe1 0xb8 0x89	LATIN SMALL LETTER C WITH CEDILLA AND ACUTE
+				break;
+			case 0x1E0A:		//	Ḋ	0xe1 0xb8 0x8a	LATIN CAPITAL LETTER D WITH DOT ABOVE
+				ch = 0x1E0B;	//	ḋ	0xe1 0xb8 0x8b	LATIN SMALL LETTER D WITH DOT ABOVE
+				break;
+			case 0x1E0C:		//	Ḍ	0xe1 0xb8 0x8c	LATIN CAPITAL LETTER D WITH DOT BELOW
+				ch = 0x1E0D;	//	ḍ	0xe1 0xb8 0x8d	LATIN SMALL LETTER D WITH DOT BELOW
+				break;
+			case 0x1E0E:		//	Ḏ	0xe1 0xb8 0x8e	LATIN CAPITAL LETTER D WITH LINE BELOW
+				ch = 0x1E0F;	//	ḏ	0xe1 0xb8 0x8f	LATIN SMALL LETTER D WITH LINE BELOW
+				break;
+			case 0x1E10:		//	Ḑ	0xe1 0xb8 0x90	LATIN CAPITAL LETTER D WITH CEDILLA
+				ch = 0x1E11;	//	ḑ	0xe1 0xb8 0x91	LATIN SMALL LETTER D WITH CEDILLA
+				break;
+			case 0x1E12:		//	Ḓ	0xe1 0xb8 0x92	LATIN CAPITAL LETTER D WITH CIRCUMFLEX BELOW
+				ch = 0x1E13;	//	ḓ	0xe1 0xb8 0x93	LATIN SMALL LETTER D WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E14:		//	Ḕ	0xe1 0xb8 0x94	LATIN CAPITAL LETTER E WITH MACRON AND GRAVE
+				ch = 0x1E15;	//	ḕ	0xe1 0xb8 0x95	LATIN SMALL LETTER E WITH MACRON AND GRAVE
+				break;
+			case 0x1E16:		//	Ḗ	0xe1 0xb8 0x96	LATIN CAPITAL LETTER E WITH MACRON AND ACUTE
+				ch = 0x1E17;	//	ḗ	0xe1 0xb8 0x97	LATIN SMALL LETTER E WITH MACRON AND ACUTE
+				break;
+			case 0x1E18:		//	Ḙ	0xe1 0xb8 0x98	LATIN CAPITAL LETTER E WITH CIRCUMFLEX BELOW
+				ch = 0x1E19;	//	ḙ	0xe1 0xb8 0x99	LATIN SMALL LETTER E WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E1A:		//	Ḛ	0xe1 0xb8 0x9a	LATIN CAPITAL LETTER E WITH TILDE BELOW
+				ch = 0x1E1B;	//	ḛ	0xe1 0xb8 0x9b	LATIN SMALL LETTER E WITH TILDE BELOW
+				break;
+			case 0x1E1C:		//	Ḝ	0xe1 0xb8 0x9c	LATIN CAPITAL LETTER E WITH CEDILLA AND BREVE
+				ch = 0x1E1D;	//	ḝ	0xe1 0xb8 0x9d	LATIN SMALL LETTER E WITH CEDILLA AND BREVE
+				break;
+			case 0x1E1E:		//	Ḟ	0xe1 0xb8 0x9e	LATIN CAPITAL LETTER F WITH DOT ABOVE
+				ch = 0x1E1F;	//	ḟ	0xe1 0xb8 0x9f	LATIN SMALL LETTER F WITH DOT ABOVE
+				break;
+			case 0x1E20:		//	� 	0xe1 0xb8 0xa0	LATIN CAPITAL LETTER G WITH MACRON
+				ch = 0x1E21;	//	ḡ	0xe1 0xb8 0xa1	LATIN SMALL LETTER G WITH MACRON
+				break;
+			case 0x1E22:		//	Ḣ	0xe1 0xb8 0xa2	LATIN CAPITAL LETTER H WITH DOT ABOVE
+				ch = 0x1E23;	//	ḣ	0xe1 0xb8 0xa3	LATIN SMALL LETTER H WITH DOT ABOVE
+				break;
+			case 0x1E24:		//	Ḥ	0xe1 0xb8 0xa4	LATIN CAPITAL LETTER H WITH DOT BELOW
+				ch = 0x1E25;	//	ḥ	0xe1 0xb8 0xa5	LATIN SMALL LETTER H WITH DOT BELOW
+				break;
+			case 0x1E26:		//	Ḧ	0xe1 0xb8 0xa6	LATIN CAPITAL LETTER H WITH DIAERESIS
+				ch = 0x1E27;	//	ḧ	0xe1 0xb8 0xa7	LATIN SMALL LETTER H WITH DIAERESIS
+				break;
+			case 0x1E28:		//	Ḩ	0xe1 0xb8 0xa8	LATIN CAPITAL LETTER H WITH CEDILLA
+				ch = 0x1E29;	//	ḩ	0xe1 0xb8 0xa9	LATIN SMALL LETTER H WITH CEDILLA
+				break;
+			case 0x1E2A:		//	Ḫ	0xe1 0xb8 0xaa	LATIN CAPITAL LETTER H WITH BREVE BELOW
+				ch = 0x1E2B;	//	ḫ	0xe1 0xb8 0xab	LATIN SMALL LETTER H WITH BREVE BELOW
+				break;
+			case 0x1E2C:		//	Ḭ	0xe1 0xb8 0xac	LATIN CAPITAL LETTER I WITH TILDE BELOW
+				ch = 0x1E2D;	//	ḭ	0xe1 0xb8 0xad	LATIN SMALL LETTER I WITH TILDE BELOW
+				break;
+			case 0x1E2E:		//	Ḯ	0xe1 0xb8 0xae	LATIN CAPITAL LETTER I WITH DIAERESIS AND ACUTE
+				ch = 0x1E2F;	//	ḯ	0xe1 0xb8 0xaf	LATIN SMALL LETTER I WITH DIAERESIS AND ACUTE
+				break;
+			case 0x1E30:		//	Ḱ	0xe1 0xb8 0xb0	LATIN CAPITAL LETTER K WITH ACUTE
+				ch = 0x1E31;	//	ḱ	0xe1 0xb8 0xb1	LATIN SMALL LETTER K WITH ACUTE
+				break;
+			case 0x1E32:		//	Ḳ	0xe1 0xb8 0xb2	LATIN CAPITAL LETTER K WITH DOT BELOW
+				ch = 0x1E33;	//	ḳ	0xe1 0xb8 0xb3	LATIN SMALL LETTER K WITH DOT BELOW
+				break;
+			case 0x1E34:		//	Ḵ	0xe1 0xb8 0xb4	LATIN CAPITAL LETTER K WITH LINE BELOW
+				ch = 0x1E35;	//	ḵ	0xe1 0xb8 0xb5	LATIN SMALL LETTER K WITH LINE BELOW
+				break;
+			case 0x1E36:		//	Ḷ	0xe1 0xb8 0xb6	LATIN CAPITAL LETTER L WITH DOT BELOW
+				ch = 0x1E37;	//	ḷ	0xe1 0xb8 0xb7	LATIN SMALL LETTER L WITH DOT BELOW
+				break;
+			case 0x1E38:		//	Ḹ	0xe1 0xb8 0xb8	LATIN CAPITAL LETTER L WITH DOT BELOW AND MACRON
+				ch = 0x1E39;	//	ḹ	0xe1 0xb8 0xb9	LATIN SMALL LETTER L WITH DOT BELOW AND MACRON
+				break;
+			case 0x1E3A:		//	Ḻ	0xe1 0xb8 0xba	LATIN CAPITAL LETTER L WITH LINE BELOW
+				ch = 0x1E3B;	//	ḻ	0xe1 0xb8 0xbb	LATIN SMALL LETTER L WITH LINE BELOW
+				break;
+			case 0x1E3C:		//	Ḽ	0xe1 0xb8 0xbc	LATIN CAPITAL LETTER L WITH CIRCUMFLEX BELOW
+				ch = 0x1E3D;	//	ḽ	0xe1 0xb8 0xbd	LATIN SMALL LETTER L WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E3E:		//	Ḿ	0xe1 0xb8 0xbe	LATIN CAPITAL LETTER M WITH ACUTE
+				ch = 0x1E3F;	//	ḿ	0xe1 0xb8 0xbf	LATIN SMALL LETTER M WITH ACUTE
+				break;
+			case 0x1E40:		//	Ṁ	0xe1 0xb9 0x80	LATIN CAPITAL LETTER M WITH DOT ABOVE
+				ch = 0x1E41;	//	ṁ	0xe1 0xb9 0x81	LATIN SMALL LETTER M WITH DOT ABOVE
+				break;
+			case 0x1E42:		//	Ṃ	0xe1 0xb9 0x82	LATIN CAPITAL LETTER M WITH DOT BELOW
+				ch = 0x1E43;	//	ṃ	0xe1 0xb9 0x83	LATIN SMALL LETTER M WITH DOT BELOW
+				break;
+			case 0x1E44:		//	Ṅ	0xe1 0xb9 0x84	LATIN CAPITAL LETTER N WITH DOT ABOVE
+				ch = 0x1E45;	//	ṅ	0xe1 0xb9 0x85	LATIN SMALL LETTER N WITH DOT ABOVE
+				break;
+			case 0x1E46:		//	Ṇ	0xe1 0xb9 0x86	LATIN CAPITAL LETTER N WITH DOT BELOW
+				ch = 0x1E47;	//	ṇ	0xe1 0xb9 0x87	LATIN SMALL LETTER N WITH DOT BELOW
+				break;
+			case 0x1E48:		//	Ṉ	0xe1 0xb9 0x88	LATIN CAPITAL LETTER N WITH LINE BELOW
+				ch = 0x1E49;	//	ṉ	0xe1 0xb9 0x89	LATIN SMALL LETTER N WITH LINE BELOW
+				break;
+			case 0x1E4A:		//	Ṋ	0xe1 0xb9 0x8a	LATIN CAPITAL LETTER N WITH CIRCUMFLEX BELOW
+				ch = 0x1E4B;	//	ṋ	0xe1 0xb9 0x8b	LATIN SMALL LETTER N WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E4C:		//	Ṍ	0xe1 0xb9 0x8c	LATIN CAPITAL LETTER O WITH TILDE AND ACUTE
+				ch = 0x1E4D;	//	ṍ	0xe1 0xb9 0x8d	LATIN SMALL LETTER O WITH TILDE AND ACUTE
+				break;
+			case 0x1E4E:		//	Ṏ	0xe1 0xb9 0x8e	LATIN CAPITAL LETTER O WITH TILDE AND DIAERESIS
+				ch = 0x1E4F;	//	ṏ	0xe1 0xb9 0x8f	LATIN SMALL LETTER O WITH TILDE AND DIAERESIS
+				break;
+			case 0x1E50:		//	Ṑ	0xe1 0xb9 0x90	LATIN CAPITAL LETTER O WITH MACRON AND GRAVE
+				ch = 0x1E51;	//	ṑ	0xe1 0xb9 0x91	LATIN SMALL LETTER O WITH MACRON AND GRAVE
+				break;
+			case 0x1E52:		//	Ṓ	0xe1 0xb9 0x92	LATIN CAPITAL LETTER O WITH MACRON AND ACUTE
+				ch = 0x1E53;	//	ṓ	0xe1 0xb9 0x93	LATIN SMALL LETTER O WITH MACRON AND ACUTE
+				break;
+			case 0x1E54:		//	Ṕ	0xe1 0xb9 0x94	LATIN CAPITAL LETTER P WITH ACUTE
+				ch = 0x1E55;	//	ṕ	0xe1 0xb9 0x95	LATIN SMALL LETTER P WITH ACUTE
+				break;
+			case 0x1E56:		//	Ṗ	0xe1 0xb9 0x96	LATIN CAPITAL LETTER P WITH DOT ABOVE
+				ch = 0x1E57;	//	ṗ	0xe1 0xb9 0x97	LATIN SMALL LETTER P WITH DOT ABOVE
+				break;
+			case 0x1E58:		//	Ṙ	0xe1 0xb9 0x98	LATIN CAPITAL LETTER R WITH DOT ABOVE
+				ch = 0x1E59;	//	ṙ	0xe1 0xb9 0x99	LATIN SMALL LETTER R WITH DOT ABOVE
+				break;
+			case 0x1E5A:		//	Ṛ	0xe1 0xb9 0x9a	LATIN CAPITAL LETTER R WITH DOT BELOW
+				ch = 0x1E5B;	//	ṛ	0xe1 0xb9 0x9b	LATIN SMALL LETTER R WITH DOT BELOW
+				break;
+			case 0x1E5C:		//	Ṝ	0xe1 0xb9 0x9c	LATIN CAPITAL LETTER R WITH DOT BELOW AND MACRON
+				ch = 0x1E5D;	//	ṝ	0xe1 0xb9 0x9d	LATIN SMALL LETTER R WITH DOT BELOW AND MACRON
+				break;
+			case 0x1E5E:		//	Ṟ	0xe1 0xb9 0x9e	LATIN CAPITAL LETTER R WITH LINE BELOW
+				ch = 0x1E5F;	//	ṟ	0xe1 0xb9 0x9f	LATIN SMALL LETTER R WITH LINE BELOW
+				break;
+			case 0x1E60:		//	� 	0xe1 0xb9 0xa0	LATIN CAPITAL LETTER S WITH DOT ABOVE
+				ch = 0x1E61;	//	ṡ	0xe1 0xb9 0xa1	LATIN SMALL LETTER S WITH DOT ABOVE
+				break;
+			case 0x1E62:		//	Ṣ	0xe1 0xb9 0xa2	LATIN CAPITAL LETTER S WITH DOT BELOW
+				ch = 0x1E63;	//	ṣ	0xe1 0xb9 0xa3	LATIN SMALL LETTER S WITH DOT BELOW
+				break;
+			case 0x1E64:		//	Ṥ	0xe1 0xb9 0xa4	LATIN CAPITAL LETTER S WITH ACUTE AND DOT ABOVE
+				ch = 0x1E65;	//	ṥ	0xe1 0xb9 0xa5	LATIN SMALL LETTER S WITH ACUTE AND DOT ABOVE
+				break;
+			case 0x1E66:		//	Ṧ	0xe1 0xb9 0xa6	LATIN CAPITAL LETTER S WITH CARON AND DOT ABOVE
+				ch = 0x1E67;	//	ṧ	0xe1 0xb9 0xa7	LATIN SMALL LETTER S WITH CARON AND DOT ABOVE
+				break;
+			case 0x1E68:		//	Ṩ	0xe1 0xb9 0xa8	LATIN CAPITAL LETTER S WITH DOT BELOW AND DOT ABOVE
+				ch = 0x1E69;	//	ṩ	0xe1 0xb9 0xa9	LATIN SMALL LETTER S WITH DOT BELOW AND DOT ABOVE
+				break;
+			case 0x1E6A:		//	Ṫ	0xe1 0xb9 0xaa	LATIN CAPITAL LETTER T WITH DOT ABOVE
+				ch = 0x1E6B;	//	ṫ	0xe1 0xb9 0xab	LATIN SMALL LETTER T WITH DOT ABOVE
+				break;
+			case 0x1E6C:		//	Ṭ	0xe1 0xb9 0xac	LATIN CAPITAL LETTER T WITH DOT BELOW
+				ch = 0x1E6D;	//	ṭ	0xe1 0xb9 0xad	LATIN SMALL LETTER T WITH DOT BELOW
+				break;
+			case 0x1E6E:		//	Ṯ	0xe1 0xb9 0xae	LATIN CAPITAL LETTER T WITH LINE BELOW
+				ch = 0x1E6F;	//	ṯ	0xe1 0xb9 0xaf	LATIN SMALL LETTER T WITH LINE BELOW
+				break;
+			case 0x1E70:		//	Ṱ	0xe1 0xb9 0xb0	LATIN CAPITAL LETTER T WITH CIRCUMFLEX BELOW
+				ch = 0x1E71;	//	ṱ	0xe1 0xb9 0xb1	LATIN SMALL LETTER T WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E72:		//	Ṳ	0xe1 0xb9 0xb2	LATIN CAPITAL LETTER U WITH DIAERESIS BELOW
+				ch = 0x1E73;	//	ṳ	0xe1 0xb9 0xb3	LATIN SMALL LETTER U WITH DIAERESIS BELOW
+				break;
+			case 0x1E74:		//	Ṵ	0xe1 0xb9 0xb4	LATIN CAPITAL LETTER U WITH TILDE BELOW
+				ch = 0x1E75;	//	ṵ	0xe1 0xb9 0xb5	LATIN SMALL LETTER U WITH TILDE BELOW
+				break;
+			case 0x1E76:		//	Ṷ	0xe1 0xb9 0xb6	LATIN CAPITAL LETTER U WITH CIRCUMFLEX BELOW
+				ch = 0x1E77;	//	ṷ	0xe1 0xb9 0xb7	LATIN SMALL LETTER U WITH CIRCUMFLEX BELOW
+				break;
+			case 0x1E78:		//	Ṹ	0xe1 0xb9 0xb8	LATIN CAPITAL LETTER U WITH TILDE AND ACUTE
+				ch = 0x1E79;	//	ṹ	0xe1 0xb9 0xb9	LATIN SMALL LETTER U WITH TILDE AND ACUTE
+				break;
+			case 0x1E7A:		//	Ṻ	0xe1 0xb9 0xba	LATIN CAPITAL LETTER U WITH MACRON AND DIAERESIS
+				ch = 0x1E7B;	//	ṻ	0xe1 0xb9 0xbb	LATIN SMALL LETTER U WITH MACRON AND DIAERESIS
+				break;
+			case 0x1E7C:		//	Ṽ	0xe1 0xb9 0xbc	LATIN CAPITAL LETTER V WITH TILDE
+				ch = 0x1E7D;	//	ṽ	0xe1 0xb9 0xbd	LATIN SMALL LETTER V WITH TILDE
+				break;
+			case 0x1E7E:		//	Ṿ	0xe1 0xb9 0xbe	LATIN CAPITAL LETTER V WITH DOT BELOW
+				ch = 0x1E7F;	//	ṿ	0xe1 0xb9 0xbf	LATIN SMALL LETTER V WITH DOT BELOW
+				break;
+			case 0x1E80:		//	Ẁ	0xe1 0xba 0x80	LATIN CAPITAL LETTER W WITH GRAVE
+				ch = 0x1E81;	//	ẁ	0xe1 0xba 0x81	LATIN SMALL LETTER W WITH GRAVE
+				break;
+			case 0x1E82:		//	Ẃ	0xe1 0xba 0x82	LATIN CAPITAL LETTER W WITH ACUTE
+				ch = 0x1E83;	//	ẃ	0xe1 0xba 0x83	LATIN SMALL LETTER W WITH ACUTE
+				break;
+			case 0x1E84:		//	Ẅ	0xe1 0xba 0x84	LATIN CAPITAL LETTER W WITH DIAERESIS
+				ch = 0x1E85;	//	ẅ	0xe1 0xba 0x85	LATIN SMALL LETTER W WITH DIAERESIS
+				break;
+			case 0x1E86:		//	Ẇ	0xe1 0xba 0x86	LATIN CAPITAL LETTER W WITH DOT ABOVE
+				ch = 0x1E87;	//	ẇ	0xe1 0xba 0x87	LATIN SMALL LETTER W WITH DOT ABOVE
+				break;
+			case 0x1E88:		//	Ẉ	0xe1 0xba 0x88	LATIN CAPITAL LETTER W WITH DOT BELOW
+				ch = 0x1E89;	//	ẉ	0xe1 0xba 0x89	LATIN SMALL LETTER W WITH DOT BELOW
+				break;
+			case 0x1E8A:		//	Ẋ	0xe1 0xba 0x8a	LATIN CAPITAL LETTER X WITH DOT ABOVE
+				ch = 0x1E8B;	//	ẋ	0xe1 0xba 0x8b	LATIN SMALL LETTER X WITH DOT ABOVE
+				break;
+			case 0x1E8C:		//	Ẍ	0xe1 0xba 0x8c	LATIN CAPITAL LETTER X WITH DIAERESIS
+				ch = 0x1E8D;	//	ẍ	0xe1 0xba 0x8d	LATIN SMALL LETTER X WITH DIAERESIS
+				break;
+			case 0x1E8E:		//	Ẏ	0xe1 0xba 0x8e	LATIN CAPITAL LETTER Y WITH DOT ABOVE
+				ch = 0x1E8F;	//	ẏ	0xe1 0xba 0x8f	LATIN SMALL LETTER Y WITH DOT ABOVE
+				break;
+			case 0x1E90:		//	Ẑ	0xe1 0xba 0x90	LATIN CAPITAL LETTER Z WITH CIRCUMFLEX
+				ch = 0x1E91;	//	ẑ	0xe1 0xba 0x91	LATIN SMALL LETTER Z WITH CIRCUMFLEX
+				break;
+			case 0x1E92:		//	Ẓ	0xe1 0xba 0x92	LATIN CAPITAL LETTER Z WITH DOT BELOW
+				ch = 0x1E93;	//	ẓ	0xe1 0xba 0x93	LATIN SMALL LETTER Z WITH DOT BELOW
+				break;
+			case 0x1E94:		//	Ẕ	0xe1 0xba 0x94	LATIN CAPITAL LETTER Z WITH LINE BELOW
+				ch = 0x1E95;	//	ẕ	0xe1 0xba 0x95	LATIN SMALL LETTER Z WITH LINE BELOW
+				break;
+			case 0x1E9E:		//	ẞ	0xe1 0xba 0x9e	LATIN CAPITAL LETTER SHARP S
+				ch = 0x00DF;	//	ß	0xc3 0x9f	LATIN SMALL LETTER SHARP S
+				break;
+			case 0x1EA0:		//	� 	0xe1 0xba 0xa0	LATIN CAPITAL LETTER A WITH DOT BELOW
+				ch = 0x1EA1;	//	ạ	0xe1 0xba 0xa1	LATIN SMALL LETTER A WITH DOT BELOW
+				break;
+			case 0x1EA2:		//	Ả	0xe1 0xba 0xa2	LATIN CAPITAL LETTER A WITH HOOK ABOVE
+				ch = 0x1EA3;	//	ả	0xe1 0xba 0xa3	LATIN SMALL LETTER A WITH HOOK ABOVE
+				break;
+			case 0x1EA4:		//	Ấ	0xe1 0xba 0xa4	LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND ACUTE
+				ch = 0x1EA5;	//	ấ	0xe1 0xba 0xa5	LATIN SMALL LETTER A WITH CIRCUMFLEX AND ACUTE
+				break;
+			case 0x1EA6:		//	Ầ	0xe1 0xba 0xa6	LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND GRAVE
+				ch = 0x1EA7;	//	ầ	0xe1 0xba 0xa7	LATIN SMALL LETTER A WITH CIRCUMFLEX AND GRAVE
+				break;
+			case 0x1EA8:		//	Ẩ	0xe1 0xba 0xa8	LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE
+				ch = 0x1EA9;	//	ẩ	0xe1 0xba 0xa9	LATIN SMALL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE
+				break;
+			case 0x1EAA:		//	Ẫ	0xe1 0xba 0xaa	LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND TILDE
+				ch = 0x1EAB;	//	ẫ	0xe1 0xba 0xab	LATIN SMALL LETTER A WITH CIRCUMFLEX AND TILDE
+				break;
+			case 0x1EAC:		//	Ậ	0xe1 0xba 0xac	LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND DOT BELOW
+				ch = 0x1EAD;	//	ậ	0xe1 0xba 0xad	LATIN SMALL LETTER A WITH CIRCUMFLEX AND DOT BELOW
+				break;
+			case 0x1EAE:		//	Ắ	0xe1 0xba 0xae	LATIN CAPITAL LETTER A WITH BREVE AND ACUTE
+				ch = 0x1EAF;	//	ắ	0xe1 0xba 0xaf	LATIN SMALL LETTER A WITH BREVE AND ACUTE
+				break;
+			case 0x1EB0:		//	Ằ	0xe1 0xba 0xb0	LATIN CAPITAL LETTER A WITH BREVE AND GRAVE
+				ch = 0x1EB1;	//	ằ	0xe1 0xba 0xb1	LATIN SMALL LETTER A WITH BREVE AND GRAVE
+				break;
+			case 0x1EB2:		//	Ẳ	0xe1 0xba 0xb2	LATIN CAPITAL LETTER A WITH BREVE AND HOOK ABOVE
+				ch = 0x1EB3;	//	ẳ	0xe1 0xba 0xb3	LATIN SMALL LETTER A WITH BREVE AND HOOK ABOVE
+				break;
+			case 0x1EB4:		//	Ẵ	0xe1 0xba 0xb4	LATIN CAPITAL LETTER A WITH BREVE AND TILDE
+				ch = 0x1EB5;	//	ẵ	0xe1 0xba 0xb5	LATIN SMALL LETTER A WITH BREVE AND TILDE
+				break;
+			case 0x1EB6:		//	Ặ	0xe1 0xba 0xb6	LATIN CAPITAL LETTER A WITH BREVE AND DOT BELOW
+				ch = 0x1EB7;	//	ặ	0xe1 0xba 0xb7	LATIN SMALL LETTER A WITH BREVE AND DOT BELOW
+				break;
+			case 0x1EB8:		//	Ẹ	0xe1 0xba 0xb8	LATIN CAPITAL LETTER E WITH DOT BELOW
+				ch = 0x1EB9;	//	ẹ	0xe1 0xba 0xb9	LATIN SMALL LETTER E WITH DOT BELOW
+				break;
+			case 0x1EBA:		//	Ẻ	0xe1 0xba 0xba	LATIN CAPITAL LETTER E WITH HOOK ABOVE
+				ch = 0x1EBB;	//	ẻ	0xe1 0xba 0xbb	LATIN SMALL LETTER E WITH HOOK ABOVE
+				break;
+			case 0x1EBC:		//	Ẽ	0xe1 0xba 0xbc	LATIN CAPITAL LETTER E WITH TILDE
+				ch = 0x1EBD;	//	ẽ	0xe1 0xba 0xbd	LATIN SMALL LETTER E WITH TILDE
+				break;
+			case 0x1EBE:		//	Ế	0xe1 0xba 0xbe	LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND ACUTE
+				ch = 0x1EBF;	//	ế	0xe1 0xba 0xbf	LATIN SMALL LETTER E WITH CIRCUMFLEX AND ACUTE
+				break;
+			case 0x1EC0:		//	Ề	0xe1 0xbb 0x80	LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND GRAVE
+				ch = 0x1EC1;	//	ề	0xe1 0xbb 0x81	LATIN SMALL LETTER E WITH CIRCUMFLEX AND GRAVE
+				break;
+			case 0x1EC2:		//	Ể	0xe1 0xbb 0x82	LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE
+				ch = 0x1EC3;	//	ể	0xe1 0xbb 0x83	LATIN SMALL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE
+				break;
+			case 0x1EC4:		//	Ễ	0xe1 0xbb 0x84	LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND TILDE
+				ch = 0x1EC5;	//	ễ	0xe1 0xbb 0x85	LATIN SMALL LETTER E WITH CIRCUMFLEX AND TILDE
+				break;
+			case 0x1EC6:		//	Ệ	0xe1 0xbb 0x86	LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND DOT BELOW
+				ch = 0x1EC7;	//	ệ	0xe1 0xbb 0x87	LATIN SMALL LETTER E WITH CIRCUMFLEX AND DOT BELOW
+				break;
+			case 0x1EC8:		//	Ỉ	0xe1 0xbb 0x88	LATIN CAPITAL LETTER I WITH HOOK ABOVE
+				ch = 0x1EC9;	//	ỉ	0xe1 0xbb 0x89	LATIN SMALL LETTER I WITH HOOK ABOVE
+				break;
+			case 0x1ECA:		//	Ị	0xe1 0xbb 0x8a	LATIN CAPITAL LETTER I WITH DOT BELOW
+				ch = 0x1ECB;	//	ị	0xe1 0xbb 0x8b	LATIN SMALL LETTER I WITH DOT BELOW
+				break;
+			case 0x1ECC:		//	Ọ	0xe1 0xbb 0x8c	LATIN CAPITAL LETTER O WITH DOT BELOW
+				ch = 0x1ECD;	//	ọ	0xe1 0xbb 0x8d	LATIN SMALL LETTER O WITH DOT BELOW
+				break;
+			case 0x1ECE:		//	Ỏ	0xe1 0xbb 0x8e	LATIN CAPITAL LETTER O WITH HOOK ABOVE
+				ch = 0x1ECF;	//	ỏ	0xe1 0xbb 0x8f	LATIN SMALL LETTER O WITH HOOK ABOVE
+				break;
+			case 0x1ED0:		//	Ố	0xe1 0xbb 0x90	LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND ACUTE
+				ch = 0x1ED1;	//	ố	0xe1 0xbb 0x91	LATIN SMALL LETTER O WITH CIRCUMFLEX AND ACUTE
+				break;
+			case 0x1ED2:		//	Ồ	0xe1 0xbb 0x92	LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND GRAVE
+				ch = 0x1ED3;	//	ồ	0xe1 0xbb 0x93	LATIN SMALL LETTER O WITH CIRCUMFLEX AND GRAVE
+				break;
+			case 0x1ED4:		//	Ổ	0xe1 0xbb 0x94	LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE
+				ch = 0x1ED5;	//	ổ	0xe1 0xbb 0x95	LATIN SMALL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE
+				break;
+			case 0x1ED6:		//	Ỗ	0xe1 0xbb 0x96	LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND TILDE
+				ch = 0x1ED7;	//	ỗ	0xe1 0xbb 0x97	LATIN SMALL LETTER O WITH CIRCUMFLEX AND TILDE
+				break;
+			case 0x1ED8:		//	Ộ	0xe1 0xbb 0x98	LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND DOT BELOW
+				ch = 0x1ED9;	//	ộ	0xe1 0xbb 0x99	LATIN SMALL LETTER O WITH CIRCUMFLEX AND DOT BELOW
+				break;
+			case 0x1EDA:		//	Ớ	0xe1 0xbb 0x9a	LATIN CAPITAL LETTER O WITH HORN AND ACUTE
+				ch = 0x1EDB;	//	ớ	0xe1 0xbb 0x9b	LATIN SMALL LETTER O WITH HORN AND ACUTE
+				break;
+			case 0x1EDC:		//	Ờ	0xe1 0xbb 0x9c	LATIN CAPITAL LETTER O WITH HORN AND GRAVE
+				ch = 0x1EDD;	//	ờ	0xe1 0xbb 0x9d	LATIN SMALL LETTER O WITH HORN AND GRAVE
+				break;
+			case 0x1EDE:		//	Ở	0xe1 0xbb 0x9e	LATIN CAPITAL LETTER O WITH HORN AND HOOK ABOVE
+				ch = 0x1EDF;	//	ở	0xe1 0xbb 0x9f	LATIN SMALL LETTER O WITH HORN AND HOOK ABOVE
+				break;
+			case 0x1EE0:		//	� 	0xe1 0xbb 0xa0	LATIN CAPITAL LETTER O WITH HORN AND TILDE
+				ch = 0x1EE1;	//	ỡ	0xe1 0xbb 0xa1	LATIN SMALL LETTER O WITH HORN AND TILDE
+				break;
+			case 0x1EE2:		//	Ợ	0xe1 0xbb 0xa2	LATIN CAPITAL LETTER O WITH HORN AND DOT BELOW
+				ch = 0x1EE3;	//	ợ	0xe1 0xbb 0xa3	LATIN SMALL LETTER O WITH HORN AND DOT BELOW
+				break;
+			case 0x1EE4:		//	Ụ	0xe1 0xbb 0xa4	LATIN CAPITAL LETTER U WITH DOT BELOW
+				ch = 0x1EE5;	//	ụ	0xe1 0xbb 0xa5	LATIN SMALL LETTER U WITH DOT BELOW
+				break;
+			case 0x1EE6:		//	Ủ	0xe1 0xbb 0xa6	LATIN CAPITAL LETTER U WITH HOOK ABOVE
+				ch = 0x1EE7;	//	ủ	0xe1 0xbb 0xa7	LATIN SMALL LETTER U WITH HOOK ABOVE
+				break;
+			case 0x1EE8:		//	Ứ	0xe1 0xbb 0xa8	LATIN CAPITAL LETTER U WITH HORN AND ACUTE
+				ch = 0x1EE9;	//	ứ	0xe1 0xbb 0xa9	LATIN SMALL LETTER U WITH HORN AND ACUTE
+				break;
+			case 0x1EEA:		//	Ừ	0xe1 0xbb 0xaa	LATIN CAPITAL LETTER U WITH HORN AND GRAVE
+				ch = 0x1EEB;	//	ừ	0xe1 0xbb 0xab	LATIN SMALL LETTER U WITH HORN AND GRAVE
+				break;
+			case 0x1EEC:		//	Ử	0xe1 0xbb 0xac	LATIN CAPITAL LETTER U WITH HORN AND HOOK ABOVE
+				ch = 0x1EED;	//	ử	0xe1 0xbb 0xad	LATIN SMALL LETTER U WITH HORN AND HOOK ABOVE
+				break;
+			case 0x1EEE:		//	Ữ	0xe1 0xbb 0xae	LATIN CAPITAL LETTER U WITH HORN AND TILDE
+				ch = 0x1EEF;	//	ữ	0xe1 0xbb 0xaf	LATIN SMALL LETTER U WITH HORN AND TILDE
+				break;
+			case 0x1EF0:		//	Ự	0xe1 0xbb 0xb0	LATIN CAPITAL LETTER U WITH HORN AND DOT BELOW
+				ch = 0x1EF1;	//	ự	0xe1 0xbb 0xb1	LATIN SMALL LETTER U WITH HORN AND DOT BELOW
+				break;
+			case 0x1EF2:		//	Ỳ	0xe1 0xbb 0xb2	LATIN CAPITAL LETTER Y WITH GRAVE
+				ch = 0x1EF3;	//	ỳ	0xe1 0xbb 0xb3	LATIN SMALL LETTER Y WITH GRAVE
+				break;
+			case 0x1EF4:		//	Ỵ	0xe1 0xbb 0xb4	LATIN CAPITAL LETTER Y WITH DOT BELOW
+				ch = 0x1EF5;	//	ỵ	0xe1 0xbb 0xb5	LATIN SMALL LETTER Y WITH DOT BELOW
+				break;
+			case 0x1EF6:		//	Ỷ	0xe1 0xbb 0xb6	LATIN CAPITAL LETTER Y WITH HOOK ABOVE
+				ch = 0x1EF7;	//	ỷ	0xe1 0xbb 0xb7	LATIN SMALL LETTER Y WITH HOOK ABOVE
+				break;
+			case 0x1EF8:		//	Ỹ	0xe1 0xbb 0xb8	LATIN CAPITAL LETTER Y WITH TILDE
+				ch = 0x1EF9;	//	ỹ	0xe1 0xbb 0xb9	LATIN SMALL LETTER Y WITH TILDE
+				break;
+			case 0x1EFA:		//	Ỻ	0xe1 0xbb 0xba	LATIN CAPITAL LETTER MIDDLE-WELSH LL
+				ch = 0x1EFB;	//	ỻ	0xe1 0xbb 0xbb	LATIN SMALL LETTER MIDDLE-WELSH LL
+				break;
+			case 0x1EFC:		//	Ỽ	0xe1 0xbb 0xbc	LATIN CAPITAL LETTER MIDDLE-WELSH V
+				ch = 0x1EFD;	//	ỽ	0xe1 0xbb 0xbd	LATIN SMALL LETTER MIDDLE-WELSH V
+				break;
+			case 0x1EFE:		//	Ỿ	0xe1 0xbb 0xbe	LATIN CAPITAL LETTER Y WITH LOOP
+				ch = 0x1EFF;	//	ỿ	0xe1 0xbb 0xbf	LATIN SMALL LETTER Y WITH LOOP
+				break;
+			case 0x1F08:		//	Ἀ	0xe1 0xbc 0x88	GREEK CAPITAL LETTER ALPHA WITH PSILI
+				ch = 0x1F00;	//	ἀ	0xe1 0xbc 0x80	GREEK SMALL LETTER ALPHA WITH PSILI
+				break;
+			case 0x1F09:		//	Ἁ	0xe1 0xbc 0x89	GREEK CAPITAL LETTER ALPHA WITH DASIA
+				ch = 0x1F01;	//	ἁ	0xe1 0xbc 0x81	GREEK SMALL LETTER ALPHA WITH DASIA
+				break;
+			case 0x1F0A:		//	Ἂ	0xe1 0xbc 0x8a	GREEK CAPITAL LETTER ALPHA WITH PSILI AND VARIA
+				ch = 0x1F02;	//	ἂ	0xe1 0xbc 0x82	GREEK SMALL LETTER ALPHA WITH PSILI AND VARIA
+				break;
+			case 0x1F0B:		//	Ἃ	0xe1 0xbc 0x8b	GREEK CAPITAL LETTER ALPHA WITH DASIA AND VARIA
+				ch = 0x1F03;	//	ἃ	0xe1 0xbc 0x83	GREEK SMALL LETTER ALPHA WITH DASIA AND VARIA
+				break;
+			case 0x1F0C:		//	Ἄ	0xe1 0xbc 0x8c	GREEK CAPITAL LETTER ALPHA WITH PSILI AND OXIA
+				ch = 0x1F04;	//	ἄ	0xe1 0xbc 0x84	GREEK SMALL LETTER ALPHA WITH PSILI AND OXIA
+				break;
+			case 0x1F0D:		//	Ἅ	0xe1 0xbc 0x8d	GREEK CAPITAL LETTER ALPHA WITH DASIA AND OXIA
+				ch = 0x1F05;	//	ἅ	0xe1 0xbc 0x85	GREEK SMALL LETTER ALPHA WITH DASIA AND OXIA
+				break;
+			case 0x1F0E:		//	Ἆ	0xe1 0xbc 0x8e	GREEK CAPITAL LETTER ALPHA WITH PSILI AND PERISPOMENI
+				ch = 0x1F06;	//	ἆ	0xe1 0xbc 0x86	GREEK SMALL LETTER ALPHA WITH PSILI AND PERISPOMENI
+				break;
+			case 0x1F0F:		//	Ἇ	0xe1 0xbc 0x8f	GREEK CAPITAL LETTER ALPHA WITH DASIA AND PERISPOMENI
+				ch = 0x1F07;	//	ἇ	0xe1 0xbc 0x87	GREEK SMALL LETTER ALPHA WITH DASIA AND PERISPOMENI
+				break;
+			case 0x1F18:		//	Ἐ	0xe1 0xbc 0x98	GREEK CAPITAL LETTER EPSILON WITH PSILI
+				ch = 0x1F10;	//	ἐ	0xe1 0xbc 0x90	GREEK SMALL LETTER EPSILON WITH PSILI
+				break;
+			case 0x1F19:		//	Ἑ	0xe1 0xbc 0x99	GREEK CAPITAL LETTER EPSILON WITH DASIA
+				ch = 0x1F11;	//	ἑ	0xe1 0xbc 0x91	GREEK SMALL LETTER EPSILON WITH DASIA
+				break;
+			case 0x1F1A:		//	Ἒ	0xe1 0xbc 0x9a	GREEK CAPITAL LETTER EPSILON WITH PSILI AND VARIA
+				ch = 0x1F12;	//	ἒ	0xe1 0xbc 0x92	GREEK SMALL LETTER EPSILON WITH PSILI AND VARIA
+				break;
+			case 0x1F1B:		//	Ἓ	0xe1 0xbc 0x9b	GREEK CAPITAL LETTER EPSILON WITH DASIA AND VARIA
+				ch = 0x1F13;	//	ἓ	0xe1 0xbc 0x93	GREEK SMALL LETTER EPSILON WITH DASIA AND VARIA
+				break;
+			case 0x1F1C:		//	Ἔ	0xe1 0xbc 0x9c	GREEK CAPITAL LETTER EPSILON WITH PSILI AND OXIA
+				ch = 0x1F14;	//	ἔ	0xe1 0xbc 0x94	GREEK SMALL LETTER EPSILON WITH PSILI AND OXIA
+				break;
+			case 0x1F1D:		//	Ἕ	0xe1 0xbc 0x9d	GREEK CAPITAL LETTER EPSILON WITH DASIA AND OXIA
+				ch = 0x1F15;	//	ἕ	0xe1 0xbc 0x95	GREEK SMALL LETTER EPSILON WITH DASIA AND OXIA
+				break;
+			case 0x1F28:		//	Ἠ	0xe1 0xbc 0xa8	GREEK CAPITAL LETTER ETA WITH PSILI
+				ch = 0x1F20;	//	� 	0xe1 0xbc 0xa0	GREEK SMALL LETTER ETA WITH PSILI
+				break;
+			case 0x1F29:		//	Ἡ	0xe1 0xbc 0xa9	GREEK CAPITAL LETTER ETA WITH DASIA
+				ch = 0x1F21;	//	ἡ	0xe1 0xbc 0xa1	GREEK SMALL LETTER ETA WITH DASIA
+				break;
+			case 0x1F2A:		//	Ἢ	0xe1 0xbc 0xaa	GREEK CAPITAL LETTER ETA WITH PSILI AND VARIA
+				ch = 0x1F22;	//	ἢ	0xe1 0xbc 0xa2	GREEK SMALL LETTER ETA WITH PSILI AND VARIA
+				break;
+			case 0x1F2B:		//	Ἣ	0xe1 0xbc 0xab	GREEK CAPITAL LETTER ETA WITH DASIA AND VARIA
+				ch = 0x1F23;	//	ἣ	0xe1 0xbc 0xa3	GREEK SMALL LETTER ETA WITH DASIA AND VARIA
+				break;
+			case 0x1F2C:		//	Ἤ	0xe1 0xbc 0xac	GREEK CAPITAL LETTER ETA WITH PSILI AND OXIA
+				ch = 0x1F24;	//	ἤ	0xe1 0xbc 0xa4	GREEK SMALL LETTER ETA WITH PSILI AND OXIA
+				break;
+			case 0x1F2D:		//	Ἥ	0xe1 0xbc 0xad	GREEK CAPITAL LETTER ETA WITH DASIA AND OXIA
+				ch = 0x1F25;	//	ἥ	0xe1 0xbc 0xa5	GREEK SMALL LETTER ETA WITH DASIA AND OXIA
+				break;
+			case 0x1F2E:		//	Ἦ	0xe1 0xbc 0xae	GREEK CAPITAL LETTER ETA WITH PSILI AND PERISPOMENI
+				ch = 0x1F26;	//	ἦ	0xe1 0xbc 0xa6	GREEK SMALL LETTER ETA WITH PSILI AND PERISPOMENI
+				break;
+			case 0x1F2F:		//	Ἧ	0xe1 0xbc 0xaf	GREEK CAPITAL LETTER ETA WITH DASIA AND PERISPOMENI
+				ch = 0x1F27;	//	ἧ	0xe1 0xbc 0xa7	GREEK SMALL LETTER ETA WITH DASIA AND PERISPOMENI
+				break;
+			case 0x1F38:		//	Ἰ	0xe1 0xbc 0xb8	GREEK CAPITAL LETTER IOTA WITH PSILI
+				ch = 0x1F30;	//	ἰ	0xe1 0xbc 0xb0	GREEK SMALL LETTER IOTA WITH PSILI
+				break;
+			case 0x1F39:		//	Ἱ	0xe1 0xbc 0xb9	GREEK CAPITAL LETTER IOTA WITH DASIA
+				ch = 0x1F31;	//	ἱ	0xe1 0xbc 0xb1	GREEK SMALL LETTER IOTA WITH DASIA
+				break;
+			case 0x1F3A:		//	Ἲ	0xe1 0xbc 0xba	GREEK CAPITAL LETTER IOTA WITH PSILI AND VARIA
+				ch = 0x1F32;	//	ἲ	0xe1 0xbc 0xb2	GREEK SMALL LETTER IOTA WITH PSILI AND VARIA
+				break;
+			case 0x1F3B:		//	Ἳ	0xe1 0xbc 0xbb	GREEK CAPITAL LETTER IOTA WITH DASIA AND VARIA
+				ch = 0x1F33;	//	ἳ	0xe1 0xbc 0xb3	GREEK SMALL LETTER IOTA WITH DASIA AND VARIA
+				break;
+			case 0x1F3C:		//	Ἴ	0xe1 0xbc 0xbc	GREEK CAPITAL LETTER IOTA WITH PSILI AND OXIA
+				ch = 0x1F34;	//	ἴ	0xe1 0xbc 0xb4	GREEK SMALL LETTER IOTA WITH PSILI AND OXIA
+				break;
+			case 0x1F3D:		//	Ἵ	0xe1 0xbc 0xbd	GREEK CAPITAL LETTER IOTA WITH DASIA AND OXIA
+				ch = 0x1F35;	//	ἵ	0xe1 0xbc 0xb5	GREEK SMALL LETTER IOTA WITH DASIA AND OXIA
+				break;
+			case 0x1F3E:		//	Ἶ	0xe1 0xbc 0xbe	GREEK CAPITAL LETTER IOTA WITH PSILI AND PERISPOMENI
+				ch = 0x1F36;	//	ἶ	0xe1 0xbc 0xb6	GREEK SMALL LETTER IOTA WITH PSILI AND PERISPOMENI
+				break;
+			case 0x1F3F:		//	Ἷ	0xe1 0xbc 0xbf	GREEK CAPITAL LETTER IOTA WITH DASIA AND PERISPOMENI
+				ch = 0x1F37;	//	ἷ	0xe1 0xbc 0xb7	GREEK SMALL LETTER IOTA WITH DASIA AND PERISPOMENI
+				break;
+			case 0x1F48:		//	Ὀ	0xe1 0xbd 0x88	GREEK CAPITAL LETTER OMICRON WITH PSILI
+				ch = 0x1F40;	//	ὀ	0xe1 0xbd 0x80	GREEK SMALL LETTER OMICRON WITH PSILI
+				break;
+			case 0x1F49:		//	Ὁ	0xe1 0xbd 0x89	GREEK CAPITAL LETTER OMICRON WITH DASIA
+				ch = 0x1F41;	//	ὁ	0xe1 0xbd 0x81	GREEK SMALL LETTER OMICRON WITH DASIA
+				break;
+			case 0x1F4A:		//	Ὂ	0xe1 0xbd 0x8a	GREEK CAPITAL LETTER OMICRON WITH PSILI AND VARIA
+				ch = 0x1F42;	//	ὂ	0xe1 0xbd 0x82	GREEK SMALL LETTER OMICRON WITH PSILI AND VARIA
+				break;
+			case 0x1F4B:		//	Ὃ	0xe1 0xbd 0x8b	GREEK CAPITAL LETTER OMICRON WITH DASIA AND VARIA
+				ch = 0x1F43;	//	ὃ	0xe1 0xbd 0x83	GREEK SMALL LETTER OMICRON WITH DASIA AND VARIA
+				break;
+			case 0x1F4C:		//	Ὄ	0xe1 0xbd 0x8c	GREEK CAPITAL LETTER OMICRON WITH PSILI AND OXIA
+				ch = 0x1F44;	//	ὄ	0xe1 0xbd 0x84	GREEK SMALL LETTER OMICRON WITH PSILI AND OXIA
+				break;
+			case 0x1F4D:		//	Ὅ	0xe1 0xbd 0x8d	GREEK CAPITAL LETTER OMICRON WITH DASIA AND OXIA
+				ch = 0x1F45;	//	ὅ	0xe1 0xbd 0x85	GREEK SMALL LETTER OMICRON WITH DASIA AND OXIA
+				break;
+			case 0x1F59:		//	Ὑ	0xe1 0xbd 0x99	GREEK CAPITAL LETTER UPSILON WITH DASIA
+				ch = 0x1F51;	//	ὑ	0xe1 0xbd 0x91	GREEK SMALL LETTER UPSILON WITH DASIA
+				break;
+			case 0x1F5B:		//	Ὓ	0xe1 0xbd 0x9b	GREEK CAPITAL LETTER UPSILON WITH DASIA AND VARIA
+				ch = 0x1F53;	//	ὓ	0xe1 0xbd 0x93	GREEK SMALL LETTER UPSILON WITH DASIA AND VARIA
+				break;
+			case 0x1F5D:		//	Ὕ	0xe1 0xbd 0x9d	GREEK CAPITAL LETTER UPSILON WITH DASIA AND OXIA
+				ch = 0x1F55;	//	ὕ	0xe1 0xbd 0x95	GREEK SMALL LETTER UPSILON WITH DASIA AND OXIA
+				break;
+			case 0x1F5F:		//	Ὗ	0xe1 0xbd 0x9f	GREEK CAPITAL LETTER UPSILON WITH DASIA AND PERISPOMENI
+				ch = 0x1F57;	//	ὗ	0xe1 0xbd 0x97	GREEK SMALL LETTER UPSILON WITH DASIA AND PERISPOMENI
+				break;
+			case 0x1F68:		//	Ὠ	0xe1 0xbd 0xa8	GREEK CAPITAL LETTER OMEGA WITH PSILI
+				ch = 0x1F60;	//	� 	0xe1 0xbd 0xa0	GREEK SMALL LETTER OMEGA WITH PSILI
+				break;
+			case 0x1F69:		//	Ὡ	0xe1 0xbd 0xa9	GREEK CAPITAL LETTER OMEGA WITH DASIA
+				ch = 0x1F61;	//	ὡ	0xe1 0xbd 0xa1	GREEK SMALL LETTER OMEGA WITH DASIA
+				break;
+			case 0x1F6A:		//	Ὢ	0xe1 0xbd 0xaa	GREEK CAPITAL LETTER OMEGA WITH PSILI AND VARIA
+				ch = 0x1F62;	//	ὢ	0xe1 0xbd 0xa2	GREEK SMALL LETTER OMEGA WITH PSILI AND VARIA
+				break;
+			case 0x1F6B:		//	Ὣ	0xe1 0xbd 0xab	GREEK CAPITAL LETTER OMEGA WITH DASIA AND VARIA
+				ch = 0x1F63;	//	ὣ	0xe1 0xbd 0xa3	GREEK SMALL LETTER OMEGA WITH DASIA AND VARIA
+				break;
+			case 0x1F6C:		//	Ὤ	0xe1 0xbd 0xac	GREEK CAPITAL LETTER OMEGA WITH PSILI AND OXIA
+				ch = 0x1F64;	//	ὤ	0xe1 0xbd 0xa4	GREEK SMALL LETTER OMEGA WITH PSILI AND OXIA
+				break;
+			case 0x1F6D:		//	Ὥ	0xe1 0xbd 0xad	GREEK CAPITAL LETTER OMEGA WITH DASIA AND OXIA
+				ch = 0x1F65;	//	ὥ	0xe1 0xbd 0xa5	GREEK SMALL LETTER OMEGA WITH DASIA AND OXIA
+				break;
+			case 0x1F6E:		//	Ὦ	0xe1 0xbd 0xae	GREEK CAPITAL LETTER OMEGA WITH PSILI AND PERISPOMENI
+				ch = 0x1F66;	//	ὦ	0xe1 0xbd 0xa6	GREEK SMALL LETTER OMEGA WITH PSILI AND PERISPOMENI
+				break;
+			case 0x1F6F:		//	Ὧ	0xe1 0xbd 0xaf	GREEK CAPITAL LETTER OMEGA WITH DASIA AND PERISPOMENI
+				ch = 0x1F67;	//	ὧ	0xe1 0xbd 0xa7	GREEK SMALL LETTER OMEGA WITH DASIA AND PERISPOMENI
+				break;
+			case 0x1F88:		//	ᾈ	0xe1 0xbe 0x88	GREEK CAPITAL LETTER ALPHA WITH PSILI AND PROSGEGRAMMENI
+				ch = 0x1F80;	//	ᾀ	0xe1 0xbe 0x80	GREEK SMALL LETTER ALPHA WITH PSILI AND PROSGEGRAMMENI
+				break;
+			case 0x1F89:		//	ᾉ	0xe1 0xbe 0x89	GREEK CAPITAL LETTER ALPHA WITH DASIA AND PROSGEGRAMMENI
+				ch = 0x1F81;	//	ᾁ	0xe1 0xbe 0x81	GREEK SMALL LETTER ALPHA WITH DASIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F8A:		//	ᾊ	0xe1 0xbe 0x8a	GREEK CAPITAL LETTER ALPHA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1F82;	//	ᾂ	0xe1 0xbe 0x82	GREEK SMALL LETTER ALPHA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F8B:		//	ᾋ	0xe1 0xbe 0x8b	GREEK CAPITAL LETTER ALPHA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1F83;	//	ᾃ	0xe1 0xbe 0x83	GREEK SMALL LETTER ALPHA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F8C:		//	ᾌ	0xe1 0xbe 0x8c	GREEK CAPITAL LETTER ALPHA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1F84;	//	ᾄ	0xe1 0xbe 0x84	GREEK SMALL LETTER ALPHA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F8D:		//	ᾍ	0xe1 0xbe 0x8d	GREEK CAPITAL LETTER ALPHA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1F85;	//	ᾅ	0xe1 0xbe 0x85	GREEK SMALL LETTER ALPHA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F8E:		//	ᾎ	0xe1 0xbe 0x8e	GREEK CAPITAL LETTER ALPHA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1F86;	//	ᾆ	0xe1 0xbe 0x86	GREEK SMALL LETTER ALPHA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1F8F:		//	ᾏ	0xe1 0xbe 0x8f	GREEK CAPITAL LETTER ALPHA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1F87;	//	ᾇ	0xe1 0xbe 0x87	GREEK SMALL LETTER ALPHA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1F98:		//	ᾘ	0xe1 0xbe 0x98	GREEK CAPITAL LETTER ETA WITH PSILI AND PROSGEGRAMMENI
+				ch = 0x1F90;	//	ᾐ	0xe1 0xbe 0x90	GREEK SMALL LETTER ETA WITH PSILI AND PROSGEGRAMMENI
+				break;
+			case 0x1F99:		//	ᾙ	0xe1 0xbe 0x99	GREEK CAPITAL LETTER ETA WITH DASIA AND PROSGEGRAMMENI
+				ch = 0x1F91;	//	ᾑ	0xe1 0xbe 0x91	GREEK SMALL LETTER ETA WITH DASIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F9A:		//	ᾚ	0xe1 0xbe 0x9a	GREEK CAPITAL LETTER ETA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1F92;	//	ᾒ	0xe1 0xbe 0x92	GREEK SMALL LETTER ETA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F9B:		//	ᾛ	0xe1 0xbe 0x9b	GREEK CAPITAL LETTER ETA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1F93;	//	ᾓ	0xe1 0xbe 0x93	GREEK SMALL LETTER ETA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F9C:		//	ᾜ	0xe1 0xbe 0x9c	GREEK CAPITAL LETTER ETA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1F94;	//	ᾔ	0xe1 0xbe 0x94	GREEK SMALL LETTER ETA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F9D:		//	ᾝ	0xe1 0xbe 0x9d	GREEK CAPITAL LETTER ETA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1F95;	//	ᾕ	0xe1 0xbe 0x95	GREEK SMALL LETTER ETA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1F9E:		//	ᾞ	0xe1 0xbe 0x9e	GREEK CAPITAL LETTER ETA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1F96;	//	ᾖ	0xe1 0xbe 0x96	GREEK SMALL LETTER ETA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1F9F:		//	ᾟ	0xe1 0xbe 0x9f	GREEK CAPITAL LETTER ETA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1F97;	//	ᾗ	0xe1 0xbe 0x97	GREEK SMALL LETTER ETA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1FA8:		//	ᾨ	0xe1 0xbe 0xa8	GREEK CAPITAL LETTER OMEGA WITH PSILI AND PROSGEGRAMMENI
+				ch = 0x1FA0;	//	� 	0xe1 0xbe 0xa0	GREEK SMALL LETTER OMEGA WITH PSILI AND PROSGEGRAMMENI
+				break;
+			case 0x1FA9:		//	ᾩ	0xe1 0xbe 0xa9	GREEK CAPITAL LETTER OMEGA WITH DASIA AND PROSGEGRAMMENI
+				ch = 0x1FA1;	//	ᾡ	0xe1 0xbe 0xa1	GREEK SMALL LETTER OMEGA WITH DASIA AND PROSGEGRAMMENI
+				break;
+			case 0x1FAA:		//	ᾪ	0xe1 0xbe 0xaa	GREEK CAPITAL LETTER OMEGA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1FA2;	//	ᾢ	0xe1 0xbe 0xa2	GREEK SMALL LETTER OMEGA WITH PSILI AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1FAB:		//	ᾫ	0xe1 0xbe 0xab	GREEK CAPITAL LETTER OMEGA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				ch = 0x1FA3;	//	ᾣ	0xe1 0xbe 0xa3	GREEK SMALL LETTER OMEGA WITH DASIA AND VARIA AND PROSGEGRAMMENI
+				break;
+			case 0x1FAC:		//	ᾬ	0xe1 0xbe 0xac	GREEK CAPITAL LETTER OMEGA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1FA4;	//	ᾤ	0xe1 0xbe 0xa4	GREEK SMALL LETTER OMEGA WITH PSILI AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1FAD:		//	ᾭ	0xe1 0xbe 0xad	GREEK CAPITAL LETTER OMEGA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				ch = 0x1FA5;	//	ᾥ	0xe1 0xbe 0xa5	GREEK SMALL LETTER OMEGA WITH DASIA AND OXIA AND PROSGEGRAMMENI
+				break;
+			case 0x1FAE:		//	ᾮ	0xe1 0xbe 0xae	GREEK CAPITAL LETTER OMEGA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1FA6;	//	ᾦ	0xe1 0xbe 0xa6	GREEK SMALL LETTER OMEGA WITH PSILI AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1FAF:		//	ᾯ	0xe1 0xbe 0xaf	GREEK CAPITAL LETTER OMEGA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				ch = 0x1FA7;	//	ᾧ	0xe1 0xbe 0xa7	GREEK SMALL LETTER OMEGA WITH DASIA AND PERISPOMENI AND PROSGEGRAMMENI
+				break;
+			case 0x1FB8:		//	Ᾰ	0xe1 0xbe 0xb8	GREEK CAPITAL LETTER ALPHA WITH VRACHY
+				ch = 0x1FB0;	//	ᾰ	0xe1 0xbe 0xb0	GREEK SMALL LETTER ALPHA WITH VRACHY
+				break;
+			case 0x1FB9:		//	Ᾱ	0xe1 0xbe 0xb9	GREEK CAPITAL LETTER ALPHA WITH MACRON
+				ch = 0x1FB1;	//	ᾱ	0xe1 0xbe 0xb1	GREEK SMALL LETTER ALPHA WITH MACRON
+				break;
+			case 0x1FBA:		//	Ὰ	0xe1 0xbe 0xba	GREEK CAPITAL LETTER ALPHA WITH VARIA
+				ch = 0x1F70;	//	ὰ	0xe1 0xbd 0xb0	GREEK SMALL LETTER ALPHA WITH VARIA
+				break;
+			case 0x1FBB:		//	Ά	0xe1 0xbe 0xbb	GREEK CAPITAL LETTER ALPHA WITH OXIA
+				ch = 0x1F71;	//	ά	0xe1 0xbd 0xb1	GREEK SMALL LETTER ALPHA WITH OXIA
+				break;
+			case 0x1FBC:		//	ᾼ	0xe1 0xbe 0xbc	GREEK CAPITAL LETTER ALPHA WITH PROSGEGRAMMENI
+				ch = 0x1FB3;	//	ᾳ	0xe1 0xbe 0xb3	GREEK SMALL LETTER ALPHA WITH PROSGEGRAMMENI
+				break;
+			case 0x1FC8:		//	Ὲ	0xe1 0xbf 0x88	GREEK CAPITAL LETTER EPSILON WITH VARIA
+				ch = 0x1F72;	//	ὲ	0xe1 0xbd 0xb2	GREEK SMALL LETTER EPSILON WITH VARIA
+				break;
+			case 0x1FC9:		//	Έ	0xe1 0xbf 0x89	GREEK CAPITAL LETTER EPSILON WITH OXIA
+				ch = 0x1F73;	//	έ	0xe1 0xbd 0xb3	GREEK SMALL LETTER EPSILON WITH OXIA
+				break;
+			case 0x1FCA:		//	Ὴ	0xe1 0xbf 0x8a	GREEK CAPITAL LETTER ETA WITH VARIA
+				ch = 0x1F74;	//	ὴ	0xe1 0xbd 0xb4	GREEK SMALL LETTER ETA WITH VARIA
+				break;
+			case 0x1FCB:		//	Ή	0xe1 0xbf 0x8b	GREEK CAPITAL LETTER ETA WITH OXIA
+				ch = 0x1F75;	//	ή	0xe1 0xbd 0xb5	GREEK SMALL LETTER ETA WITH OXIA
+				break;
+			case 0x1FCC:		//	ῌ	0xe1 0xbf 0x8c	GREEK CAPITAL LETTER ETA WITH PROSGEGRAMMENI
+				ch = 0x1FC3;	//	ῃ	0xe1 0xbf 0x83	GREEK SMALL LETTER ETA WITH PROSGEGRAMMENI
+				break;
+			case 0x1FD8:		//	Ῐ	0xe1 0xbf 0x98	GREEK CAPITAL LETTER IOTA WITH VRACHY
+				ch = 0x1FD0;	//	ῐ	0xe1 0xbf 0x90	GREEK SMALL LETTER IOTA WITH VRACHY
+				break;
+			case 0x1FD9:		//	Ῑ	0xe1 0xbf 0x99	GREEK CAPITAL LETTER IOTA WITH MACRON
+				ch = 0x1FD1;	//	ῑ	0xe1 0xbf 0x91	GREEK SMALL LETTER IOTA WITH MACRON
+				break;
+			case 0x1FDA:		//	Ὶ	0xe1 0xbf 0x9a	GREEK CAPITAL LETTER IOTA WITH VARIA
+				ch = 0x1F76;	//	ὶ	0xe1 0xbd 0xb6	GREEK SMALL LETTER IOTA WITH VARIA
+				break;
+			case 0x1FDB:		//	Ί	0xe1 0xbf 0x9b	GREEK CAPITAL LETTER IOTA WITH OXIA
+				ch = 0x1F77;	//	ί	0xe1 0xbd 0xb7	GREEK SMALL LETTER IOTA WITH OXIA
+				break;
+			case 0x1FE8:		//	Ῠ	0xe1 0xbf 0xa8	GREEK CAPITAL LETTER UPSILON WITH VRACHY
+				ch = 0x1FE0;	//	� 	0xe1 0xbf 0xa0	GREEK SMALL LETTER UPSILON WITH VRACHY
+				break;
+			case 0x1FE9:		//	Ῡ	0xe1 0xbf 0xa9	GREEK CAPITAL LETTER UPSILON WITH MACRON
+				ch = 0x1FE1;	//	ῡ	0xe1 0xbf 0xa1	GREEK SMALL LETTER UPSILON WITH MACRON
+				break;
+			case 0x1FEA:		//	Ὺ	0xe1 0xbf 0xaa	GREEK CAPITAL LETTER UPSILON WITH VARIA
+				ch = 0x1F7A;	//	ὺ	0xe1 0xbd 0xba	GREEK SMALL LETTER UPSILON WITH VARIA
+				break;
+			case 0x1FEB:		//	Ύ	0xe1 0xbf 0xab	GREEK CAPITAL LETTER UPSILON WITH OXIA
+				ch = 0x1F7B;	//	ύ	0xe1 0xbd 0xbb	GREEK SMALL LETTER UPSILON WITH OXIA
+				break;
+			case 0x1FEC:		//	Ῥ	0xe1 0xbf 0xac	GREEK CAPITAL LETTER RHO WITH DASIA
+				ch = 0x1FE5;	//	ῥ	0xe1 0xbf 0xa5	GREEK SMALL LETTER RHO WITH DASIA
+				break;
+			case 0x1FF8:		//	Ὸ	0xe1 0xbf 0xb8	GREEK CAPITAL LETTER OMICRON WITH VARIA
+				ch = 0x1F78;	//	ὸ	0xe1 0xbd 0xb8	GREEK SMALL LETTER OMICRON WITH VARIA
+				break;
+			case 0x1FF9:		//	Ό	0xe1 0xbf 0xb9	GREEK CAPITAL LETTER OMICRON WITH OXIA
+				ch = 0x1F79;	//	ό	0xe1 0xbd 0xb9	GREEK SMALL LETTER OMICRON WITH OXIA
+				break;
+			case 0x1FFA:		//	Ὼ	0xe1 0xbf 0xba	GREEK CAPITAL LETTER OMEGA WITH VARIA
+				ch = 0x1F7C;	//	ὼ	0xe1 0xbd 0xbc	GREEK SMALL LETTER OMEGA WITH VARIA
+				break;
+			case 0x1FFB:		//	Ώ	0xe1 0xbf 0xbb	GREEK CAPITAL LETTER OMEGA WITH OXIA
+				ch = 0x1F7D;	//	ώ	0xe1 0xbd 0xbd	GREEK SMALL LETTER OMEGA WITH OXIA
+				break;
+			case 0x1FFC:		//	ῼ	0xe1 0xbf 0xbc	GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI
+				ch = 0x1FF3;	//	ῳ	0xe1 0xbf 0xb3	GREEK SMALL LETTER OMEGA WITH PROSGEGRAMMENI
+				break;
+			case 0x2C00:		//	Ⰰ	0xe2 0xb0 0x80	GLAGOLITIC CAPITAL LETTER AZU
+				ch = 0x2C30;	//	ⰰ	0xe2 0xb0 0xb0	GLAGOLITIC SMALL LETTER AZU
+				break;
+			case 0x2C01:		//	Ⰱ	0xe2 0xb0 0x81	GLAGOLITIC CAPITAL LETTER BUKY
+				ch = 0x2C31;	//	ⰱ	0xe2 0xb0 0xb1	GLAGOLITIC SMALL LETTER BUKY
+				break;
+			case 0x2C02:		//	Ⰲ	0xe2 0xb0 0x82	GLAGOLITIC CAPITAL LETTER VEDE
+				ch = 0x2C32;	//	ⰲ	0xe2 0xb0 0xb2	GLAGOLITIC SMALL LETTER VEDE
+				break;
+			case 0x2C03:		//	Ⰳ	0xe2 0xb0 0x83	GLAGOLITIC CAPITAL LETTER GLAGOLI
+				ch = 0x2C33;	//	ⰳ	0xe2 0xb0 0xb3	GLAGOLITIC SMALL LETTER GLAGOLI
+				break;
+			case 0x2C04:		//	Ⰴ	0xe2 0xb0 0x84	GLAGOLITIC CAPITAL LETTER DOBRO
+				ch = 0x2C34;	//	ⰴ	0xe2 0xb0 0xb4	GLAGOLITIC SMALL LETTER DOBRO
+				break;
+			case 0x2C05:		//	Ⰵ	0xe2 0xb0 0x85	GLAGOLITIC CAPITAL LETTER YESTU
+				ch = 0x2C35;	//	ⰵ	0xe2 0xb0 0xb5	GLAGOLITIC SMALL LETTER YESTU
+				break;
+			case 0x2C06:		//	Ⰶ	0xe2 0xb0 0x86	GLAGOLITIC CAPITAL LETTER ZHIVETE
+				ch = 0x2C36;	//	ⰶ	0xe2 0xb0 0xb6	GLAGOLITIC SMALL LETTER ZHIVETE
+				break;
+			case 0x2C07:		//	Ⰷ	0xe2 0xb0 0x87	GLAGOLITIC CAPITAL LETTER DZELO
+				ch = 0x2C37;	//	ⰷ	0xe2 0xb0 0xb7	GLAGOLITIC SMALL LETTER DZELO
+				break;
+			case 0x2C08:		//	Ⰸ	0xe2 0xb0 0x88	GLAGOLITIC CAPITAL LETTER ZEMLJA
+				ch = 0x2C38;	//	ⰸ	0xe2 0xb0 0xb8	GLAGOLITIC SMALL LETTER ZEMLJA
+				break;
+			case 0x2C09:		//	Ⰹ	0xe2 0xb0 0x89	GLAGOLITIC CAPITAL LETTER IZHE
+				ch = 0x2C39;	//	ⰹ	0xe2 0xb0 0xb9	GLAGOLITIC SMALL LETTER IZHE
+				break;
+			case 0x2C0A:		//	Ⰺ	0xe2 0xb0 0x8a	GLAGOLITIC CAPITAL LETTER INITIAL IZHE
+				ch = 0x2C3A;	//	ⰺ	0xe2 0xb0 0xba	GLAGOLITIC SMALL LETTER INITIAL IZHE
+				break;
+			case 0x2C0B:		//	Ⰻ	0xe2 0xb0 0x8b	GLAGOLITIC CAPITAL LETTER I
+				ch = 0x2C3B;	//	ⰻ	0xe2 0xb0 0xbb	GLAGOLITIC SMALL LETTER I
+				break;
+			case 0x2C0C:		//	Ⰼ	0xe2 0xb0 0x8c	GLAGOLITIC CAPITAL LETTER DJERVI
+				ch = 0x2C3C;	//	ⰼ	0xe2 0xb0 0xbc	GLAGOLITIC SMALL LETTER DJERVI
+				break;
+			case 0x2C0D:		//	Ⰽ	0xe2 0xb0 0x8d	GLAGOLITIC CAPITAL LETTER KAKO
+				ch = 0x2C3D;	//	ⰽ	0xe2 0xb0 0xbd	GLAGOLITIC SMALL LETTER KAKO
+				break;
+			case 0x2C0E:		//	Ⰾ	0xe2 0xb0 0x8e	GLAGOLITIC CAPITAL LETTER LJUDIJE
+				ch = 0x2C3E;	//	ⰾ	0xe2 0xb0 0xbe	GLAGOLITIC SMALL LETTER LJUDIJE
+				break;
+			case 0x2C0F:		//	Ⰿ	0xe2 0xb0 0x8f	GLAGOLITIC CAPITAL LETTER MYSLITE
+				ch = 0x2C3F;	//	ⰿ	0xe2 0xb0 0xbf	GLAGOLITIC SMALL LETTER MYSLITE
+				break;
+			case 0x2C10:		//	Ⱀ	0xe2 0xb0 0x90	GLAGOLITIC CAPITAL LETTER NASHI
+				ch = 0x2C40;	//	ⱀ	0xe2 0xb1 0x80	GLAGOLITIC SMALL LETTER NASHI
+				break;
+			case 0x2C11:		//	Ⱁ	0xe2 0xb0 0x91	GLAGOLITIC CAPITAL LETTER ONU
+				ch = 0x2C41;	//	ⱁ	0xe2 0xb1 0x81	GLAGOLITIC SMALL LETTER ONU
+				break;
+			case 0x2C12:		//	Ⱂ	0xe2 0xb0 0x92	GLAGOLITIC CAPITAL LETTER POKOJI
+				ch = 0x2C42;	//	ⱂ	0xe2 0xb1 0x82	GLAGOLITIC SMALL LETTER POKOJI
+				break;
+			case 0x2C13:		//	Ⱃ	0xe2 0xb0 0x93	GLAGOLITIC CAPITAL LETTER RITSI
+				ch = 0x2C43;	//	ⱃ	0xe2 0xb1 0x83	GLAGOLITIC SMALL LETTER RITSI
+				break;
+			case 0x2C14:		//	Ⱄ	0xe2 0xb0 0x94	GLAGOLITIC CAPITAL LETTER SLOVO
+				ch = 0x2C44;	//	ⱄ	0xe2 0xb1 0x84	GLAGOLITIC SMALL LETTER SLOVO
+				break;
+			case 0x2C15:		//	Ⱅ	0xe2 0xb0 0x95	GLAGOLITIC CAPITAL LETTER TVRIDO
+				ch = 0x2C45;	//	ⱅ	0xe2 0xb1 0x85	GLAGOLITIC SMALL LETTER TVRIDO
+				break;
+			case 0x2C16:		//	Ⱆ	0xe2 0xb0 0x96	GLAGOLITIC CAPITAL LETTER UKU
+				ch = 0x2C46;	//	ⱆ	0xe2 0xb1 0x86	GLAGOLITIC SMALL LETTER UKU
+				break;
+			case 0x2C17:		//	Ⱇ	0xe2 0xb0 0x97	GLAGOLITIC CAPITAL LETTER FRITU
+				ch = 0x2C47;	//	ⱇ	0xe2 0xb1 0x87	GLAGOLITIC SMALL LETTER FRITU
+				break;
+			case 0x2C18:		//	Ⱈ	0xe2 0xb0 0x98	GLAGOLITIC CAPITAL LETTER HERU
+				ch = 0x2C48;	//	ⱈ	0xe2 0xb1 0x88	GLAGOLITIC SMALL LETTER HERU
+				break;
+			case 0x2C19:		//	Ⱉ	0xe2 0xb0 0x99	GLAGOLITIC CAPITAL LETTER OTU
+				ch = 0x2C49;	//	ⱉ	0xe2 0xb1 0x89	GLAGOLITIC SMALL LETTER OTU
+				break;
+			case 0x2C1A:		//	Ⱊ	0xe2 0xb0 0x9a	GLAGOLITIC CAPITAL LETTER PE
+				ch = 0x2C4A;	//	ⱊ	0xe2 0xb1 0x8a	GLAGOLITIC SMALL LETTER PE
+				break;
+			case 0x2C1B:		//	Ⱋ	0xe2 0xb0 0x9b	GLAGOLITIC CAPITAL LETTER SHTA
+				ch = 0x2C4B;	//	ⱋ	0xe2 0xb1 0x8b	GLAGOLITIC SMALL LETTER SHTA
+				break;
+			case 0x2C1C:		//	Ⱌ	0xe2 0xb0 0x9c	GLAGOLITIC CAPITAL LETTER TSI
+				ch = 0x2C4C;	//	ⱌ	0xe2 0xb1 0x8c	GLAGOLITIC SMALL LETTER TSI
+				break;
+			case 0x2C1D:		//	Ⱍ	0xe2 0xb0 0x9d	GLAGOLITIC CAPITAL LETTER CHRIVI
+				ch = 0x2C4D;	//	ⱍ	0xe2 0xb1 0x8d	GLAGOLITIC SMALL LETTER CHRIVI
+				break;
+			case 0x2C1E:		//	Ⱎ	0xe2 0xb0 0x9e	GLAGOLITIC CAPITAL LETTER SHA
+				ch = 0x2C4E;	//	ⱎ	0xe2 0xb1 0x8e	GLAGOLITIC SMALL LETTER SHA
+				break;
+			case 0x2C1F:		//	Ⱏ	0xe2 0xb0 0x9f	GLAGOLITIC CAPITAL LETTER YERU
+				ch = 0x2C4F;	//	ⱏ	0xe2 0xb1 0x8f	GLAGOLITIC SMALL LETTER YERU
+				break;
+			case 0x2C20:		//	� 	0xe2 0xb0 0xa0	GLAGOLITIC CAPITAL LETTER YERI
+				ch = 0x2C50;	//	ⱐ	0xe2 0xb1 0x90	GLAGOLITIC SMALL LETTER YERI
+				break;
+			case 0x2C21:		//	Ⱑ	0xe2 0xb0 0xa1	GLAGOLITIC CAPITAL LETTER YATI
+				ch = 0x2C51;	//	ⱑ	0xe2 0xb1 0x91	GLAGOLITIC SMALL LETTER YATI
+				break;
+			case 0x2C22:		//	Ⱒ	0xe2 0xb0 0xa2	GLAGOLITIC CAPITAL LETTER SPIDERY HA
+				ch = 0x2C52;	//	ⱒ	0xe2 0xb1 0x92	GLAGOLITIC SMALL LETTER SPIDERY HA
+				break;
+			case 0x2C23:		//	Ⱓ	0xe2 0xb0 0xa3	GLAGOLITIC CAPITAL LETTER YU
+				ch = 0x2C53;	//	ⱓ	0xe2 0xb1 0x93	GLAGOLITIC SMALL LETTER YU
+				break;
+			case 0x2C24:		//	Ⱔ	0xe2 0xb0 0xa4	GLAGOLITIC CAPITAL LETTER SMALL YUS
+				ch = 0x2C54;	//	ⱔ	0xe2 0xb1 0x94	GLAGOLITIC SMALL LETTER SMALL YUS
+				break;
+			case 0x2C25:		//	Ⱕ	0xe2 0xb0 0xa5	GLAGOLITIC CAPITAL LETTER SMALL YUS WITH TAIL
+				ch = 0x2C55;	//	ⱕ	0xe2 0xb1 0x95	GLAGOLITIC SMALL LETTER SMALL YUS WITH TAIL
+				break;
+			case 0x2C26:		//	Ⱖ	0xe2 0xb0 0xa6	GLAGOLITIC CAPITAL LETTER YO
+				ch = 0x2C56;	//	ⱖ	0xe2 0xb1 0x96	GLAGOLITIC SMALL LETTER YO
+				break;
+			case 0x2C27:		//	Ⱗ	0xe2 0xb0 0xa7	GLAGOLITIC CAPITAL LETTER IOTATED SMALL YUS
+				ch = 0x2C57;	//	ⱗ	0xe2 0xb1 0x97	GLAGOLITIC SMALL LETTER IOTATED SMALL YUS
+				break;
+			case 0x2C28:		//	Ⱘ	0xe2 0xb0 0xa8	GLAGOLITIC CAPITAL LETTER BIG YUS
+				ch = 0x2C58;	//	ⱘ	0xe2 0xb1 0x98	GLAGOLITIC SMALL LETTER BIG YUS
+				break;
+			case 0x2C29:		//	Ⱙ	0xe2 0xb0 0xa9	GLAGOLITIC CAPITAL LETTER IOTATED BIG YUS
+				ch = 0x2C59;	//	ⱙ	0xe2 0xb1 0x99	GLAGOLITIC SMALL LETTER IOTATED BIG YUS
+				break;
+			case 0x2C2A:		//	Ⱚ	0xe2 0xb0 0xaa	GLAGOLITIC CAPITAL LETTER FITA
+				ch = 0x2C5A;	//	ⱚ	0xe2 0xb1 0x9a	GLAGOLITIC SMALL LETTER FITA
+				break;
+			case 0x2C2B:		//	Ⱛ	0xe2 0xb0 0xab	GLAGOLITIC CAPITAL LETTER IZHITSA
+				ch = 0x2C5B;	//	ⱛ	0xe2 0xb1 0x9b	GLAGOLITIC SMALL LETTER IZHITSA
+				break;
+			case 0x2C2C:		//	Ⱜ	0xe2 0xb0 0xac	GLAGOLITIC CAPITAL LETTER SHTAPIC
+				ch = 0x2C5C;	//	ⱜ	0xe2 0xb1 0x9c	GLAGOLITIC SMALL LETTER SHTAPIC
+				break;
+			case 0x2C2D:		//	Ⱝ	0xe2 0xb0 0xad	GLAGOLITIC CAPITAL LETTER TROKUTASTI A
+				ch = 0x2C5D;	//	ⱝ	0xe2 0xb1 0x9d	GLAGOLITIC SMALL LETTER TROKUTASTI A
+				break;
+			case 0x2C2E:		//	Ⱞ	0xe2 0xb0 0xae	GLAGOLITIC CAPITAL LETTER LATINATE MYSLITE
+				ch = 0x2C5E;	//	ⱞ	0xe2 0xb1 0x9e	GLAGOLITIC SMALL LETTER LATINATE MYSLITE
+				break;
+			case 0x2C60:		//	� 	0xe2 0xb1 0xa0	LATIN CAPITAL LETTER L WITH DOUBLE BAR
+				ch = 0x2C61;	//	ⱡ	0xe2 0xb1 0xa1	LATIN SMALL LETTER L WITH DOUBLE BAR
+				break;
+			case 0x2C62:		//	Ɫ	0xe2 0xb1 0xa2	LATIN CAPITAL LETTER L WITH MIDDLE TILDE
+				ch = 0x026B;	//	ɫ	0xc9 0xab	LATIN SMALL LETTER L WITH MIDDLE TILDE
+				break;
+			case 0x2C63:		//	Ᵽ	0xe2 0xb1 0xa3	LATIN CAPITAL LETTER P WITH STROKE
+				ch = 0x1D7D;	//	ᵽ	0xe1 0xb5 0xbd	LATIN SMALL LETTER P WITH STROKE
+				break;
+			case 0x2C64:		//	Ɽ	0xe2 0xb1 0xa4	LATIN CAPITAL LETTER R WITH TAIL
+				ch = 0x027D;	//	ɽ	0xc9 0xbd	LATIN SMALL LETTER R WITH TAIL
+				break;
+			case 0x2C67:		//	Ⱨ	0xe2 0xb1 0xa7	LATIN CAPITAL LETTER H WITH DESCENDER
+				ch = 0x2C68;	//	ⱨ	0xe2 0xb1 0xa8	LATIN SMALL LETTER H WITH DESCENDER
+				break;
+			case 0x2C69:		//	Ⱪ	0xe2 0xb1 0xa9	LATIN CAPITAL LETTER K WITH DESCENDER
+				ch = 0x2C6A;	//	ⱪ	0xe2 0xb1 0xaa	LATIN SMALL LETTER K WITH DESCENDER
+				break;
+			case 0x2C6B:		//	Ⱬ	0xe2 0xb1 0xab	LATIN CAPITAL LETTER Z WITH DESCENDER
+				ch = 0x2C6C;	//	ⱬ	0xe2 0xb1 0xac	LATIN SMALL LETTER Z WITH DESCENDER
+				break;
+			case 0x2C6D:		//	Ɑ	0xe2 0xb1 0xad	LATIN CAPITAL LETTER ALPHA
+				ch = 0x0251;	//	ɑ	0xc9 0x91	LATIN SMALL LETTER ALPHA
+				break;
+			case 0x2C6E:		//	Ɱ	0xe2 0xb1 0xae	LATIN CAPITAL LETTER M WITH HOOK
+				ch = 0x0271;	//	ɱ	0xc9 0xb1	LATIN SMALL LETTER M WITH HOOK
+				break;
+			case 0x2C6F:		//	Ɐ	0xe2 0xb1 0xaf	LATIN CAPITAL LETTER TURNED A
+				ch = 0x0250;	//	ɐ	0xc9 0x90	LATIN SMALL LETTER TURNED A
+				break;
+			case 0x2C70:		//	Ɒ	0xe2 0xb1 0xb0	LATIN CAPITAL LETTER TURNED ALPHA
+				ch = 0x0252;	//	ɒ	0xc9 0x92	LATIN SMALL LETTER TURNED ALPHA
+				break;
+			case 0x2C72:		//	Ⱳ	0xe2 0xb1 0xb2	LATIN CAPITAL LETTER W WITH HOOK
+				ch = 0x2C73;	//	ⱳ	0xe2 0xb1 0xb3	LATIN SMALL LETTER W WITH HOOK
+				break;
+			case 0x2C75:		//	Ⱶ	0xe2 0xb1 0xb5	LATIN CAPITAL LETTER HALF H
+				ch = 0x2C76;	//	ⱶ	0xe2 0xb1 0xb6	LATIN SMALL LETTER HALF H
+				break;
+			case 0x2C7E:		//	Ȿ	0xe2 0xb1 0xbe	LATIN CAPITAL LETTER S WITH SWASH TAIL
+				ch = 0x023F;	//	ȿ	0xc8 0xbf	LATIN SMALL LETTER S WITH SWASH TAIL
+				break;
+			case 0x2C7F:		//	Ɀ	0xe2 0xb1 0xbf	LATIN CAPITAL LETTER Z WITH SWASH TAIL
+				ch = 0x0240;	//	ɀ	0xc9 0x80	LATIN SMALL LETTER Z WITH SWASH TAIL
+				break;
+			case 0x2C80:		//	Ⲁ	0xe2 0xb2 0x80	COPTIC CAPITAL LETTER ALFA
+				ch = 0x2C81;	//	ⲁ	0xe2 0xb2 0x81	COPTIC SMALL LETTER ALFA
+				break;
+			case 0x2C82:		//	Ⲃ	0xe2 0xb2 0x82	COPTIC CAPITAL LETTER VIDA
+				ch = 0x2C83;	//	ⲃ	0xe2 0xb2 0x83	COPTIC SMALL LETTER VIDA
+				break;
+			case 0x2C84:		//	Ⲅ	0xe2 0xb2 0x84	COPTIC CAPITAL LETTER GAMMA
+				ch = 0x2C85;	//	ⲅ	0xe2 0xb2 0x85	COPTIC SMALL LETTER GAMMA
+				break;
+			case 0x2C86:		//	Ⲇ	0xe2 0xb2 0x86	COPTIC CAPITAL LETTER DALDA
+				ch = 0x2C87;	//	ⲇ	0xe2 0xb2 0x87	COPTIC SMALL LETTER DALDA
+				break;
+			case 0x2C88:		//	Ⲉ	0xe2 0xb2 0x88	COPTIC CAPITAL LETTER EIE
+				ch = 0x2C89;	//	ⲉ	0xe2 0xb2 0x89	COPTIC SMALL LETTER EIE
+				break;
+			case 0x2C8A:		//	Ⲋ	0xe2 0xb2 0x8a	COPTIC CAPITAL LETTER SOU
+				ch = 0x2C8B;	//	ⲋ	0xe2 0xb2 0x8b	COPTIC SMALL LETTER SOU
+				break;
+			case 0x2C8C:		//	Ⲍ	0xe2 0xb2 0x8c	COPTIC CAPITAL LETTER ZATA
+				ch = 0x2C8D;	//	ⲍ	0xe2 0xb2 0x8d	COPTIC SMALL LETTER ZATA
+				break;
+			case 0x2C8E:		//	Ⲏ	0xe2 0xb2 0x8e	COPTIC CAPITAL LETTER HATE
+				ch = 0x2C8F;	//	ⲏ	0xe2 0xb2 0x8f	COPTIC SMALL LETTER HATE
+				break;
+			case 0x2C90:		//	Ⲑ	0xe2 0xb2 0x90	COPTIC CAPITAL LETTER THETHE
+				ch = 0x2C91;	//	ⲑ	0xe2 0xb2 0x91	COPTIC SMALL LETTER THETHE
+				break;
+			case 0x2C92:		//	Ⲓ	0xe2 0xb2 0x92	COPTIC CAPITAL LETTER IAUDA
+				ch = 0x2C93;	//	ⲓ	0xe2 0xb2 0x93	COPTIC SMALL LETTER IAUDA
+				break;
+			case 0x2C94:		//	Ⲕ	0xe2 0xb2 0x94	COPTIC CAPITAL LETTER KAPA
+				ch = 0x2C95;	//	ⲕ	0xe2 0xb2 0x95	COPTIC SMALL LETTER KAPA
+				break;
+			case 0x2C96:		//	Ⲗ	0xe2 0xb2 0x96	COPTIC CAPITAL LETTER LAULA
+				ch = 0x2C97;	//	ⲗ	0xe2 0xb2 0x97	COPTIC SMALL LETTER LAULA
+				break;
+			case 0x2C98:		//	Ⲙ	0xe2 0xb2 0x98	COPTIC CAPITAL LETTER MI
+				ch = 0x2C99;	//	ⲙ	0xe2 0xb2 0x99	COPTIC SMALL LETTER MI
+				break;
+			case 0x2C9A:		//	Ⲛ	0xe2 0xb2 0x9a	COPTIC CAPITAL LETTER NI
+				ch = 0x2C9B;	//	ⲛ	0xe2 0xb2 0x9b	COPTIC SMALL LETTER NI
+				break;
+			case 0x2C9C:		//	Ⲝ	0xe2 0xb2 0x9c	COPTIC CAPITAL LETTER KSI
+				ch = 0x2C9D;	//	ⲝ	0xe2 0xb2 0x9d	COPTIC SMALL LETTER KSI
+				break;
+			case 0x2C9E:		//	Ⲟ	0xe2 0xb2 0x9e	COPTIC CAPITAL LETTER O
+				ch = 0x2C9F;	//	ⲟ	0xe2 0xb2 0x9f	COPTIC SMALL LETTER O
+				break;
+			case 0x2CA0:		//	� 	0xe2 0xb2 0xa0	COPTIC CAPITAL LETTER PI
+				ch = 0x2CA1;	//	ⲡ	0xe2 0xb2 0xa1	COPTIC SMALL LETTER PI
+				break;
+			case 0x2CA2:		//	Ⲣ	0xe2 0xb2 0xa2	COPTIC CAPITAL LETTER RO
+				ch = 0x2CA3;	//	ⲣ	0xe2 0xb2 0xa3	COPTIC SMALL LETTER RO
+				break;
+			case 0x2CA4:		//	Ⲥ	0xe2 0xb2 0xa4	COPTIC CAPITAL LETTER SIMA
+				ch = 0x2CA5;	//	ⲥ	0xe2 0xb2 0xa5	COPTIC SMALL LETTER SIMA
+				break;
+			case 0x2CA6:		//	Ⲧ	0xe2 0xb2 0xa6	COPTIC CAPITAL LETTER TAU
+				ch = 0x2CA7;	//	ⲧ	0xe2 0xb2 0xa7	COPTIC SMALL LETTER TAU
+				break;
+			case 0x2CA8:		//	Ⲩ	0xe2 0xb2 0xa8	COPTIC CAPITAL LETTER UA
+				ch = 0x2CA9;	//	ⲩ	0xe2 0xb2 0xa9	COPTIC SMALL LETTER UA
+				break;
+			case 0x2CAA:		//	Ⲫ	0xe2 0xb2 0xaa	COPTIC CAPITAL LETTER FI
+				ch = 0x2CAB;	//	ⲫ	0xe2 0xb2 0xab	COPTIC SMALL LETTER FI
+				break;
+			case 0x2CAC:		//	Ⲭ	0xe2 0xb2 0xac	COPTIC CAPITAL LETTER KHI
+				ch = 0x2CAD;	//	ⲭ	0xe2 0xb2 0xad	COPTIC SMALL LETTER KHI
+				break;
+			case 0x2CAE:		//	Ⲯ	0xe2 0xb2 0xae	COPTIC CAPITAL LETTER PSI
+				ch = 0x2CAF;	//	ⲯ	0xe2 0xb2 0xaf	COPTIC SMALL LETTER PSI
+				break;
+			case 0x2CB0:		//	Ⲱ	0xe2 0xb2 0xb0	COPTIC CAPITAL LETTER OOU
+				ch = 0x2CB1;	//	ⲱ	0xe2 0xb2 0xb1	COPTIC SMALL LETTER OOU
+				break;
+			case 0x2CB2:		//	Ⲳ	0xe2 0xb2 0xb2	COPTIC CAPITAL LETTER DIALECT-P ALEF
+				ch = 0x2CB3;	//	ⲳ	0xe2 0xb2 0xb3	COPTIC SMALL LETTER DIALECT-P ALEF
+				break;
+			case 0x2CB4:		//	Ⲵ	0xe2 0xb2 0xb4	COPTIC CAPITAL LETTER OLD COPTIC AIN
+				ch = 0x2CB5;	//	ⲵ	0xe2 0xb2 0xb5	COPTIC SMALL LETTER OLD COPTIC AIN
+				break;
+			case 0x2CB6:		//	Ⲷ	0xe2 0xb2 0xb6	COPTIC CAPITAL LETTER CRYPTOGRAMMIC EIE
+				ch = 0x2CB7;	//	ⲷ	0xe2 0xb2 0xb7	COPTIC SMALL LETTER CRYPTOGRAMMIC EIE
+				break;
+			case 0x2CB8:		//	Ⲹ	0xe2 0xb2 0xb8	COPTIC CAPITAL LETTER DIALECT-P KAPA
+				ch = 0x2CB9;	//	ⲹ	0xe2 0xb2 0xb9	COPTIC SMALL LETTER DIALECT-P KAPA
+				break;
+			case 0x2CBA:		//	Ⲻ	0xe2 0xb2 0xba	COPTIC CAPITAL LETTER DIALECT-P NI
+				ch = 0x2CBB;	//	ⲻ	0xe2 0xb2 0xbb	COPTIC SMALL LETTER DIALECT-P NI
+				break;
+			case 0x2CBC:		//	Ⲽ	0xe2 0xb2 0xbc	COPTIC CAPITAL LETTER CRYPTOGRAMMIC NI
+				ch = 0x2CBD;	//	ⲽ	0xe2 0xb2 0xbd	COPTIC SMALL LETTER CRYPTOGRAMMIC NI
+				break;
+			case 0x2CBE:		//	Ⲿ	0xe2 0xb2 0xbe	COPTIC CAPITAL LETTER OLD COPTIC OOU
+				ch = 0x2CBF;	//	ⲿ	0xe2 0xb2 0xbf	COPTIC SMALL LETTER OLD COPTIC OOU
+				break;
+			case 0x2CC0:		//	Ⳁ	0xe2 0xb3 0x80	COPTIC CAPITAL LETTER SAMPI
+				ch = 0x2CC1;	//	ⳁ	0xe2 0xb3 0x81	COPTIC SMALL LETTER SAMPI
+				break;
+			case 0x2CC2:		//	Ⳃ	0xe2 0xb3 0x82	COPTIC CAPITAL LETTER CROSSED SHEI
+				ch = 0x2CC3;	//	ⳃ	0xe2 0xb3 0x83	COPTIC SMALL LETTER CROSSED SHEI
+				break;
+			case 0x2CC4:		//	Ⳅ	0xe2 0xb3 0x84	COPTIC CAPITAL LETTER OLD COPTIC SHEI
+				ch = 0x2CC5;	//	ⳅ	0xe2 0xb3 0x85	COPTIC SMALL LETTER OLD COPTIC SHEI
+				break;
+			case 0x2CC6:		//	Ⳇ	0xe2 0xb3 0x86	COPTIC CAPITAL LETTER OLD COPTIC ESH
+				ch = 0x2CC7;	//	ⳇ	0xe2 0xb3 0x87	COPTIC SMALL LETTER OLD COPTIC ESH
+				break;
+			case 0x2CC8:		//	Ⳉ	0xe2 0xb3 0x88	COPTIC CAPITAL LETTER AKHMIMIC KHEI
+				ch = 0x2CC9;	//	ⳉ	0xe2 0xb3 0x89	COPTIC SMALL LETTER AKHMIMIC KHEI
+				break;
+			case 0x2CCA:		//	Ⳋ	0xe2 0xb3 0x8a	COPTIC CAPITAL LETTER DIALECT-P HORI
+				ch = 0x2CCB;	//	ⳋ	0xe2 0xb3 0x8b	COPTIC SMALL LETTER DIALECT-P HORI
+				break;
+			case 0x2CCC:		//	Ⳍ	0xe2 0xb3 0x8c	COPTIC CAPITAL LETTER OLD COPTIC HORI
+				ch = 0x2CCD;	//	ⳍ	0xe2 0xb3 0x8d	COPTIC SMALL LETTER OLD COPTIC HORI
+				break;
+			case 0x2CCE:		//	Ⳏ	0xe2 0xb3 0x8e	COPTIC CAPITAL LETTER OLD COPTIC HA
+				ch = 0x2CCF;	//	ⳏ	0xe2 0xb3 0x8f	COPTIC SMALL LETTER OLD COPTIC HA
+				break;
+			case 0x2CD0:		//	Ⳑ	0xe2 0xb3 0x90	COPTIC CAPITAL LETTER L-SHAPED HA
+				ch = 0x2CD1;	//	ⳑ	0xe2 0xb3 0x91	COPTIC SMALL LETTER L-SHAPED HA
+				break;
+			case 0x2CD2:		//	Ⳓ	0xe2 0xb3 0x92	COPTIC CAPITAL LETTER OLD COPTIC HEI
+				ch = 0x2CD3;	//	ⳓ	0xe2 0xb3 0x93	COPTIC SMALL LETTER OLD COPTIC HEI
+				break;
+			case 0x2CD4:		//	Ⳕ	0xe2 0xb3 0x94	COPTIC CAPITAL LETTER OLD COPTIC HAT
+				ch = 0x2CD5;	//	ⳕ	0xe2 0xb3 0x95	COPTIC SMALL LETTER OLD COPTIC HAT
+				break;
+			case 0x2CD6:		//	Ⳗ	0xe2 0xb3 0x96	COPTIC CAPITAL LETTER OLD COPTIC GANGIA
+				ch = 0x2CD7;	//	ⳗ	0xe2 0xb3 0x97	COPTIC SMALL LETTER OLD COPTIC GANGIA
+				break;
+			case 0x2CD8:		//	Ⳙ	0xe2 0xb3 0x98	COPTIC CAPITAL LETTER OLD COPTIC DJA
+				ch = 0x2CD9;	//	ⳙ	0xe2 0xb3 0x99	COPTIC SMALL LETTER OLD COPTIC DJA
+				break;
+			case 0x2CDA:		//	Ⳛ	0xe2 0xb3 0x9a	COPTIC CAPITAL LETTER OLD COPTIC SHIMA
+				ch = 0x2CDB;	//	ⳛ	0xe2 0xb3 0x9b	COPTIC SMALL LETTER OLD COPTIC SHIMA
+				break;
+			case 0x2CDC:		//	Ⳝ	0xe2 0xb3 0x9c	COPTIC CAPITAL LETTER OLD NUBIAN SHIMA
+				ch = 0x2CDD;	//	ⳝ	0xe2 0xb3 0x9d	COPTIC SMALL LETTER OLD NUBIAN SHIMA
+				break;
+			case 0x2CDE:		//	Ⳟ	0xe2 0xb3 0x9e	COPTIC CAPITAL LETTER OLD NUBIAN NGI
+				ch = 0x2CDF;	//	ⳟ	0xe2 0xb3 0x9f	COPTIC SMALL LETTER OLD NUBIAN NGI
+				break;
+			case 0x2CE0:		//	� 	0xe2 0xb3 0xa0	COPTIC CAPITAL LETTER OLD NUBIAN NYI
+				ch = 0x2CE1;	//	ⳡ	0xe2 0xb3 0xa1	COPTIC SMALL LETTER OLD NUBIAN NYI
+				break;
+			case 0x2CE2:		//	Ⳣ	0xe2 0xb3 0xa2	COPTIC CAPITAL LETTER OLD NUBIAN WAU
+				ch = 0x2CE3;	//	ⳣ	0xe2 0xb3 0xa3	COPTIC SMALL LETTER OLD NUBIAN WAU
+				break;
+			case 0x2CEB:		//	Ⳬ	0xe2 0xb3 0xab	COPTIC CAPITAL LETTER CRYPTOGRAMMIC SHEI
+				ch = 0x2CEC;	//	ⳬ	0xe2 0xb3 0xac	COPTIC SMALL LETTER CRYPTOGRAMMIC SHEI
+				break;
+			case 0x2CED:		//	Ⳮ	0xe2 0xb3 0xad	COPTIC CAPITAL LETTER CRYPTOGRAMMIC GANGIA
+				ch = 0x2CEE;	//	ⳮ	0xe2 0xb3 0xae	COPTIC SMALL LETTER CRYPTOGRAMMIC GANGIA
+				break;
+			case 0x2CF2:		//	Ⳳ	0xe2 0xb3 0xb2	COPTIC CAPITAL LETTER BOHAIRIC KHEI
+				ch = 0x2CF3;	//	ⳳ	0xe2 0xb3 0xb3	COPTIC SMALL LETTER BOHAIRIC KHEI
+				break;
+			case 0x2D00:		//	ⴀ	0xe2 0xb4 0x80	GEORGIAN LETTER AN
+				ch = 0x10D0;	//	ა	0xe1 0x83 0x90	GEORGIAN SMALL LETTER AN
+				break;
+			case 0x2D01:		//	ⴁ	0xe2 0xb4 0x81	GEORGIAN LETTER BAN
+				ch = 0x10D1;	//	ბ	0xe1 0x83 0x91	GEORGIAN SMALL LETTER BAN
+				break;
+			case 0x2D02:		//	ⴂ	0xe2 0xb4 0x82	GEORGIAN LETTER GAN
+				ch = 0x10D2;	//	გ	0xe1 0x83 0x92	GEORGIAN SMALL LETTER GAN
+				break;
+			case 0x2D03:		//	ⴃ	0xe2 0xb4 0x83	GEORGIAN LETTER DON
+				ch = 0x10D3;	//	დ	0xe1 0x83 0x93	GEORGIAN SMALL LETTER DON
+				break;
+			case 0x2D04:		//	ⴄ	0xe2 0xb4 0x84	GEORGIAN LETTER EN
+				ch = 0x10D4;	//	ე	0xe1 0x83 0x94	GEORGIAN SMALL LETTER EN
+				break;
+			case 0x2D05:		//	ⴅ	0xe2 0xb4 0x85	GEORGIAN LETTER VIN
+				ch = 0x10D5;	//	ვ	0xe1 0x83 0x95	GEORGIAN SMALL LETTER VIN
+				break;
+			case 0x2D06:		//	ⴆ	0xe2 0xb4 0x86	GEORGIAN LETTER ZEN
+				ch = 0x10D6;	//	ზ	0xe1 0x83 0x96	GEORGIAN SMALL LETTER ZEN
+				break;
+			case 0x2D07:		//	ⴇ	0xe2 0xb4 0x87	GEORGIAN LETTER TAN
+				ch = 0x10D7;	//	თ	0xe1 0x83 0x97	GEORGIAN SMALL LETTER TAN
+				break;
+			case 0x2D08:		//	ⴈ	0xe2 0xb4 0x88	GEORGIAN LETTER IN
+				ch = 0x10D8;	//	ი	0xe1 0x83 0x98	GEORGIAN SMALL LETTER IN
+				break;
+			case 0x2D09:		//	ⴉ	0xe2 0xb4 0x89	GEORGIAN LETTER KAN
+				ch = 0x10D9;	//	კ	0xe1 0x83 0x99	GEORGIAN SMALL LETTER KAN
+				break;
+			case 0x2D0A:		//	ⴊ	0xe2 0xb4 0x8a	GEORGIAN LETTER LAS
+				ch = 0x10DA;	//	ლ	0xe1 0x83 0x9a	GEORGIAN SMALL LETTER LAS
+				break;
+			case 0x2D0B:		//	ⴋ	0xe2 0xb4 0x8b	GEORGIAN LETTER MAN
+				ch = 0x10DB;	//	მ	0xe1 0x83 0x9b	GEORGIAN SMALL LETTER MAN
+				break;
+			case 0x2D0C:		//	ⴌ	0xe2 0xb4 0x8c	GEORGIAN LETTER NAR
+				ch = 0x10DC;	//	ნ	0xe1 0x83 0x9c	GEORGIAN SMALL LETTER NAR
+				break;
+			case 0x2D0D:		//	ⴍ	0xe2 0xb4 0x8d	GEORGIAN LETTER ON
+				ch = 0x10DD;	//	ო	0xe1 0x83 0x9d	GEORGIAN SMALL LETTER ON
+				break;
+			case 0x2D0E:		//	ⴎ	0xe2 0xb4 0x8e	GEORGIAN LETTER PAR
+				ch = 0x10DE;	//	პ	0xe1 0x83 0x9e	GEORGIAN SMALL LETTER PAR
+				break;
+			case 0x2D0F:		//	ⴏ	0xe2 0xb4 0x8f	GEORGIAN LETTER ZHAR
+				ch = 0x10DF;	//	ჟ	0xe1 0x83 0x9f	GEORGIAN SMALL LETTER ZHAR
+				break;
+			case 0x2D10:		//	ⴐ	0xe2 0xb4 0x90	GEORGIAN LETTER RAE
+				ch = 0x10E0;	//	� 	0xe1 0x83 0xa0	GEORGIAN SMALL LETTER RAE
+				break;
+			case 0x2D11:		//	ⴑ	0xe2 0xb4 0x91	GEORGIAN LETTER SAN
+				ch = 0x10E1;	//	ს	0xe1 0x83 0xa1	GEORGIAN SMALL LETTER SAN
+				break;
+			case 0x2D12:		//	ⴒ	0xe2 0xb4 0x92	GEORGIAN LETTER TAR
+				ch = 0x10E2;	//	ტ	0xe1 0x83 0xa2	GEORGIAN SMALL LETTER TAR
+				break;
+			case 0x2D13:		//	ⴓ	0xe2 0xb4 0x93	GEORGIAN LETTER UN
+				ch = 0x10E3;	//	უ	0xe1 0x83 0xa3	GEORGIAN SMALL LETTER UN
+				break;
+			case 0x2D14:		//	ⴔ	0xe2 0xb4 0x94	GEORGIAN LETTER PHAR
+				ch = 0x10E4;	//	ფ	0xe1 0x83 0xa4	GEORGIAN SMALL LETTER PHAR
+				break;
+			case 0x2D15:		//	ⴕ	0xe2 0xb4 0x95	GEORGIAN LETTER KHAR
+				ch = 0x10E5;	//	ქ	0xe1 0x83 0xa5	GEORGIAN SMALL LETTER KHAR
+				break;
+			case 0x2D16:		//	ⴖ	0xe2 0xb4 0x96	GEORGIAN LETTER GHAN
+				ch = 0x10E6;	//	ღ	0xe1 0x83 0xa6	GEORGIAN SMALL LETTER GHAN
+				break;
+			case 0x2D17:		//	ⴗ	0xe2 0xb4 0x97	GEORGIAN LETTER QAR
+				ch = 0x10E7;	//	ყ	0xe1 0x83 0xa7	GEORGIAN SMALL LETTER QAR
+				break;
+			case 0x2D18:		//	ⴘ	0xe2 0xb4 0x98	GEORGIAN LETTER SHIN
+				ch = 0x10E8;	//	შ	0xe1 0x83 0xa8	GEORGIAN SMALL LETTER SHIN
+				break;
+			case 0x2D19:		//	ⴙ	0xe2 0xb4 0x99	GEORGIAN LETTER CHIN
+				ch = 0x10E9;	//	ჩ	0xe1 0x83 0xa9	GEORGIAN SMALL LETTER CHIN
+				break;
+			case 0x2D1A:		//	ⴚ	0xe2 0xb4 0x9a	GEORGIAN LETTER CAN
+				ch = 0x10EA;	//	ც	0xe1 0x83 0xaa	GEORGIAN SMALL LETTER CAN
+				break;
+			case 0x2D1B:		//	ⴛ	0xe2 0xb4 0x9b	GEORGIAN LETTER JIL
+				ch = 0x10EB;	//	ძ	0xe1 0x83 0xab	GEORGIAN SMALL LETTER JIL
+				break;
+			case 0x2D1C:		//	ⴜ	0xe2 0xb4 0x9c	GEORGIAN LETTER CIL
+				ch = 0x10EC;	//	წ	0xe1 0x83 0xac	GEORGIAN SMALL LETTER CIL
+				break;
+			case 0x2D1D:		//	ⴝ	0xe2 0xb4 0x9d	GEORGIAN LETTER CHAR
+				ch = 0x10ED;	//	ჭ	0xe1 0x83 0xad	GEORGIAN SMALL LETTER CHAR
+				break;
+			case 0x2D1E:		//	ⴞ	0xe2 0xb4 0x9e	GEORGIAN LETTER XAN
+				ch = 0x10EE;	//	ხ	0xe1 0x83 0xae	GEORGIAN SMALL LETTER XAN
+				break;
+			case 0x2D1F:		//	ⴟ	0xe2 0xb4 0x9f	GEORGIAN LETTER JHAN
+				ch = 0x10EF;	//	ჯ	0xe1 0x83 0xaf	GEORGIAN SMALL LETTER JHAN
+				break;
+			case 0x2D20:		//	� 	0xe2 0xb4 0xa0	GEORGIAN LETTER HAE
+				ch = 0x10F0;	//	ჰ	0xe1 0x83 0xb0	GEORGIAN SMALL LETTER HAE
+				break;
+			case 0x2D21:		//	ⴡ	0xe2 0xb4 0xa1	GEORGIAN LETTER HE
+				ch = 0x10F1;	//	ჱ	0xe1 0x83 0xb1	GEORGIAN SMALL LETTER HE
+				break;
+			case 0x2D22:		//	ⴢ	0xe2 0xb4 0xa2	GEORGIAN LETTER HIE
+				ch = 0x10F2;	//	ჲ	0xe1 0x83 0xb2	GEORGIAN SMALL LETTER HIE
+				break;
+			case 0x2D23:		//	ⴣ	0xe2 0xb4 0xa3	GEORGIAN LETTER WE
+				ch = 0x10F3;	//	ჳ	0xe1 0x83 0xb3	GEORGIAN SMALL LETTER WE
+				break;
+			case 0x2D24:		//	ⴤ	0xe2 0xb4 0xa4	GEORGIAN LETTER HAR
+				ch = 0x10F4;	//	ჴ	0xe1 0x83 0xb4	GEORGIAN SMALL LETTER HAR
+				break;
+			case 0x2D25:		//	ⴥ	0xe2 0xb4 0xa5	GEORGIAN LETTER HOE
+				ch = 0x10F5;	//	ჵ	0xe1 0x83 0xb5	GEORGIAN SMALL LETTER HOE
+				break;
+			case 0x2D27:		//	ⴧ	0xe2 0xb4 0xa7	GEORGIAN LETTER YN
+				ch = 0x10F7;	//	ჷ	0xe1 0x83 0xb7	GEORGIAN SMALL LETTER YN
+				break;
+			case 0x2D2D:		//	ⴭ	0xe2 0xb4 0xad	GEORGIAN LETTER AEN
+				ch = 0x10FD;	//	ჽ	0xe1 0x83 0xbd	GEORGIAN SMALL LETTER AEN
+				break;
+			case 0xA640:		//	Ꙁ	0xea 0x99 0x80	CYRILLIC CAPITAL LETTER ZEMLYA
+				ch = 0xA641;	//	ꙁ	0xea 0x99 0x81	CYRILLIC SMALL LETTER ZEMLYA
+				break;
+			case 0xA642:		//	Ꙃ	0xea 0x99 0x82	CYRILLIC CAPITAL LETTER DZELO
+				ch = 0xA643;	//	ꙃ	0xea 0x99 0x83	CYRILLIC SMALL LETTER DZELO
+				break;
+			case 0xA644:		//	Ꙅ	0xea 0x99 0x84	CYRILLIC CAPITAL LETTER REVERSED DZE
+				ch = 0xA645;	//	ꙅ	0xea 0x99 0x85	CYRILLIC SMALL LETTER REVERSED DZE
+				break;
+			case 0xA646:		//	Ꙇ	0xea 0x99 0x86	CYRILLIC CAPITAL LETTER IOTA
+				ch = 0xA647;	//	ꙇ	0xea 0x99 0x87	CYRILLIC SMALL LETTER IOTA
+				break;
+			case 0xA648:		//	Ꙉ	0xea 0x99 0x88	CYRILLIC CAPITAL LETTER DJERV
+				ch = 0xA649;	//	ꙉ	0xea 0x99 0x89	CYRILLIC SMALL LETTER DJERV
+				break;
+			case 0xA64A:		//	Ꙋ	0xea 0x99 0x8a	CYRILLIC CAPITAL LETTER MONOGRAPH UK
+				ch = 0xA64B;	//	ꙋ	0xea 0x99 0x8b	CYRILLIC SMALL LETTER MONOGRAPH UK
+				break;
+			case 0xA64C:		//	Ꙍ	0xea 0x99 0x8c	CYRILLIC CAPITAL LETTER BROAD OMEGA
+				ch = 0xA64D;	//	ꙍ	0xea 0x99 0x8d	CYRILLIC SMALL LETTER BROAD OMEGA
+				break;
+			case 0xA64E:		//	Ꙏ	0xea 0x99 0x8e	CYRILLIC CAPITAL LETTER NEUTRAL YER
+				ch = 0xA64F;	//	ꙏ	0xea 0x99 0x8f	CYRILLIC SMALL LETTER NEUTRAL YER
+				break;
+			case 0xA650:		//	Ꙑ	0xea 0x99 0x90	CYRILLIC CAPITAL LETTER YERU WITH BACK YER
+				ch = 0xA651;	//	ꙑ	0xea 0x99 0x91	CYRILLIC SMALL LETTER YERU WITH BACK YER
+				break;
+			case 0xA652:		//	Ꙓ	0xea 0x99 0x92	CYRILLIC CAPITAL LETTER IOTIFIED YAT
+				ch = 0xA653;	//	ꙓ	0xea 0x99 0x93	CYRILLIC SMALL LETTER IOTIFIED YAT
+				break;
+			case 0xA654:		//	Ꙕ	0xea 0x99 0x94	CYRILLIC CAPITAL LETTER REVERSED YU
+				ch = 0xA655;	//	ꙕ	0xea 0x99 0x95	CYRILLIC SMALL LETTER REVERSED YU
+				break;
+			case 0xA656:		//	Ꙗ	0xea 0x99 0x96	CYRILLIC CAPITAL LETTER IOTIFIED A
+				ch = 0xA657;	//	ꙗ	0xea 0x99 0x97	CYRILLIC SMALL LETTER IOTIFIED A
+				break;
+			case 0xA658:		//	Ꙙ	0xea 0x99 0x98	CYRILLIC CAPITAL LETTER CLOSED LITTLE YUS
+				ch = 0xA659;	//	ꙙ	0xea 0x99 0x99	CYRILLIC SMALL LETTER CLOSED LITTLE YUS
+				break;
+			case 0xA65A:		//	Ꙛ	0xea 0x99 0x9a	CYRILLIC CAPITAL LETTER BLENDED YUS
+				ch = 0xA65B;	//	ꙛ	0xea 0x99 0x9b	CYRILLIC SMALL LETTER BLENDED YUS
+				break;
+			case 0xA65C:		//	Ꙝ	0xea 0x99 0x9c	CYRILLIC CAPITAL LETTER IOTIFIED CLOSED LITTLE YUS
+				ch = 0xA65D;	//	ꙝ	0xea 0x99 0x9d	CYRILLIC SMALL LETTER IOTIFIED CLOSED LITTLE YUS
+				break;
+			case 0xA65E:		//	Ꙟ	0xea 0x99 0x9e	CYRILLIC CAPITAL LETTER YN
+				ch = 0xA65F;	//	ꙟ	0xea 0x99 0x9f	CYRILLIC SMALL LETTER YN
+				break;
+			case 0xA660:		//	� 	0xea 0x99 0xa0	CYRILLIC CAPITAL LETTER REVERSED TSE
+				ch = 0xA661;	//	ꙡ	0xea 0x99 0xa1	CYRILLIC SMALL LETTER REVERSED TSE
+				break;
+			case 0xA662:		//	Ꙣ	0xea 0x99 0xa2	CYRILLIC CAPITAL LETTER SOFT DE
+				ch = 0xA663;	//	ꙣ	0xea 0x99 0xa3	CYRILLIC SMALL LETTER SOFT DE
+				break;
+			case 0xA664:		//	Ꙥ	0xea 0x99 0xa4	CYRILLIC CAPITAL LETTER SOFT EL
+				ch = 0xA665;	//	ꙥ	0xea 0x99 0xa5	CYRILLIC SMALL LETTER SOFT EL
+				break;
+			case 0xA666:		//	Ꙧ	0xea 0x99 0xa6	CYRILLIC CAPITAL LETTER SOFT EM
+				ch = 0xA667;	//	ꙧ	0xea 0x99 0xa7	CYRILLIC SMALL LETTER SOFT EM
+				break;
+			case 0xA668:		//	Ꙩ	0xea 0x99 0xa8	CYRILLIC CAPITAL LETTER MONOCULAR O
+				ch = 0xA669;	//	ꙩ	0xea 0x99 0xa9	CYRILLIC SMALL LETTER MONOCULAR O
+				break;
+			case 0xA66A:		//	Ꙫ	0xea 0x99 0xaa	CYRILLIC CAPITAL LETTER BINOCULAR O
+				ch = 0xA66B;	//	ꙫ	0xea 0x99 0xab	CYRILLIC SMALL LETTER BINOCULAR O
+				break;
+			case 0xA66C:		//	Ꙭ	0xea 0x99 0xac	CYRILLIC CAPITAL LETTER DOUBLE MONOCULAR O
+				ch = 0xA66D;	//	ꙭ	0xea 0x99 0xad	CYRILLIC SMALL LETTER DOUBLE MONOCULAR O
+				break;
+			case 0xA680:		//	Ꚁ	0xea 0x9a 0x80	CYRILLIC CAPITAL LETTER DWE
+				ch = 0xA681;	//	ꚁ	0xea 0x9a 0x81	CYRILLIC SMALL LETTER DWE
+				break;
+			case 0xA682:		//	Ꚃ	0xea 0x9a 0x82	CYRILLIC CAPITAL LETTER DZWE
+				ch = 0xA683;	//	ꚃ	0xea 0x9a 0x83	CYRILLIC SMALL LETTER DZWE
+				break;
+			case 0xA684:		//	Ꚅ	0xea 0x9a 0x84	CYRILLIC CAPITAL LETTER ZHWE
+				ch = 0xA685;	//	ꚅ	0xea 0x9a 0x85	CYRILLIC SMALL LETTER ZHWE
+				break;
+			case 0xA686:		//	Ꚇ	0xea 0x9a 0x86	CYRILLIC CAPITAL LETTER CCHE
+				ch = 0xA687;	//	ꚇ	0xea 0x9a 0x87	CYRILLIC SMALL LETTER CCHE
+				break;
+			case 0xA688:		//	Ꚉ	0xea 0x9a 0x88	CYRILLIC CAPITAL LETTER DZZE
+				ch = 0xA689;	//	ꚉ	0xea 0x9a 0x89	CYRILLIC SMALL LETTER DZZE
+				break;
+			case 0xA68A:		//	Ꚋ	0xea 0x9a 0x8a	CYRILLIC CAPITAL LETTER TE WITH MIDDLE HOOK
+				ch = 0xA68B;	//	ꚋ	0xea 0x9a 0x8b	CYRILLIC SMALL LETTER TE WITH MIDDLE HOOK
+				break;
+			case 0xA68C:		//	Ꚍ	0xea 0x9a 0x8c	CYRILLIC CAPITAL LETTER TWE
+				ch = 0xA68D;	//	ꚍ	0xea 0x9a 0x8d	CYRILLIC SMALL LETTER TWE
+				break;
+			case 0xA68E:		//	Ꚏ	0xea 0x9a 0x8e	CYRILLIC CAPITAL LETTER TSWE
+				ch = 0xA68F;	//	ꚏ	0xea 0x9a 0x8f	CYRILLIC SMALL LETTER TSWE
+				break;
+			case 0xA690:		//	Ꚑ	0xea 0x9a 0x90	CYRILLIC CAPITAL LETTER TSSE
+				ch = 0xA691;	//	ꚑ	0xea 0x9a 0x91	CYRILLIC SMALL LETTER TSSE
+				break;
+			case 0xA692:		//	Ꚓ	0xea 0x9a 0x92	CYRILLIC CAPITAL LETTER TCHE
+				ch = 0xA693;	//	ꚓ	0xea 0x9a 0x93	CYRILLIC SMALL LETTER TCHE
+				break;
+			case 0xA694:		//	Ꚕ	0xea 0x9a 0x94	CYRILLIC CAPITAL LETTER HWE
+				ch = 0xA695;	//	ꚕ	0xea 0x9a 0x95	CYRILLIC SMALL LETTER HWE
+				break;
+			case 0xA696:		//	Ꚗ	0xea 0x9a 0x96	CYRILLIC CAPITAL LETTER SHWE
+				ch = 0xA697;	//	ꚗ	0xea 0x9a 0x97	CYRILLIC SMALL LETTER SHWE
+				break;
+			case 0xA698:		//	Ꚙ	0xea 0x9a 0x98	CYRILLIC CAPITAL LETTER DOUBLE O
+				ch = 0xA699;	//	ꚙ	0xea 0x9a 0x99	CYRILLIC SMALL LETTER DOUBLE O
+				break;
+			case 0xA69A:		//	Ꚛ	0xea 0x9a 0x9a	CYRILLIC CAPITAL LETTER CROSSED O
+				ch = 0xA69B;	//	ꚛ	0xea 0x9a 0x9b	CYRILLIC SMALL LETTER CROSSED O
+				break;
+			case 0xA722:		//	Ꜣ	0xea 0x9c 0xa2	LATIN CAPITAL LETTER EGYPTOLOGICAL ALEF
+				ch = 0xA723;	//	ꜣ	0xea 0x9c 0xa3	LATIN SMALL LETTER EGYPTOLOGICAL ALEF
+				break;
+			case 0xA724:		//	Ꜥ	0xea 0x9c 0xa4	LATIN CAPITAL LETTER EGYPTOLOGICAL AIN
+				ch = 0xA725;	//	ꜥ	0xea 0x9c 0xa5	LATIN SMALL LETTER EGYPTOLOGICAL AIN
+				break;
+			case 0xA726:		//	Ꜧ	0xea 0x9c 0xa6	LATIN CAPITAL LETTER HENG
+				ch = 0xA727;	//	ꜧ	0xea 0x9c 0xa7	LATIN SMALL LETTER HENG
+				break;
+			case 0xA728:		//	Ꜩ	0xea 0x9c 0xa8	LATIN CAPITAL LETTER TZ
+				ch = 0xA729;	//	ꜩ	0xea 0x9c 0xa9	LATIN SMALL LETTER TZ
+				break;
+			case 0xA72A:		//	Ꜫ	0xea 0x9c 0xaa	LATIN CAPITAL LETTER TRESILLO
+				ch = 0xA72B;	//	ꜫ	0xea 0x9c 0xab	LATIN SMALL LETTER TRESILLO
+				break;
+			case 0xA72C:		//	Ꜭ	0xea 0x9c 0xac	LATIN CAPITAL LETTER CUATRILLO
+				ch = 0xA72D;	//	ꜭ	0xea 0x9c 0xad	LATIN SMALL LETTER CUATRILLO
+				break;
+			case 0xA72E:		//	Ꜯ	0xea 0x9c 0xae	LATIN CAPITAL LETTER CUATRILLO WITH COMMA
+				ch = 0xA72F;	//	ꜯ	0xea 0x9c 0xaf	LATIN SMALL LETTER CUATRILLO WITH COMMA
+				break;
+			case 0xA732:		//	Ꜳ	0xea 0x9c 0xb2	LATIN CAPITAL LETTER AA
+				ch = 0xA733;	//	ꜳ	0xea 0x9c 0xb3	LATIN SMALL LETTER AA
+				break;
+			case 0xA734:		//	Ꜵ	0xea 0x9c 0xb4	LATIN CAPITAL LETTER AO
+				ch = 0xA735;	//	ꜵ	0xea 0x9c 0xb5	LATIN SMALL LETTER AO
+				break;
+			case 0xA736:		//	Ꜷ	0xea 0x9c 0xb6	LATIN CAPITAL LETTER AU
+				ch = 0xA737;	//	ꜷ	0xea 0x9c 0xb7	LATIN SMALL LETTER AU
+				break;
+			case 0xA738:		//	Ꜹ	0xea 0x9c 0xb8	LATIN CAPITAL LETTER AV
+				ch = 0xA739;	//	ꜹ	0xea 0x9c 0xb9	LATIN SMALL LETTER AV
+				break;
+			case 0xA73A:		//	Ꜻ	0xea 0x9c 0xba	LATIN CAPITAL LETTER AV WITH HORIZONTAL BAR
+				ch = 0xA73B;	//	ꜻ	0xea 0x9c 0xbb	LATIN SMALL LETTER AV WITH HORIZONTAL BAR
+				break;
+			case 0xA73C:		//	Ꜽ	0xea 0x9c 0xbc	LATIN CAPITAL LETTER AY
+				ch = 0xA73D;	//	ꜽ	0xea 0x9c 0xbd	LATIN SMALL LETTER AY
+				break;
+			case 0xA73E:		//	Ꜿ	0xea 0x9c 0xbe	LATIN CAPITAL LETTER REVERSED C WITH DOT
+				ch = 0xA73F;	//	ꜿ	0xea 0x9c 0xbf	LATIN SMALL LETTER REVERSED C WITH DOT
+				break;
+			case 0xA740:		//	Ꝁ	0xea 0x9d 0x80	LATIN CAPITAL LETTER K WITH STROKE
+				ch = 0xA741;	//	ꝁ	0xea 0x9d 0x81	LATIN SMALL LETTER K WITH STROKE
+				break;
+			case 0xA742:		//	Ꝃ	0xea 0x9d 0x82	LATIN CAPITAL LETTER K WITH DIAGONAL STROKE
+				ch = 0xA743;	//	ꝃ	0xea 0x9d 0x83	LATIN SMALL LETTER K WITH DIAGONAL STROKE
+				break;
+			case 0xA744:		//	Ꝅ	0xea 0x9d 0x84	LATIN CAPITAL LETTER K WITH STROKE AND DIAGONAL STROKE
+				ch = 0xA745;	//	ꝅ	0xea 0x9d 0x85	LATIN SMALL LETTER K WITH STROKE AND DIAGONAL STROKE
+				break;
+			case 0xA746:		//	Ꝇ	0xea 0x9d 0x86	LATIN CAPITAL LETTER BROKEN L
+				ch = 0xA747;	//	ꝇ	0xea 0x9d 0x87	LATIN SMALL LETTER BROKEN L
+				break;
+			case 0xA748:		//	Ꝉ	0xea 0x9d 0x88	LATIN CAPITAL LETTER L WITH HIGH STROKE
+				ch = 0xA749;	//	ꝉ	0xea 0x9d 0x89	LATIN SMALL LETTER L WITH HIGH STROKE
+				break;
+			case 0xA74A:		//	Ꝋ	0xea 0x9d 0x8a	LATIN CAPITAL LETTER O WITH LONG STROKE OVERLAY
+				ch = 0xA74B;	//	ꝋ	0xea 0x9d 0x8b	LATIN SMALL LETTER O WITH LONG STROKE OVERLAY
+				break;
+			case 0xA74C:		//	Ꝍ	0xea 0x9d 0x8c	LATIN CAPITAL LETTER O WITH LOOP
+				ch = 0xA74D;	//	ꝍ	0xea 0x9d 0x8d	LATIN SMALL LETTER O WITH LOOP
+				break;
+			case 0xA74E:		//	Ꝏ	0xea 0x9d 0x8e	LATIN CAPITAL LETTER OO
+				ch = 0xA74F;	//	ꝏ	0xea 0x9d 0x8f	LATIN SMALL LETTER OO
+				break;
+			case 0xA750:		//	Ꝑ	0xea 0x9d 0x90	LATIN CAPITAL LETTER P WITH STROKE THROUGH DESCENDER
+				ch = 0xA751;	//	ꝑ	0xea 0x9d 0x91	LATIN SMALL LETTER P WITH STROKE THROUGH DESCENDER
+				break;
+			case 0xA752:		//	Ꝓ	0xea 0x9d 0x92	LATIN CAPITAL LETTER P WITH FLOURISH
+				ch = 0xA753;	//	ꝓ	0xea 0x9d 0x93	LATIN SMALL LETTER P WITH FLOURISH
+				break;
+			case 0xA754:		//	Ꝕ	0xea 0x9d 0x94	LATIN CAPITAL LETTER P WITH SQUIRREL TAIL
+				ch = 0xA755;	//	ꝕ	0xea 0x9d 0x95	LATIN SMALL LETTER P WITH SQUIRREL TAIL
+				break;
+			case 0xA756:		//	Ꝗ	0xea 0x9d 0x96	LATIN CAPITAL LETTER Q WITH STROKE THROUGH DESCENDER
+				ch = 0xA757;	//	ꝗ	0xea 0x9d 0x97	LATIN SMALL LETTER Q WITH STROKE THROUGH DESCENDER
+				break;
+			case 0xA758:		//	Ꝙ	0xea 0x9d 0x98	LATIN CAPITAL LETTER Q WITH DIAGONAL STROKE
+				ch = 0xA759;	//	ꝙ	0xea 0x9d 0x99	LATIN SMALL LETTER Q WITH DIAGONAL STROKE
+				break;
+			case 0xA75A:		//	Ꝛ	0xea 0x9d 0x9a	LATIN CAPITAL LETTER R ROTUNDA
+				ch = 0xA75B;	//	ꝛ	0xea 0x9d 0x9b	LATIN SMALL LETTER R ROTUNDA
+				break;
+			case 0xA75C:		//	Ꝝ	0xea 0x9d 0x9c	LATIN CAPITAL LETTER RUM ROTUNDA
+				ch = 0xA75D;	//	ꝝ	0xea 0x9d 0x9d	LATIN SMALL LETTER RUM ROTUNDA
+				break;
+			case 0xA75E:		//	Ꝟ	0xea 0x9d 0x9e	LATIN CAPITAL LETTER V WITH DIAGONAL STROKE
+				ch = 0xA75F;	//	ꝟ	0xea 0x9d 0x9f	LATIN SMALL LETTER V WITH DIAGONAL STROKE
+				break;
+			case 0xA760:		//	� 	0xea 0x9d 0xa0	LATIN CAPITAL LETTER VY
+				ch = 0xA761;	//	ꝡ	0xea 0x9d 0xa1	LATIN SMALL LETTER VY
+				break;
+			case 0xA762:		//	Ꝣ	0xea 0x9d 0xa2	LATIN CAPITAL LETTER VISIGOTHIC Z
+				ch = 0xA763;	//	ꝣ	0xea 0x9d 0xa3	LATIN SMALL LETTER VISIGOTHIC Z
+				break;
+			case 0xA764:		//	Ꝥ	0xea 0x9d 0xa4	LATIN CAPITAL LETTER THORN WITH STROKE
+				ch = 0xA765;	//	ꝥ	0xea 0x9d 0xa5	LATIN SMALL LETTER THORN WITH STROKE
+				break;
+			case 0xA766:		//	Ꝧ	0xea 0x9d 0xa6	LATIN CAPITAL LETTER THORN WITH STROKE THROUGH DESCENDER
+				ch = 0xA767;	//	ꝧ	0xea 0x9d 0xa7	LATIN SMALL LETTER THORN WITH STROKE THROUGH DESCENDER
+				break;
+			case 0xA768:		//	Ꝩ	0xea 0x9d 0xa8	LATIN CAPITAL LETTER VEND
+				ch = 0xA769;	//	ꝩ	0xea 0x9d 0xa9	LATIN SMALL LETTER VEND
+				break;
+			case 0xA76A:		//	Ꝫ	0xea 0x9d 0xaa	LATIN CAPITAL LETTER ET
+				ch = 0xA76B;	//	ꝫ	0xea 0x9d 0xab	LATIN SMALL LETTER ET
+				break;
+			case 0xA76C:		//	Ꝭ	0xea 0x9d 0xac	LATIN CAPITAL LETTER IS
+				ch = 0xA76D;	//	ꝭ	0xea 0x9d 0xad	LATIN SMALL LETTER IS
+				break;
+			case 0xA76E:		//	Ꝯ	0xea 0x9d 0xae	LATIN CAPITAL LETTER CON
+				ch = 0xA76F;	//	ꝯ	0xea 0x9d 0xaf	LATIN SMALL LETTER CON
+				break;
+			case 0xA779:		//	Ꝺ	0xea 0x9d 0xb9	LATIN CAPITAL LETTER INSULAR D
+				ch = 0xA77A;	//	ꝺ	0xea 0x9d 0xba	LATIN SMALL LETTER INSULAR D
+				break;
+			case 0xA77B:		//	Ꝼ	0xea 0x9d 0xbb	LATIN CAPITAL LETTER INSULAR F
+				ch = 0xA77C;	//	ꝼ	0xea 0x9d 0xbc	LATIN SMALL LETTER INSULAR F
+				break;
+			case 0xA77D:		//	Ᵹ	0xea 0x9d 0xbd	LATIN CAPITAL LETTER INSULAR G
+				ch = 0x1D79;	//	ᵹ	0xe1 0xb5 0xb9	LATIN SMALL LETTER INSULAR G
+				break;
+			case 0xA77E:		//	Ꝿ	0xea 0x9d 0xbe	LATIN CAPITAL LETTER TURNED INSULAR G
+				ch = 0xA77F;	//	ꝿ	0xea 0x9d 0xbf	LATIN SMALL LETTER TURNED INSULAR G
+				break;
+			case 0xA780:		//	Ꞁ	0xea 0x9e 0x80	LATIN CAPITAL LETTER TURNED L
+				ch = 0xA781;	//	ꞁ	0xea 0x9e 0x81	LATIN SMALL LETTER TURNED L
+				break;
+			case 0xA782:		//	Ꞃ	0xea 0x9e 0x82	LATIN CAPITAL LETTER INSULAR R
+				ch = 0xA783;	//	ꞃ	0xea 0x9e 0x83	LATIN SMALL LETTER INSULAR R
+				break;
+			case 0xA784:		//	Ꞅ	0xea 0x9e 0x84	LATIN CAPITAL LETTER INSULAR S
+				ch = 0xA785;	//	ꞅ	0xea 0x9e 0x85	LATIN SMALL LETTER INSULAR S
+				break;
+			case 0xA786:		//	Ꞇ	0xea 0x9e 0x86	LATIN CAPITAL LETTER INSULAR T
+				ch = 0xA787;	//	ꞇ	0xea 0x9e 0x87	LATIN SMALL LETTER INSULAR T
+				break;
+			case 0xA78B:		//	Ꞌ	0xea 0x9e 0x8b	LATIN CAPITAL LETTER SALTILLO
+				ch = 0xA78C;	//	ꞌ	0xea 0x9e 0x8c	LATIN SMALL LETTER SALTILLO
+				break;
+			case 0xA78D:		//	Ɥ	0xea 0x9e 0x8d	LATIN CAPITAL LETTER TURNED H
+				ch = 0x0265;	//	ɥ	0xc9 0xa5	LATIN SMALL LETTER TURNED H
+				break;
+			case 0xA790:		//	Ꞑ	0xea 0x9e 0x90	LATIN CAPITAL LETTER N WITH DESCENDER
+				ch = 0xA791;	//	ꞑ	0xea 0x9e 0x91	LATIN SMALL LETTER N WITH DESCENDER
+				break;
+			case 0xA792:		//	Ꞓ	0xea 0x9e 0x92	LATIN CAPITAL LETTER C WITH BAR
+				ch = 0xA793;	//	ꞓ	0xea 0x9e 0x93	LATIN SMALL LETTER C WITH BAR
+				break;
+			case 0xA796:		//	Ꞗ	0xea 0x9e 0x96	LATIN CAPITAL LETTER B WITH FLOURISH
+				ch = 0xA797;	//	ꞗ	0xea 0x9e 0x97	LATIN SMALL LETTER B WITH FLOURISH
+				break;
+			case 0xA798:		//	Ꞙ	0xea 0x9e 0x98	LATIN CAPITAL LETTER F WITH STROKE
+				ch = 0xA799;	//	ꞙ	0xea 0x9e 0x99	LATIN SMALL LETTER F WITH STROKE
+				break;
+			case 0xA79A:		//	Ꞛ	0xea 0x9e 0x9a	LATIN CAPITAL LETTER VOLAPUK AE
+				ch = 0xA79B;	//	ꞛ	0xea 0x9e 0x9b	LATIN SMALL LETTER VOLAPUK AE
+				break;
+			case 0xA79C:		//	Ꞝ	0xea 0x9e 0x9c	LATIN CAPITAL LETTER VOLAPUK OE
+				ch = 0xA79D;	//	ꞝ	0xea 0x9e 0x9d	LATIN SMALL LETTER VOLAPUK OE
+				break;
+			case 0xA79E:		//	Ꞟ	0xea 0x9e 0x9e	LATIN CAPITAL LETTER VOLAPUK UE
+				ch = 0xA79F;	//	ꞟ	0xea 0x9e 0x9f	LATIN SMALL LETTER VOLAPUK UE
+				break;
+			case 0xA7A0:		//	� 	0xea 0x9e 0xa0	LATIN CAPITAL LETTER G WITH OBLIQUE STROKE
+				ch = 0xA7A1;	//	ꞡ	0xea 0x9e 0xa1	LATIN SMALL LETTER G WITH OBLIQUE STROKE
+				break;
+			case 0xA7A2:		//	Ꞣ	0xea 0x9e 0xa2	LATIN CAPITAL LETTER K WITH OBLIQUE STROKE
+				ch = 0xA7A3;	//	ꞣ	0xea 0x9e 0xa3	LATIN SMALL LETTER K WITH OBLIQUE STROKE
+				break;
+			case 0xA7A4:		//	Ꞥ	0xea 0x9e 0xa4	LATIN CAPITAL LETTER N WITH OBLIQUE STROKE
+				ch = 0xA7A5;	//	ꞥ	0xea 0x9e 0xa5	LATIN SMALL LETTER N WITH OBLIQUE STROKE
+				break;
+			case 0xA7A6:		//	Ꞧ	0xea 0x9e 0xa6	LATIN CAPITAL LETTER R WITH OBLIQUE STROKE
+				ch = 0xA7A7;	//	ꞧ	0xea 0x9e 0xa7	LATIN SMALL LETTER R WITH OBLIQUE STROKE
+				break;
+			case 0xA7A8:		//	Ꞩ	0xea 0x9e 0xa8	LATIN CAPITAL LETTER S WITH OBLIQUE STROKE
+				ch = 0xA7A9;	//	ꞩ	0xea 0x9e 0xa9	LATIN SMALL LETTER S WITH OBLIQUE STROKE
+				break;
+			case 0xA7AA:		//	Ɦ	0xea 0x9e 0xaa	LATIN CAPITAL LETTER H WITH HOOK
+				ch = 0x0266;	//	ɦ	0xc9 0xa6	LATIN SMALL LETTER H WITH HOOK
+				break;
+			case 0xA7AB:		//	Ɜ	0xea 0x9e 0xab	LATIN CAPITAL LETTER REVERSED OPEN E
+				ch = 0x025C;	//	ɜ	0xc9 0x9c	LATIN SMALL LETTER REVERSED OPEN E
+				break;
+			case 0xA7AC:		//	Ɡ	0xea 0x9e 0xac	LATIN CAPITAL LETTER SCRIPT G
+				ch = 0x0261;	//	ɡ	0xc9 0xa1	LATIN SMALL LETTER SCRIPT G
+				break;
+			case 0xA7AD:		//	Ɬ	0xea 0x9e 0xad	LATIN CAPITAL LETTER L WITH BELT
+				ch = 0x026C;	//	ɬ	0xc9 0xac	LATIN SMALL LETTER L WITH BELT
+				break;
+			case 0xA7AE:		//	Ɪ	0xea 0x9e 0xae	LATIN CAPITAL LETTER SMALL CAPITAL I
+				ch = 0x026A;	//	ɪ	0xc9 0xaa	LATIN SMALL LETTER SMALL CAPITAL I
+				break;
+			case 0xA7B0:		//	Ʞ	0xea 0x9e 0xb0	LATIN CAPITAL LETTER TURNED K
+				ch = 0x029E;	//	ʞ	0xca 0x9e	LATIN SMALL LETTER TURNED K
+				break;
+			case 0xA7B1:		//	Ʇ	0xea 0x9e 0xb1	LATIN CAPITAL LETTER TURNED T
+				ch = 0x0287;	//	ʇ	0xca 0x87	LATIN SMALL LETTER TURNED T
+				break;
+			case 0xA7B2:		//	Ʝ	0xea 0x9e 0xb2	LATIN CAPITAL LETTER J WITH CROSSED-TAIL
+				ch = 0x029D;	//	ʝ	0xca 0x9d	LATIN SMALL LETTER J WITH CROSSED-TAIL
+				break;
+			case 0xA7B3:		//	Ꭓ	0xea 0x9e 0xb3	LATIN CAPITAL LETTER CHI
+				ch = 0xAB53;	//	ꭓ	0xea 0xad 0x93	LATIN SMALL LETTER CHI
+				break;
+			case 0xA7B4:		//	Ꞵ	0xea 0x9e 0xb4	LATIN CAPITAL LETTER BETA
+				ch = 0xA7B5;	//	ꞵ	0xea 0x9e 0xb5	LATIN SMALL LETTER BETA
+				break;
+			case 0xA7B6:		//	Ꞷ	0xea 0x9e 0xb6	LATIN CAPITAL LETTER OMEGA
+				ch = 0xA7B7;	//	ꞷ	0xea 0x9e 0xb7	LATIN SMALL LETTER OMEGA
+				break;
+			case 0xA7B8:		//	Ꞹ	0xea 0x9e 0xb8	LATIN CAPITAL LETTER U WITH STROKE
+				ch = 0xA7B9;	//	ꞹ	0xea 0x9e 0xb9	LATIN SMALL LETTER U WITH STROKE
+				break;
+			case 0xA7BA:		//	Ꞻ	0xea 0x9e 0xba	LATIN CAPITAL LETTER GLOTTAL A
+				ch = 0xA7BB;	//	ꞻ	0xea 0x9e 0xbb	LATIN SMALL LETTER GLOTTAL A
+				break;
+			case 0xA7BC:		//	Ꞽ	0xea 0x9e 0xbc	LATIN CAPITAL LETTER GLOTTAL I
+				ch = 0xA7BD;	//	ꞽ	0xea 0x9e 0xbd	LATIN SMALL LETTER GLOTTAL I
+				break;
+			case 0xA7BE:		//	Ꞿ	0xea 0x9e 0xbe	LATIN CAPITAL LETTER GLOTTAL U
+				ch = 0xA7BF;	//	ꞿ	0xea 0x9e 0xbf	LATIN SMALL LETTER GLOTTAL U
+				break;
+			case 0xA7C2:		//	Ꟃ	0xea 0x9f 0x82	LATIN CAPITAL LETTER ANGLICANA W
+				ch = 0xA7C3;	//	ꟃ	0xea 0x9f 0x83	LATIN SMALL LETTER ANGLICANA W
+				break;
+			case 0xA7C4:		//	Ꞔ	0xea 0x9f 0x84	LATIN CAPITAL LETTER C WITH PALATAL HOOK
+				ch = 0xA794;	//	ꞔ	0xea 0x9e 0x94	LATIN SMALL LETTER C WITH PALATAL HOOK
+				break;
+			case 0xA7C5:		//	Ʂ	0xea 0x9f 0x85	LATIN CAPITAL LETTER S WITH HOOK
+				ch = 0x0282;	//	ʂ	0xca 0x82	LATIN SMALL LETTER S WITH HOOK
+				break;
+			case 0xA7C6:		//	Ᶎ	0xea 0x9f 0x86	LATIN CAPITAL LETTER Z WITH PALATAL HOOK
+				ch = 0x1D8E;	//	ᶎ	0xe1 0xb6 0x8e	LATIN SMALL LETTER Z WITH PALATAL HOOK
+				break;
+			case 0xA7C7:		//	Ꟈ	0xea 0x9f 0x87	LATIN CAPITAL LETTER D WITH SHORT STROKE OVERLAY
+				ch = 0xA7C8;	//	ꟈ	0xea 0x9f 0x88	LATIN SMALL LETTER D WITH SHORT STROKE OVERLAY
+				break;
+			case 0xA7C9:		//	Ꟊ	0xea 0x9f 0x89	LATIN CAPITAL LETTER S WITH SHORT STROKE OVERLAY
+				ch = 0xA7CA;	//	ꟊ	0xea 0x9f 0x8a	LATIN SMALL LETTER S WITH SHORT STROKE OVERLAY
+				break;
+			case 0xA7F5:		//	Ꟶ	0xea 0x9f 0xb5	LATIN CAPITAL LETTER REVERSED HALF H
+				ch = 0xA7F6;	//	ꟶ	0xea 0x9f 0xb6	LATIN SMALL LETTER REVERSED HALF H
+				break;
+			case 0xFF21:		//	Ａ	0xef 0xbc 0xa1	FULLWIDTH LATIN CAPITAL LETTER A
+				ch = 0xFF41;	//	ａ	0xef 0xbd 0x81	FULLWIDTH LATIN SMALL LETTER A
+				break;
+			case 0xFF22:		//	Ｂ	0xef 0xbc 0xa2	FULLWIDTH LATIN CAPITAL LETTER B
+				ch = 0xFF42;	//	ｂ	0xef 0xbd 0x82	FULLWIDTH LATIN SMALL LETTER B
+				break;
+			case 0xFF23:		//	Ｃ	0xef 0xbc 0xa3	FULLWIDTH LATIN CAPITAL LETTER C
+				ch = 0xFF43;	//	ｃ	0xef 0xbd 0x83	FULLWIDTH LATIN SMALL LETTER C
+				break;
+			case 0xFF24:		//	Ｄ	0xef 0xbc 0xa4	FULLWIDTH LATIN CAPITAL LETTER D
+				ch = 0xFF44;	//	ｄ	0xef 0xbd 0x84	FULLWIDTH LATIN SMALL LETTER D
+				break;
+			case 0xFF25:		//	Ｅ	0xef 0xbc 0xa5	FULLWIDTH LATIN CAPITAL LETTER E
+				ch = 0xFF45;	//	ｅ	0xef 0xbd 0x85	FULLWIDTH LATIN SMALL LETTER E
+				break;
+			case 0xFF26:		//	Ｆ	0xef 0xbc 0xa6	FULLWIDTH LATIN CAPITAL LETTER F
+				ch = 0xFF46;	//	ｆ	0xef 0xbd 0x86	FULLWIDTH LATIN SMALL LETTER F
+				break;
+			case 0xFF27:		//	Ｇ	0xef 0xbc 0xa7	FULLWIDTH LATIN CAPITAL LETTER G
+				ch = 0xFF47;	//	ｇ	0xef 0xbd 0x87	FULLWIDTH LATIN SMALL LETTER G
+				break;
+			case 0xFF28:		//	Ｈ	0xef 0xbc 0xa8	FULLWIDTH LATIN CAPITAL LETTER H
+				ch = 0xFF48;	//	ｈ	0xef 0xbd 0x88	FULLWIDTH LATIN SMALL LETTER H
+				break;
+			case 0xFF29:		//	Ｉ	0xef 0xbc 0xa9	FULLWIDTH LATIN CAPITAL LETTER I
+				ch = 0xFF49;	//	ｉ	0xef 0xbd 0x89	FULLWIDTH LATIN SMALL LETTER I
+				break;
+			case 0xFF2A:		//	Ｊ	0xef 0xbc 0xaa	FULLWIDTH LATIN CAPITAL LETTER J
+				ch = 0xFF4A;	//	ｊ	0xef 0xbd 0x8a	FULLWIDTH LATIN SMALL LETTER J
+				break;
+			case 0xFF2B:		//	Ｋ	0xef 0xbc 0xab	FULLWIDTH LATIN CAPITAL LETTER K
+				ch = 0xFF4B;	//	ｋ	0xef 0xbd 0x8b	FULLWIDTH LATIN SMALL LETTER K
+				break;
+			case 0xFF2C:		//	Ｌ	0xef 0xbc 0xac	FULLWIDTH LATIN CAPITAL LETTER L
+				ch = 0xFF4C;	//	ｌ	0xef 0xbd 0x8c	FULLWIDTH LATIN SMALL LETTER L
+				break;
+			case 0xFF2D:		//	Ｍ	0xef 0xbc 0xad	FULLWIDTH LATIN CAPITAL LETTER M
+				ch = 0xFF4D;	//	ｍ	0xef 0xbd 0x8d	FULLWIDTH LATIN SMALL LETTER M
+				break;
+			case 0xFF2E:		//	Ｎ	0xef 0xbc 0xae	FULLWIDTH LATIN CAPITAL LETTER N
+				ch = 0xFF4E;	//	ｎ	0xef 0xbd 0x8e	FULLWIDTH LATIN SMALL LETTER N
+				break;
+			case 0xFF2F:		//	Ｏ	0xef 0xbc 0xaf	FULLWIDTH LATIN CAPITAL LETTER O
+				ch = 0xFF4F;	//	ｏ	0xef 0xbd 0x8f	FULLWIDTH LATIN SMALL LETTER O
+				break;
+			case 0xFF30:		//	Ｐ	0xef 0xbc 0xb0	FULLWIDTH LATIN CAPITAL LETTER P
+				ch = 0xFF50;	//	ｐ	0xef 0xbd 0x90	FULLWIDTH LATIN SMALL LETTER P
+				break;
+			case 0xFF31:		//	Ｑ	0xef 0xbc 0xb1	FULLWIDTH LATIN CAPITAL LETTER Q
+				ch = 0xFF51;	//	ｑ	0xef 0xbd 0x91	FULLWIDTH LATIN SMALL LETTER Q
+				break;
+			case 0xFF32:		//	Ｒ	0xef 0xbc 0xb2	FULLWIDTH LATIN CAPITAL LETTER R
+				ch = 0xFF52;	//	ｒ	0xef 0xbd 0x92	FULLWIDTH LATIN SMALL LETTER R
+				break;
+			case 0xFF33:		//	Ｓ	0xef 0xbc 0xb3	FULLWIDTH LATIN CAPITAL LETTER S
+				ch = 0xFF53;	//	ｓ	0xef 0xbd 0x93	FULLWIDTH LATIN SMALL LETTER S
+				break;
+			case 0xFF34:		//	Ｔ	0xef 0xbc 0xb4	FULLWIDTH LATIN CAPITAL LETTER T
+				ch = 0xFF54;	//	ｔ	0xef 0xbd 0x94	FULLWIDTH LATIN SMALL LETTER T
+				break;
+			case 0xFF35:		//	Ｕ	0xef 0xbc 0xb5	FULLWIDTH LATIN CAPITAL LETTER U
+				ch = 0xFF55;	//	ｕ	0xef 0xbd 0x95	FULLWIDTH LATIN SMALL LETTER U
+				break;
+			case 0xFF36:		//	Ｖ	0xef 0xbc 0xb6	FULLWIDTH LATIN CAPITAL LETTER V
+				ch = 0xFF56;	//	ｖ	0xef 0xbd 0x96	FULLWIDTH LATIN SMALL LETTER V
+				break;
+			case 0xFF37:		//	Ｗ	0xef 0xbc 0xb7	FULLWIDTH LATIN CAPITAL LETTER W
+				ch = 0xFF57;	//	ｗ	0xef 0xbd 0x97	FULLWIDTH LATIN SMALL LETTER W
+				break;
+			case 0xFF38:		//	Ｘ	0xef 0xbc 0xb8	FULLWIDTH LATIN CAPITAL LETTER X
+				ch = 0xFF58;	//	ｘ	0xef 0xbd 0x98	FULLWIDTH LATIN SMALL LETTER X
+				break;
+			case 0xFF39:		//	Ｙ	0xef 0xbc 0xb9	FULLWIDTH LATIN CAPITAL LETTER Y
+				ch = 0xFF59;	//	ｙ	0xef 0xbd 0x99	FULLWIDTH LATIN SMALL LETTER Y
+				break;
+			case 0xFF3A:		//	Ｚ	0xef 0xbc 0xba	FULLWIDTH LATIN CAPITAL LETTER Z
+				ch = 0xFF5A;	//	ｚ	0xef 0xbd 0x9a	FULLWIDTH LATIN SMALL LETTER Z
+				break;
+			case 0x10400:		//	𐐀	0xf0 0x90 0x90 0x80	DESERET CAPITAL LETTER LONG I
+				ch = 0x10428;	//	𐐨	0xf0 0x90 0x90 0xa8	DESERET SMALL LETTER LONG I
+				break;
+			case 0x10401:		//	𐐁	0xf0 0x90 0x90 0x81	DESERET CAPITAL LETTER LONG E
+				ch = 0x10429;	//	𐐩	0xf0 0x90 0x90 0xa9	DESERET SMALL LETTER LONG E
+				break;
+			case 0x10402:		//	𐐂	0xf0 0x90 0x90 0x82	DESERET CAPITAL LETTER LONG A
+				ch = 0x1042A;	//	𐐪	0xf0 0x90 0x90 0xaa	DESERET SMALL LETTER LONG A
+				break;
+			case 0x10403:		//	𐐃	0xf0 0x90 0x90 0x83	DESERET CAPITAL LETTER LONG AH
+				ch = 0x1042B;	//	𐐫	0xf0 0x90 0x90 0xab	DESERET SMALL LETTER LONG AH
+				break;
+			case 0x10404:		//	𐐄	0xf0 0x90 0x90 0x84	DESERET CAPITAL LETTER LONG O
+				ch = 0x1042C;	//	𐐬	0xf0 0x90 0x90 0xac	DESERET SMALL LETTER LONG O
+				break;
+			case 0x10405:		//	𐐅	0xf0 0x90 0x90 0x85	DESERET CAPITAL LETTER LONG OO
+				ch = 0x1042D;	//	𐐭	0xf0 0x90 0x90 0xad	DESERET SMALL LETTER LONG OO
+				break;
+			case 0x10406:		//	𐐆	0xf0 0x90 0x90 0x86	DESERET CAPITAL LETTER SHORT I
+				ch = 0x1042E;	//	𐐮	0xf0 0x90 0x90 0xae	DESERET SMALL LETTER SHORT I
+				break;
+			case 0x10407:		//	𐐇	0xf0 0x90 0x90 0x87	DESERET CAPITAL LETTER SHORT E
+				ch = 0x1042F;	//	𐐯	0xf0 0x90 0x90 0xaf	DESERET SMALL LETTER SHORT E
+				break;
+			case 0x10408:		//	𐐈	0xf0 0x90 0x90 0x88	DESERET CAPITAL LETTER SHORT A
+				ch = 0x10430;	//	𐐰	0xf0 0x90 0x90 0xb0	DESERET SMALL LETTER SHORT A
+				break;
+			case 0x10409:		//	𐐉	0xf0 0x90 0x90 0x89	DESERET CAPITAL LETTER SHORT AH
+				ch = 0x10431;	//	𐐱	0xf0 0x90 0x90 0xb1	DESERET SMALL LETTER SHORT AH
+				break;
+			case 0x1040A:		//	𐐊	0xf0 0x90 0x90 0x8a	DESERET CAPITAL LETTER SHORT O
+				ch = 0x10432;	//	𐐲	0xf0 0x90 0x90 0xb2	DESERET SMALL LETTER SHORT O
+				break;
+			case 0x1040B:		//	𐐋	0xf0 0x90 0x90 0x8b	DESERET CAPITAL LETTER SHORT OO
+				ch = 0x10433;	//	𐐳	0xf0 0x90 0x90 0xb3	DESERET SMALL LETTER SHORT OO
+				break;
+			case 0x1040C:		//	𐐌	0xf0 0x90 0x90 0x8c	DESERET CAPITAL LETTER AY
+				ch = 0x10434;	//	𐐴	0xf0 0x90 0x90 0xb4	DESERET SMALL LETTER AY
+				break;
+			case 0x1040D:		//	𐐍	0xf0 0x90 0x90 0x8d	DESERET CAPITAL LETTER OW
+				ch = 0x10435;	//	𐐵	0xf0 0x90 0x90 0xb5	DESERET SMALL LETTER OW
+				break;
+			case 0x1040E:		//	𐐎	0xf0 0x90 0x90 0x8e	DESERET CAPITAL LETTER WU
+				ch = 0x10436;	//	𐐶	0xf0 0x90 0x90 0xb6	DESERET SMALL LETTER WU
+				break;
+			case 0x1040F:		//	𐐏	0xf0 0x90 0x90 0x8f	DESERET CAPITAL LETTER YEE
+				ch = 0x10437;	//	𐐷	0xf0 0x90 0x90 0xb7	DESERET SMALL LETTER YEE
+				break;
+			case 0x10410:		//	𐐐	0xf0 0x90 0x90 0x90	DESERET CAPITAL LETTER H
+				ch = 0x10438;	//	𐐸	0xf0 0x90 0x90 0xb8	DESERET SMALL LETTER H
+				break;
+			case 0x10411:		//	𐐑	0xf0 0x90 0x90 0x91	DESERET CAPITAL LETTER PEE
+				ch = 0x10439;	//	𐐹	0xf0 0x90 0x90 0xb9	DESERET SMALL LETTER PEE
+				break;
+			case 0x10412:		//	𐐒	0xf0 0x90 0x90 0x92	DESERET CAPITAL LETTER BEE
+				ch = 0x1043A;	//	𐐺	0xf0 0x90 0x90 0xba	DESERET SMALL LETTER BEE
+				break;
+			case 0x10413:		//	𐐓	0xf0 0x90 0x90 0x93	DESERET CAPITAL LETTER TEE
+				ch = 0x1043B;	//	𐐻	0xf0 0x90 0x90 0xbb	DESERET SMALL LETTER TEE
+				break;
+			case 0x10414:		//	𐐔	0xf0 0x90 0x90 0x94	DESERET CAPITAL LETTER DEE
+				ch = 0x1043C;	//	𐐼	0xf0 0x90 0x90 0xbc	DESERET SMALL LETTER DEE
+				break;
+			case 0x10415:		//	𐐕	0xf0 0x90 0x90 0x95	DESERET CAPITAL LETTER CHEE
+				ch = 0x1043D;	//	𐐽	0xf0 0x90 0x90 0xbd	DESERET SMALL LETTER CHEE
+				break;
+			case 0x10416:		//	𐐖	0xf0 0x90 0x90 0x96	DESERET CAPITAL LETTER JEE
+				ch = 0x1043E;	//	𐐾	0xf0 0x90 0x90 0xbe	DESERET SMALL LETTER JEE
+				break;
+			case 0x10417:		//	𐐗	0xf0 0x90 0x90 0x97	DESERET CAPITAL LETTER KAY
+				ch = 0x1043F;	//	𐐿	0xf0 0x90 0x90 0xbf	DESERET SMALL LETTER KAY
+				break;
+			case 0x10418:		//	𐐘	0xf0 0x90 0x90 0x98	DESERET CAPITAL LETTER GAY
+				ch = 0x10440;	//	𐑀	0xf0 0x90 0x91 0x80	DESERET SMALL LETTER GAY
+				break;
+			case 0x10419:		//	𐐙	0xf0 0x90 0x90 0x99	DESERET CAPITAL LETTER EF
+				ch = 0x10441;	//	𐑁	0xf0 0x90 0x91 0x81	DESERET SMALL LETTER EF
+				break;
+			case 0x1041A:		//	𐐚	0xf0 0x90 0x90 0x9a	DESERET CAPITAL LETTER VEE
+				ch = 0x10442;	//	𐑂	0xf0 0x90 0x91 0x82	DESERET SMALL LETTER VEE
+				break;
+			case 0x1041B:		//	𐐛	0xf0 0x90 0x90 0x9b	DESERET CAPITAL LETTER ETH
+				ch = 0x10443;	//	𐑃	0xf0 0x90 0x91 0x83	DESERET SMALL LETTER ETH
+				break;
+			case 0x1041C:		//	𐐜	0xf0 0x90 0x90 0x9c	DESERET CAPITAL LETTER THEE
+				ch = 0x10444;	//	𐑄	0xf0 0x90 0x91 0x84	DESERET SMALL LETTER THEE
+				break;
+			case 0x1041D:		//	𐐝	0xf0 0x90 0x90 0x9d	DESERET CAPITAL LETTER ES
+				ch = 0x10445;	//	𐑅	0xf0 0x90 0x91 0x85	DESERET SMALL LETTER ES
+				break;
+			case 0x1041E:		//	𐐞	0xf0 0x90 0x90 0x9e	DESERET CAPITAL LETTER ZEE
+				ch = 0x10446;	//	𐑆	0xf0 0x90 0x91 0x86	DESERET SMALL LETTER ZEE
+				break;
+			case 0x1041F:		//	𐐟	0xf0 0x90 0x90 0x9f	DESERET CAPITAL LETTER ESH
+				ch = 0x10447;	//	𐑇	0xf0 0x90 0x91 0x87	DESERET SMALL LETTER ESH
+				break;
+			case 0x10420:		//	� 	0xf0 0x90 0x90 0xa0	DESERET CAPITAL LETTER ZHEE
+				ch = 0x10448;	//	𐑈	0xf0 0x90 0x91 0x88	DESERET SMALL LETTER ZHEE
+				break;
+			case 0x10421:		//	𐐡	0xf0 0x90 0x90 0xa1	DESERET CAPITAL LETTER ER
+				ch = 0x10449;	//	𐑉	0xf0 0x90 0x91 0x89	DESERET SMALL LETTER ER
+				break;
+			case 0x10422:		//	𐐢	0xf0 0x90 0x90 0xa2	DESERET CAPITAL LETTER EL
+				ch = 0x1044A;	//	𐑊	0xf0 0x90 0x91 0x8a	DESERET SMALL LETTER EL
+				break;
+			case 0x10423:		//	𐐣	0xf0 0x90 0x90 0xa3	DESERET CAPITAL LETTER EM
+				ch = 0x1044B;	//	𐑋	0xf0 0x90 0x91 0x8b	DESERET SMALL LETTER EM
+				break;
+			case 0x10424:		//	𐐤	0xf0 0x90 0x90 0xa4	DESERET CAPITAL LETTER EN
+				ch = 0x1044C;	//	𐑌	0xf0 0x90 0x91 0x8c	DESERET SMALL LETTER EN
+				break;
+			case 0x10425:		//	𐐥	0xf0 0x90 0x90 0xa5	DESERET CAPITAL LETTER ENG
+				ch = 0x1044D;	//	𐑍	0xf0 0x90 0x91 0x8d	DESERET SMALL LETTER ENG
+				break;
+			case 0x10426:		//	𐐦	0xf0 0x90 0x90 0xa6	DESERET CAPITAL LETTER OI
+				ch = 0x1044E;	//	𐑎	0xf0 0x90 0x91 0x8e	DESERET SMALL LETTER OI
+				break;
+			case 0x10427:		//	𐐧	0xf0 0x90 0x90 0xa7	DESERET CAPITAL LETTER EW
+				ch = 0x1044F;	//	𐑏	0xf0 0x90 0x91 0x8f	DESERET SMALL LETTER EW
+				break;
+			case 0x104B0:		//	𐒰	0xf0 0x90 0x92 0xb0	OSAGE CAPITAL LETTER A
+				ch = 0x104D8;	//	𐓘	0xf0 0x90 0x93 0x98	OSAGE SMALL LETTER A
+				break;
+			case 0x104B1:		//	𐒱	0xf0 0x90 0x92 0xb1	OSAGE CAPITAL LETTER AI
+				ch = 0x104D9;	//	𐓙	0xf0 0x90 0x93 0x99	OSAGE SMALL LETTER AI
+				break;
+			case 0x104B2:		//	𐒲	0xf0 0x90 0x92 0xb2	OSAGE CAPITAL LETTER AIN
+				ch = 0x104DA;	//	𐓚	0xf0 0x90 0x93 0x9a	OSAGE SMALL LETTER AIN
+				break;
+			case 0x104B3:		//	𐒳	0xf0 0x90 0x92 0xb3	OSAGE CAPITAL LETTER AH
+				ch = 0x104DB;	//	𐓛	0xf0 0x90 0x93 0x9b	OSAGE SMALL LETTER AH
+				break;
+			case 0x104B4:		//	𐒴	0xf0 0x90 0x92 0xb4	OSAGE CAPITAL LETTER BRA
+				ch = 0x104DC;	//	𐓜	0xf0 0x90 0x93 0x9c	OSAGE SMALL LETTER BRA
+				break;
+			case 0x104B5:		//	𐒵	0xf0 0x90 0x92 0xb5	OSAGE CAPITAL LETTER CHA
+				ch = 0x104DD;	//	𐓝	0xf0 0x90 0x93 0x9d	OSAGE SMALL LETTER CHA
+				break;
+			case 0x104B6:		//	𐒶	0xf0 0x90 0x92 0xb6	OSAGE CAPITAL LETTER EHCHA
+				ch = 0x104DE;	//	𐓞	0xf0 0x90 0x93 0x9e	OSAGE SMALL LETTER EHCHA
+				break;
+			case 0x104B7:		//	𐒷	0xf0 0x90 0x92 0xb7	OSAGE CAPITAL LETTER E
+				ch = 0x104DF;	//	𐓟	0xf0 0x90 0x93 0x9f	OSAGE SMALL LETTER E
+				break;
+			case 0x104B8:		//	𐒸	0xf0 0x90 0x92 0xb8	OSAGE CAPITAL LETTER EIN
+				ch = 0x104E0;	//	� 	0xf0 0x90 0x93 0xa0	OSAGE SMALL LETTER EIN
+				break;
+			case 0x104B9:		//	𐒹	0xf0 0x90 0x92 0xb9	OSAGE CAPITAL LETTER HA
+				ch = 0x104E1;	//	𐓡	0xf0 0x90 0x93 0xa1	OSAGE SMALL LETTER HA
+				break;
+			case 0x104BA:		//	𐒺	0xf0 0x90 0x92 0xba	OSAGE CAPITAL LETTER HYA
+				ch = 0x104E2;	//	𐓢	0xf0 0x90 0x93 0xa2	OSAGE SMALL LETTER HYA
+				break;
+			case 0x104BB:		//	𐒻	0xf0 0x90 0x92 0xbb	OSAGE CAPITAL LETTER I
+				ch = 0x104E3;	//	𐓣	0xf0 0x90 0x93 0xa3	OSAGE SMALL LETTER I
+				break;
+			case 0x104BC:		//	𐒼	0xf0 0x90 0x92 0xbc	OSAGE CAPITAL LETTER KA
+				ch = 0x104E4;	//	𐓤	0xf0 0x90 0x93 0xa4	OSAGE SMALL LETTER KA
+				break;
+			case 0x104BD:		//	𐒽	0xf0 0x90 0x92 0xbd	OSAGE CAPITAL LETTER EHKA
+				ch = 0x104E5;	//	𐓥	0xf0 0x90 0x93 0xa5	OSAGE SMALL LETTER EHKA
+				break;
+			case 0x104BE:		//	𐒾	0xf0 0x90 0x92 0xbe	OSAGE CAPITAL LETTER KYA
+				ch = 0x104E6;	//	𐓦	0xf0 0x90 0x93 0xa6	OSAGE SMALL LETTER KYA
+				break;
+			case 0x104BF:		//	𐒿	0xf0 0x90 0x92 0xbf	OSAGE CAPITAL LETTER LA
+				ch = 0x104E7;	//	𐓧	0xf0 0x90 0x93 0xa7	OSAGE SMALL LETTER LA
+				break;
+			case 0x104C0:		//	𐓀	0xf0 0x90 0x93 0x80	OSAGE CAPITAL LETTER MA
+				ch = 0x104E8;	//	𐓨	0xf0 0x90 0x93 0xa8	OSAGE SMALL LETTER MA
+				break;
+			case 0x104C1:		//	𐓁	0xf0 0x90 0x93 0x81	OSAGE CAPITAL LETTER NA
+				ch = 0x104E9;	//	𐓩	0xf0 0x90 0x93 0xa9	OSAGE SMALL LETTER NA
+				break;
+			case 0x104C2:		//	𐓂	0xf0 0x90 0x93 0x82	OSAGE CAPITAL LETTER O
+				ch = 0x104EA;	//	𐓪	0xf0 0x90 0x93 0xaa	OSAGE SMALL LETTER O
+				break;
+			case 0x104C3:		//	𐓃	0xf0 0x90 0x93 0x83	OSAGE CAPITAL LETTER OIN
+				ch = 0x104EB;	//	𐓫	0xf0 0x90 0x93 0xab	OSAGE SMALL LETTER OIN
+				break;
+			case 0x104C4:		//	𐓄	0xf0 0x90 0x93 0x84	OSAGE CAPITAL LETTER PA
+				ch = 0x104EC;	//	𐓬	0xf0 0x90 0x93 0xac	OSAGE SMALL LETTER PA
+				break;
+			case 0x104C5:		//	𐓅	0xf0 0x90 0x93 0x85	OSAGE CAPITAL LETTER EHPA
+				ch = 0x104ED;	//	𐓭	0xf0 0x90 0x93 0xad	OSAGE SMALL LETTER EHPA
+				break;
+			case 0x104C6:		//	𐓆	0xf0 0x90 0x93 0x86	OSAGE CAPITAL LETTER SA
+				ch = 0x104EE;	//	𐓮	0xf0 0x90 0x93 0xae	OSAGE SMALL LETTER SA
+				break;
+			case 0x104C7:		//	𐓇	0xf0 0x90 0x93 0x87	OSAGE CAPITAL LETTER SHA
+				ch = 0x104EF;	//	𐓯	0xf0 0x90 0x93 0xaf	OSAGE SMALL LETTER SHA
+				break;
+			case 0x104C8:		//	𐓈	0xf0 0x90 0x93 0x88	OSAGE CAPITAL LETTER TA
+				ch = 0x104F0;	//	𐓰	0xf0 0x90 0x93 0xb0	OSAGE SMALL LETTER TA
+				break;
+			case 0x104C9:		//	𐓉	0xf0 0x90 0x93 0x89	OSAGE CAPITAL LETTER EHTA
+				ch = 0x104F1;	//	𐓱	0xf0 0x90 0x93 0xb1	OSAGE SMALL LETTER EHTA
+				break;
+			case 0x104CA:		//	𐓊	0xf0 0x90 0x93 0x8a	OSAGE CAPITAL LETTER TSA
+				ch = 0x104F2;	//	𐓲	0xf0 0x90 0x93 0xb2	OSAGE SMALL LETTER TSA
+				break;
+			case 0x104CB:		//	𐓋	0xf0 0x90 0x93 0x8b	OSAGE CAPITAL LETTER EHTSA
+				ch = 0x104F3;	//	𐓳	0xf0 0x90 0x93 0xb3	OSAGE SMALL LETTER EHTSA
+				break;
+			case 0x104CC:		//	𐓌	0xf0 0x90 0x93 0x8c	OSAGE CAPITAL LETTER TSHA
+				ch = 0x104F4;	//	𐓴	0xf0 0x90 0x93 0xb4	OSAGE SMALL LETTER TSHA
+				break;
+			case 0x104CD:		//	𐓍	0xf0 0x90 0x93 0x8d	OSAGE CAPITAL LETTER DHA
+				ch = 0x104F5;	//	𐓵	0xf0 0x90 0x93 0xb5	OSAGE SMALL LETTER DHA
+				break;
+			case 0x104CE:		//	𐓎	0xf0 0x90 0x93 0x8e	OSAGE CAPITAL LETTER U
+				ch = 0x104F6;	//	𐓶	0xf0 0x90 0x93 0xb6	OSAGE SMALL LETTER U
+				break;
+			case 0x104CF:		//	𐓏	0xf0 0x90 0x93 0x8f	OSAGE CAPITAL LETTER WA
+				ch = 0x104F7;	//	𐓷	0xf0 0x90 0x93 0xb7	OSAGE SMALL LETTER WA
+				break;
+			case 0x104D0:		//	𐓐	0xf0 0x90 0x93 0x90	OSAGE CAPITAL LETTER KHA
+				ch = 0x104F8;	//	𐓸	0xf0 0x90 0x93 0xb8	OSAGE SMALL LETTER KHA
+				break;
+			case 0x104D1:		//	𐓑	0xf0 0x90 0x93 0x91	OSAGE CAPITAL LETTER GHA
+				ch = 0x104F9;	//	𐓹	0xf0 0x90 0x93 0xb9	OSAGE SMALL LETTER GHA
+				break;
+			case 0x104D2:		//	𐓒	0xf0 0x90 0x93 0x92	OSAGE CAPITAL LETTER ZA
+				ch = 0x104FA;	//	𐓺	0xf0 0x90 0x93 0xba	OSAGE SMALL LETTER ZA
+				break;
+			case 0x104D3:		//	𐓓	0xf0 0x90 0x93 0x93	OSAGE CAPITAL LETTER ZHA
+				ch = 0x104FB;	//	𐓻	0xf0 0x90 0x93 0xbb	OSAGE SMALL LETTER ZHA
+				break;
+			case 0x10C80:		//	𐲀	0xf0 0x90 0xb2 0x80	OLD HUNGARIAN CAPITAL LETTER A
+				ch = 0x10CC0;	//	𐳀	0xf0 0x90 0xb3 0x80	OLD HUNGARIAN SMALL LETTER A
+				break;
+			case 0x10C81:		//	𐲁	0xf0 0x90 0xb2 0x81	OLD HUNGARIAN CAPITAL LETTER AA
+				ch = 0x10CC1;	//	𐳁	0xf0 0x90 0xb3 0x81	OLD HUNGARIAN SMALL LETTER AA
+				break;
+			case 0x10C82:		//	𐲂	0xf0 0x90 0xb2 0x82	OLD HUNGARIAN CAPITAL LETTER EB
+				ch = 0x10CC2;	//	𐳂	0xf0 0x90 0xb3 0x82	OLD HUNGARIAN SMALL LETTER EB
+				break;
+			case 0x10C83:		//	𐲃	0xf0 0x90 0xb2 0x83	OLD HUNGARIAN CAPITAL LETTER AMB
+				ch = 0x10CC3;	//	𐳃	0xf0 0x90 0xb3 0x83	OLD HUNGARIAN SMALL LETTER AMB
+				break;
+			case 0x10C84:		//	𐲄	0xf0 0x90 0xb2 0x84	OLD HUNGARIAN CAPITAL LETTER EC
+				ch = 0x10CC4;	//	𐳄	0xf0 0x90 0xb3 0x84	OLD HUNGARIAN SMALL LETTER EC
+				break;
+			case 0x10C85:		//	𐲅	0xf0 0x90 0xb2 0x85	OLD HUNGARIAN CAPITAL LETTER ENC
+				ch = 0x10CC5;	//	𐳅	0xf0 0x90 0xb3 0x85	OLD HUNGARIAN SMALL LETTER ENC
+				break;
+			case 0x10C86:		//	𐲆	0xf0 0x90 0xb2 0x86	OLD HUNGARIAN CAPITAL LETTER ECS
+				ch = 0x10CC6;	//	𐳆	0xf0 0x90 0xb3 0x86	OLD HUNGARIAN SMALL LETTER ECS
+				break;
+			case 0x10C87:		//	𐲇	0xf0 0x90 0xb2 0x87	OLD HUNGARIAN CAPITAL LETTER ED
+				ch = 0x10CC7;	//	𐳇	0xf0 0x90 0xb3 0x87	OLD HUNGARIAN SMALL LETTER ED
+				break;
+			case 0x10C88:		//	𐲈	0xf0 0x90 0xb2 0x88	OLD HUNGARIAN CAPITAL LETTER AND
+				ch = 0x10CC8;	//	𐳈	0xf0 0x90 0xb3 0x88	OLD HUNGARIAN SMALL LETTER AND
+				break;
+			case 0x10C89:		//	𐲉	0xf0 0x90 0xb2 0x89	OLD HUNGARIAN CAPITAL LETTER E
+				ch = 0x10CC9;	//	𐳉	0xf0 0x90 0xb3 0x89	OLD HUNGARIAN SMALL LETTER E
+				break;
+			case 0x10C8A:		//	𐲊	0xf0 0x90 0xb2 0x8a	OLD HUNGARIAN CAPITAL LETTER CLOSE E
+				ch = 0x10CCA;	//	𐳊	0xf0 0x90 0xb3 0x8a	OLD HUNGARIAN SMALL LETTER CLOSE E
+				break;
+			case 0x10C8B:		//	𐲋	0xf0 0x90 0xb2 0x8b	OLD HUNGARIAN CAPITAL LETTER EE
+				ch = 0x10CCB;	//	𐳋	0xf0 0x90 0xb3 0x8b	OLD HUNGARIAN SMALL LETTER EE
+				break;
+			case 0x10C8C:		//	𐲌	0xf0 0x90 0xb2 0x8c	OLD HUNGARIAN CAPITAL LETTER EF
+				ch = 0x10CCC;	//	𐳌	0xf0 0x90 0xb3 0x8c	OLD HUNGARIAN SMALL LETTER EF
+				break;
+			case 0x10C8D:		//	𐲍	0xf0 0x90 0xb2 0x8d	OLD HUNGARIAN CAPITAL LETTER EG
+				ch = 0x10CCD;	//	𐳍	0xf0 0x90 0xb3 0x8d	OLD HUNGARIAN SMALL LETTER EG
+				break;
+			case 0x10C8E:		//	𐲎	0xf0 0x90 0xb2 0x8e	OLD HUNGARIAN CAPITAL LETTER EGY
+				ch = 0x10CCE;	//	𐳎	0xf0 0x90 0xb3 0x8e	OLD HUNGARIAN SMALL LETTER EGY
+				break;
+			case 0x10C8F:		//	𐲏	0xf0 0x90 0xb2 0x8f	OLD HUNGARIAN CAPITAL LETTER EH
+				ch = 0x10CCF;	//	𐳏	0xf0 0x90 0xb3 0x8f	OLD HUNGARIAN SMALL LETTER EH
+				break;
+			case 0x10C90:		//	𐲐	0xf0 0x90 0xb2 0x90	OLD HUNGARIAN CAPITAL LETTER I
+				ch = 0x10CD0;	//	𐳐	0xf0 0x90 0xb3 0x90	OLD HUNGARIAN SMALL LETTER I
+				break;
+			case 0x10C91:		//	𐲑	0xf0 0x90 0xb2 0x91	OLD HUNGARIAN CAPITAL LETTER II
+				ch = 0x10CD1;	//	𐳑	0xf0 0x90 0xb3 0x91	OLD HUNGARIAN SMALL LETTER II
+				break;
+			case 0x10C92:		//	𐲒	0xf0 0x90 0xb2 0x92	OLD HUNGARIAN CAPITAL LETTER EJ
+				ch = 0x10CD2;	//	𐳒	0xf0 0x90 0xb3 0x92	OLD HUNGARIAN SMALL LETTER EJ
+				break;
+			case 0x10C93:		//	𐲓	0xf0 0x90 0xb2 0x93	OLD HUNGARIAN CAPITAL LETTER EK
+				ch = 0x10CD3;	//	𐳓	0xf0 0x90 0xb3 0x93	OLD HUNGARIAN SMALL LETTER EK
+				break;
+			case 0x10C94:		//	𐲔	0xf0 0x90 0xb2 0x94	OLD HUNGARIAN CAPITAL LETTER AK
+				ch = 0x10CD4;	//	𐳔	0xf0 0x90 0xb3 0x94	OLD HUNGARIAN SMALL LETTER AK
+				break;
+			case 0x10C95:		//	𐲕	0xf0 0x90 0xb2 0x95	OLD HUNGARIAN CAPITAL LETTER UNK
+				ch = 0x10CD5;	//	𐳕	0xf0 0x90 0xb3 0x95	OLD HUNGARIAN SMALL LETTER UNK
+				break;
+			case 0x10C96:		//	𐲖	0xf0 0x90 0xb2 0x96	OLD HUNGARIAN CAPITAL LETTER EL
+				ch = 0x10CD6;	//	𐳖	0xf0 0x90 0xb3 0x96	OLD HUNGARIAN SMALL LETTER EL
+				break;
+			case 0x10C97:		//	𐲗	0xf0 0x90 0xb2 0x97	OLD HUNGARIAN CAPITAL LETTER ELY
+				ch = 0x10CD7;	//	𐳗	0xf0 0x90 0xb3 0x97	OLD HUNGARIAN SMALL LETTER ELY
+				break;
+			case 0x10C98:		//	𐲘	0xf0 0x90 0xb2 0x98	OLD HUNGARIAN CAPITAL LETTER EM
+				ch = 0x10CD8;	//	𐳘	0xf0 0x90 0xb3 0x98	OLD HUNGARIAN SMALL LETTER EM
+				break;
+			case 0x10C99:		//	𐲙	0xf0 0x90 0xb2 0x99	OLD HUNGARIAN CAPITAL LETTER EN
+				ch = 0x10CD9;	//	𐳙	0xf0 0x90 0xb3 0x99	OLD HUNGARIAN SMALL LETTER EN
+				break;
+			case 0x10C9A:		//	𐲚	0xf0 0x90 0xb2 0x9a	OLD HUNGARIAN CAPITAL LETTER ENY
+				ch = 0x10CDA;	//	𐳚	0xf0 0x90 0xb3 0x9a	OLD HUNGARIAN SMALL LETTER ENY
+				break;
+			case 0x10C9B:		//	𐲛	0xf0 0x90 0xb2 0x9b	OLD HUNGARIAN CAPITAL LETTER O
+				ch = 0x10CDB;	//	𐳛	0xf0 0x90 0xb3 0x9b	OLD HUNGARIAN SMALL LETTER O
+				break;
+			case 0x10C9C:		//	𐲜	0xf0 0x90 0xb2 0x9c	OLD HUNGARIAN CAPITAL LETTER OO
+				ch = 0x10CDC;	//	𐳜	0xf0 0x90 0xb3 0x9c	OLD HUNGARIAN SMALL LETTER OO
+				break;
+			case 0x10C9D:		//	𐲝	0xf0 0x90 0xb2 0x9d	OLD HUNGARIAN CAPITAL LETTER NIKOLSBURG OE
+				ch = 0x10CDD;	//	𐳝	0xf0 0x90 0xb3 0x9d	OLD HUNGARIAN SMALL LETTER NIKOLSBURG OE
+				break;
+			case 0x10C9E:		//	𐲞	0xf0 0x90 0xb2 0x9e	OLD HUNGARIAN CAPITAL LETTER RUDIMENTA OE
+				ch = 0x10CDE;	//	𐳞	0xf0 0x90 0xb3 0x9e	OLD HUNGARIAN SMALL LETTER RUDIMENTA OE
+				break;
+			case 0x10C9F:		//	𐲟	0xf0 0x90 0xb2 0x9f	OLD HUNGARIAN CAPITAL LETTER OEE
+				ch = 0x10CDF;	//	𐳟	0xf0 0x90 0xb3 0x9f	OLD HUNGARIAN SMALL LETTER OEE
+				break;
+			case 0x10CA0:		//	� 	0xf0 0x90 0xb2 0xa0	OLD HUNGARIAN CAPITAL LETTER EP
+				ch = 0x10CE0;	//	� 	0xf0 0x90 0xb3 0xa0	OLD HUNGARIAN SMALL LETTER EP
+				break;
+			case 0x10CA1:		//	𐲡	0xf0 0x90 0xb2 0xa1	OLD HUNGARIAN CAPITAL LETTER EMP
+				ch = 0x10CE1;	//	𐳡	0xf0 0x90 0xb3 0xa1	OLD HUNGARIAN SMALL LETTER EMP
+				break;
+			case 0x10CA2:		//	𐲢	0xf0 0x90 0xb2 0xa2	OLD HUNGARIAN CAPITAL LETTER ER
+				ch = 0x10CE2;	//	𐳢	0xf0 0x90 0xb3 0xa2	OLD HUNGARIAN SMALL LETTER ER
+				break;
+			case 0x10CA3:		//	𐲣	0xf0 0x90 0xb2 0xa3	OLD HUNGARIAN CAPITAL LETTER SHORT ER
+				ch = 0x10CE3;	//	𐳣	0xf0 0x90 0xb3 0xa3	OLD HUNGARIAN SMALL LETTER SHORT ER
+				break;
+			case 0x10CA4:		//	𐲤	0xf0 0x90 0xb2 0xa4	OLD HUNGARIAN CAPITAL LETTER ES
+				ch = 0x10CE4;	//	𐳤	0xf0 0x90 0xb3 0xa4	OLD HUNGARIAN SMALL LETTER ES
+				break;
+			case 0x10CA5:		//	𐲥	0xf0 0x90 0xb2 0xa5	OLD HUNGARIAN CAPITAL LETTER ESZ
+				ch = 0x10CE5;	//	𐳥	0xf0 0x90 0xb3 0xa5	OLD HUNGARIAN SMALL LETTER ESZ
+				break;
+			case 0x10CA6:		//	𐲦	0xf0 0x90 0xb2 0xa6	OLD HUNGARIAN CAPITAL LETTER ET
+				ch = 0x10CE6;	//	𐳦	0xf0 0x90 0xb3 0xa6	OLD HUNGARIAN SMALL LETTER ET
+				break;
+			case 0x10CA7:		//	𐲧	0xf0 0x90 0xb2 0xa7	OLD HUNGARIAN CAPITAL LETTER ENT
+				ch = 0x10CE7;	//	𐳧	0xf0 0x90 0xb3 0xa7	OLD HUNGARIAN SMALL LETTER ENT
+				break;
+			case 0x10CA8:		//	𐲨	0xf0 0x90 0xb2 0xa8	OLD HUNGARIAN CAPITAL LETTER ETY
+				ch = 0x10CE8;	//	𐳨	0xf0 0x90 0xb3 0xa8	OLD HUNGARIAN SMALL LETTER ETY
+				break;
+			case 0x10CA9:		//	𐲩	0xf0 0x90 0xb2 0xa9	OLD HUNGARIAN CAPITAL LETTER ECH
+				ch = 0x10CE9;	//	𐳩	0xf0 0x90 0xb3 0xa9	OLD HUNGARIAN SMALL LETTER ECH
+				break;
+			case 0x10CAA:		//	𐲪	0xf0 0x90 0xb2 0xaa	OLD HUNGARIAN CAPITAL LETTER U
+				ch = 0x10CEA;	//	𐳪	0xf0 0x90 0xb3 0xaa	OLD HUNGARIAN SMALL LETTER U
+				break;
+			case 0x10CAB:		//	𐲫	0xf0 0x90 0xb2 0xab	OLD HUNGARIAN CAPITAL LETTER UU
+				ch = 0x10CEB;	//	𐳫	0xf0 0x90 0xb3 0xab	OLD HUNGARIAN SMALL LETTER UU
+				break;
+			case 0x10CAC:		//	𐲬	0xf0 0x90 0xb2 0xac	OLD HUNGARIAN CAPITAL LETTER NIKOLSBURG UE
+				ch = 0x10CEC;	//	𐳬	0xf0 0x90 0xb3 0xac	OLD HUNGARIAN SMALL LETTER NIKOLSBURG UE
+				break;
+			case 0x10CAD:		//	𐲭	0xf0 0x90 0xb2 0xad	OLD HUNGARIAN CAPITAL LETTER RUDIMENTA UE
+				ch = 0x10CED;	//	𐳭	0xf0 0x90 0xb3 0xad	OLD HUNGARIAN SMALL LETTER RUDIMENTA UE
+				break;
+			case 0x10CAE:		//	𐲮	0xf0 0x90 0xb2 0xae	OLD HUNGARIAN CAPITAL LETTER EV
+				ch = 0x10CEE;	//	𐳮	0xf0 0x90 0xb3 0xae	OLD HUNGARIAN SMALL LETTER EV
+				break;
+			case 0x10CAF:		//	𐲯	0xf0 0x90 0xb2 0xaf	OLD HUNGARIAN CAPITAL LETTER EZ
+				ch = 0x10CEF;	//	𐳯	0xf0 0x90 0xb3 0xaf	OLD HUNGARIAN SMALL LETTER EZ
+				break;
+			case 0x10CB0:		//	𐲰	0xf0 0x90 0xb2 0xb0	OLD HUNGARIAN CAPITAL LETTER EZS
+				ch = 0x10CF0;	//	𐳰	0xf0 0x90 0xb3 0xb0	OLD HUNGARIAN SMALL LETTER EZS
+				break;
+			case 0x10CB1:		//	𐲱	0xf0 0x90 0xb2 0xb1	OLD HUNGARIAN CAPITAL LETTER ENT-SHAPED SIGN
+				ch = 0x10CF1;	//	𐳱	0xf0 0x90 0xb3 0xb1	OLD HUNGARIAN SMALL LETTER ENT-SHAPED SIGN
+				break;
+			case 0x10CB2:		//	𐲲	0xf0 0x90 0xb2 0xb2	OLD HUNGARIAN CAPITAL LETTER US
+				ch = 0x10CF2;	//	𐳲	0xf0 0x90 0xb3 0xb2	OLD HUNGARIAN SMALL LETTER US
+				break;
+			case 0x118A0:		//	� 	0xf0 0x91 0xa2 0xa0	WARANG CITI CAPITAL LETTER NGAA
+				ch = 0x118C0;	//	𑣀	0xf0 0x91 0xa3 0x80	WARANG CITI SMALL LETTER NGAA
+				break;
+			case 0x118A1:		//	𑢡	0xf0 0x91 0xa2 0xa1	WARANG CITI CAPITAL LETTER A
+				ch = 0x118C1;	//	𑣁	0xf0 0x91 0xa3 0x81	WARANG CITI SMALL LETTER A
+				break;
+			case 0x118A2:		//	𑢢	0xf0 0x91 0xa2 0xa2	WARANG CITI CAPITAL LETTER WI
+				ch = 0x118C2;	//	𑣂	0xf0 0x91 0xa3 0x82	WARANG CITI SMALL LETTER WI
+				break;
+			case 0x118A3:		//	𑢣	0xf0 0x91 0xa2 0xa3	WARANG CITI CAPITAL LETTER YU
+				ch = 0x118C3;	//	𑣃	0xf0 0x91 0xa3 0x83	WARANG CITI SMALL LETTER YU
+				break;
+			case 0x118A4:		//	𑢤	0xf0 0x91 0xa2 0xa4	WARANG CITI CAPITAL LETTER YA
+				ch = 0x118C4;	//	𑣄	0xf0 0x91 0xa3 0x84	WARANG CITI SMALL LETTER YA
+				break;
+			case 0x118A5:		//	𑢥	0xf0 0x91 0xa2 0xa5	WARANG CITI CAPITAL LETTER YO
+				ch = 0x118C5;	//	𑣅	0xf0 0x91 0xa3 0x85	WARANG CITI SMALL LETTER YO
+				break;
+			case 0x118A6:		//	𑢦	0xf0 0x91 0xa2 0xa6	WARANG CITI CAPITAL LETTER II
+				ch = 0x118C6;	//	𑣆	0xf0 0x91 0xa3 0x86	WARANG CITI SMALL LETTER II
+				break;
+			case 0x118A7:		//	𑢧	0xf0 0x91 0xa2 0xa7	WARANG CITI CAPITAL LETTER UU
+				ch = 0x118C7;	//	𑣇	0xf0 0x91 0xa3 0x87	WARANG CITI SMALL LETTER UU
+				break;
+			case 0x118A8:		//	𑢨	0xf0 0x91 0xa2 0xa8	WARANG CITI CAPITAL LETTER E
+				ch = 0x118C8;	//	𑣈	0xf0 0x91 0xa3 0x88	WARANG CITI SMALL LETTER E
+				break;
+			case 0x118A9:		//	𑢩	0xf0 0x91 0xa2 0xa9	WARANG CITI CAPITAL LETTER O
+				ch = 0x118C9;	//	𑣉	0xf0 0x91 0xa3 0x89	WARANG CITI SMALL LETTER O
+				break;
+			case 0x118AA:		//	𑢪	0xf0 0x91 0xa2 0xaa	WARANG CITI CAPITAL LETTER ANG
+				ch = 0x118CA;	//	𑣊	0xf0 0x91 0xa3 0x8a	WARANG CITI SMALL LETTER ANG
+				break;
+			case 0x118AB:		//	𑢫	0xf0 0x91 0xa2 0xab	WARANG CITI CAPITAL LETTER GA
+				ch = 0x118CB;	//	𑣋	0xf0 0x91 0xa3 0x8b	WARANG CITI SMALL LETTER GA
+				break;
+			case 0x118AC:		//	𑢬	0xf0 0x91 0xa2 0xac	WARANG CITI CAPITAL LETTER KO
+				ch = 0x118CC;	//	𑣌	0xf0 0x91 0xa3 0x8c	WARANG CITI SMALL LETTER KO
+				break;
+			case 0x118AD:		//	𑢭	0xf0 0x91 0xa2 0xad	WARANG CITI CAPITAL LETTER ENY
+				ch = 0x118CD;	//	𑣍	0xf0 0x91 0xa3 0x8d	WARANG CITI SMALL LETTER ENY
+				break;
+			case 0x118AE:		//	𑢮	0xf0 0x91 0xa2 0xae	WARANG CITI CAPITAL LETTER YUJ
+				ch = 0x118CE;	//	𑣎	0xf0 0x91 0xa3 0x8e	WARANG CITI SMALL LETTER YUJ
+				break;
+			case 0x118AF:		//	𑢯	0xf0 0x91 0xa2 0xaf	WARANG CITI CAPITAL LETTER UC
+				ch = 0x118CF;	//	𑣏	0xf0 0x91 0xa3 0x8f	WARANG CITI SMALL LETTER UC
+				break;
+			case 0x118B0:		//	𑢰	0xf0 0x91 0xa2 0xb0	WARANG CITI CAPITAL LETTER ENN
+				ch = 0x118D0;	//	𑣐	0xf0 0x91 0xa3 0x90	WARANG CITI SMALL LETTER ENN
+				break;
+			case 0x118B1:		//	𑢱	0xf0 0x91 0xa2 0xb1	WARANG CITI CAPITAL LETTER ODD
+				ch = 0x118D1;	//	𑣑	0xf0 0x91 0xa3 0x91	WARANG CITI SMALL LETTER ODD
+				break;
+			case 0x118B2:		//	𑢲	0xf0 0x91 0xa2 0xb2	WARANG CITI CAPITAL LETTER TTE
+				ch = 0x118D2;	//	𑣒	0xf0 0x91 0xa3 0x92	WARANG CITI SMALL LETTER TTE
+				break;
+			case 0x118B3:		//	𑢳	0xf0 0x91 0xa2 0xb3	WARANG CITI CAPITAL LETTER NUNG
+				ch = 0x118D3;	//	𑣓	0xf0 0x91 0xa3 0x93	WARANG CITI SMALL LETTER NUNG
+				break;
+			case 0x118B4:		//	𑢴	0xf0 0x91 0xa2 0xb4	WARANG CITI CAPITAL LETTER DA
+				ch = 0x118D4;	//	𑣔	0xf0 0x91 0xa3 0x94	WARANG CITI SMALL LETTER DA
+				break;
+			case 0x118B5:		//	𑢵	0xf0 0x91 0xa2 0xb5	WARANG CITI CAPITAL LETTER AT
+				ch = 0x118D5;	//	𑣕	0xf0 0x91 0xa3 0x95	WARANG CITI SMALL LETTER AT
+				break;
+			case 0x118B6:		//	𑢶	0xf0 0x91 0xa2 0xb6	WARANG CITI CAPITAL LETTER AM
+				ch = 0x118D6;	//	𑣖	0xf0 0x91 0xa3 0x96	WARANG CITI SMALL LETTER AM
+				break;
+			case 0x118B7:		//	𑢷	0xf0 0x91 0xa2 0xb7	WARANG CITI CAPITAL LETTER BU
+				ch = 0x118D7;	//	𑣗	0xf0 0x91 0xa3 0x97	WARANG CITI SMALL LETTER BU
+				break;
+			case 0x118B8:		//	𑢸	0xf0 0x91 0xa2 0xb8	WARANG CITI CAPITAL LETTER PU
+				ch = 0x118D8;	//	𑣘	0xf0 0x91 0xa3 0x98	WARANG CITI SMALL LETTER PU
+				break;
+			case 0x118B9:		//	𑢹	0xf0 0x91 0xa2 0xb9	WARANG CITI CAPITAL LETTER HIYO
+				ch = 0x118D9;	//	𑣙	0xf0 0x91 0xa3 0x99	WARANG CITI SMALL LETTER HIYO
+				break;
+			case 0x118BA:		//	𑢺	0xf0 0x91 0xa2 0xba	WARANG CITI CAPITAL LETTER HOLO
+				ch = 0x118DA;	//	𑣚	0xf0 0x91 0xa3 0x9a	WARANG CITI SMALL LETTER HOLO
+				break;
+			case 0x118BB:		//	𑢻	0xf0 0x91 0xa2 0xbb	WARANG CITI CAPITAL LETTER HORR
+				ch = 0x118DB;	//	𑣛	0xf0 0x91 0xa3 0x9b	WARANG CITI SMALL LETTER HORR
+				break;
+			case 0x118BC:		//	𑢼	0xf0 0x91 0xa2 0xbc	WARANG CITI CAPITAL LETTER HAR
+				ch = 0x118DC;	//	𑣜	0xf0 0x91 0xa3 0x9c	WARANG CITI SMALL LETTER HAR
+				break;
+			case 0x118BD:		//	𑢽	0xf0 0x91 0xa2 0xbd	WARANG CITI CAPITAL LETTER SSUU
+				ch = 0x118DD;	//	𑣝	0xf0 0x91 0xa3 0x9d	WARANG CITI SMALL LETTER SSUU
+				break;
+			case 0x118BE:		//	𑢾	0xf0 0x91 0xa2 0xbe	WARANG CITI CAPITAL LETTER SII
+				ch = 0x118DE;	//	𑣞	0xf0 0x91 0xa3 0x9e	WARANG CITI SMALL LETTER SII
+				break;
+			case 0x118BF:		//	𑢿	0xf0 0x91 0xa2 0xbf	WARANG CITI CAPITAL LETTER VIYO
+				ch = 0x118DF;	//	𑣟	0xf0 0x91 0xa3 0x9f	WARANG CITI SMALL LETTER VIYO
+				break;
+			case 0x16E40:		//	𖹀	0xf0 0x96 0xb9 0x80	MEDEFAIDRIN CAPITAL LETTER M
+				ch = 0x16E60;	//	� 	0xf0 0x96 0xb9 0xa0	MEDEFAIDRIN SMALL LETTER M
+				break;
+			case 0x16E41:		//	𖹁	0xf0 0x96 0xb9 0x81	MEDEFAIDRIN CAPITAL LETTER S
+				ch = 0x16E61;	//	𖹡	0xf0 0x96 0xb9 0xa1	MEDEFAIDRIN SMALL LETTER S
+				break;
+			case 0x16E42:		//	𖹂	0xf0 0x96 0xb9 0x82	MEDEFAIDRIN CAPITAL LETTER V
+				ch = 0x16E62;	//	𖹢	0xf0 0x96 0xb9 0xa2	MEDEFAIDRIN SMALL LETTER V
+				break;
+			case 0x16E43:		//	𖹃	0xf0 0x96 0xb9 0x83	MEDEFAIDRIN CAPITAL LETTER W
+				ch = 0x16E63;	//	𖹣	0xf0 0x96 0xb9 0xa3	MEDEFAIDRIN SMALL LETTER W
+				break;
+			case 0x16E44:		//	𖹄	0xf0 0x96 0xb9 0x84	MEDEFAIDRIN CAPITAL LETTER ATIU
+				ch = 0x16E64;	//	𖹤	0xf0 0x96 0xb9 0xa4	MEDEFAIDRIN SMALL LETTER ATIU
+				break;
+			case 0x16E45:		//	𖹅	0xf0 0x96 0xb9 0x85	MEDEFAIDRIN CAPITAL LETTER Z
+				ch = 0x16E65;	//	𖹥	0xf0 0x96 0xb9 0xa5	MEDEFAIDRIN SMALL LETTER Z
+				break;
+			case 0x16E46:		//	𖹆	0xf0 0x96 0xb9 0x86	MEDEFAIDRIN CAPITAL LETTER KP
+				ch = 0x16E66;	//	𖹦	0xf0 0x96 0xb9 0xa6	MEDEFAIDRIN SMALL LETTER KP
+				break;
+			case 0x16E47:		//	𖹇	0xf0 0x96 0xb9 0x87	MEDEFAIDRIN CAPITAL LETTER P
+				ch = 0x16E67;	//	𖹧	0xf0 0x96 0xb9 0xa7	MEDEFAIDRIN SMALL LETTER P
+				break;
+			case 0x16E48:		//	𖹈	0xf0 0x96 0xb9 0x88	MEDEFAIDRIN CAPITAL LETTER T
+				ch = 0x16E68;	//	𖹨	0xf0 0x96 0xb9 0xa8	MEDEFAIDRIN SMALL LETTER T
+				break;
+			case 0x16E49:		//	𖹉	0xf0 0x96 0xb9 0x89	MEDEFAIDRIN CAPITAL LETTER G
+				ch = 0x16E69;	//	𖹩	0xf0 0x96 0xb9 0xa9	MEDEFAIDRIN SMALL LETTER G
+				break;
+			case 0x16E4A:		//	𖹊	0xf0 0x96 0xb9 0x8a	MEDEFAIDRIN CAPITAL LETTER F
+				ch = 0x16E6A;	//	𖹪	0xf0 0x96 0xb9 0xaa	MEDEFAIDRIN SMALL LETTER F
+				break;
+			case 0x16E4B:		//	𖹋	0xf0 0x96 0xb9 0x8b	MEDEFAIDRIN CAPITAL LETTER I
+				ch = 0x16E6B;	//	𖹫	0xf0 0x96 0xb9 0xab	MEDEFAIDRIN SMALL LETTER I
+				break;
+			case 0x16E4C:		//	𖹌	0xf0 0x96 0xb9 0x8c	MEDEFAIDRIN CAPITAL LETTER K
+				ch = 0x16E6C;	//	𖹬	0xf0 0x96 0xb9 0xac	MEDEFAIDRIN SMALL LETTER K
+				break;
+			case 0x16E4D:		//	𖹍	0xf0 0x96 0xb9 0x8d	MEDEFAIDRIN CAPITAL LETTER A
+				ch = 0x16E6D;	//	𖹭	0xf0 0x96 0xb9 0xad	MEDEFAIDRIN SMALL LETTER A
+				break;
+			case 0x16E4E:		//	𖹎	0xf0 0x96 0xb9 0x8e	MEDEFAIDRIN CAPITAL LETTER J
+				ch = 0x16E6E;	//	𖹮	0xf0 0x96 0xb9 0xae	MEDEFAIDRIN SMALL LETTER J
+				break;
+			case 0x16E4F:		//	𖹏	0xf0 0x96 0xb9 0x8f	MEDEFAIDRIN CAPITAL LETTER E
+				ch = 0x16E6F;	//	𖹯	0xf0 0x96 0xb9 0xaf	MEDEFAIDRIN SMALL LETTER E
+				break;
+			case 0x16E50:		//	𖹐	0xf0 0x96 0xb9 0x90	MEDEFAIDRIN CAPITAL LETTER B
+				ch = 0x16E70;	//	𖹰	0xf0 0x96 0xb9 0xb0	MEDEFAIDRIN SMALL LETTER B
+				break;
+			case 0x16E51:		//	𖹑	0xf0 0x96 0xb9 0x91	MEDEFAIDRIN CAPITAL LETTER C
+				ch = 0x16E71;	//	𖹱	0xf0 0x96 0xb9 0xb1	MEDEFAIDRIN SMALL LETTER C
+				break;
+			case 0x16E52:		//	𖹒	0xf0 0x96 0xb9 0x92	MEDEFAIDRIN CAPITAL LETTER U
+				ch = 0x16E72;	//	𖹲	0xf0 0x96 0xb9 0xb2	MEDEFAIDRIN SMALL LETTER U
+				break;
+			case 0x16E53:		//	𖹓	0xf0 0x96 0xb9 0x93	MEDEFAIDRIN CAPITAL LETTER YU
+				ch = 0x16E73;	//	𖹳	0xf0 0x96 0xb9 0xb3	MEDEFAIDRIN SMALL LETTER YU
+				break;
+			case 0x16E54:		//	𖹔	0xf0 0x96 0xb9 0x94	MEDEFAIDRIN CAPITAL LETTER L
+				ch = 0x16E74;	//	𖹴	0xf0 0x96 0xb9 0xb4	MEDEFAIDRIN SMALL LETTER L
+				break;
+			case 0x16E55:		//	𖹕	0xf0 0x96 0xb9 0x95	MEDEFAIDRIN CAPITAL LETTER Q
+				ch = 0x16E75;	//	𖹵	0xf0 0x96 0xb9 0xb5	MEDEFAIDRIN SMALL LETTER Q
+				break;
+			case 0x16E56:		//	𖹖	0xf0 0x96 0xb9 0x96	MEDEFAIDRIN CAPITAL LETTER HP
+				ch = 0x16E76;	//	𖹶	0xf0 0x96 0xb9 0xb6	MEDEFAIDRIN SMALL LETTER HP
+				break;
+			case 0x16E57:		//	𖹗	0xf0 0x96 0xb9 0x97	MEDEFAIDRIN CAPITAL LETTER NY
+				ch = 0x16E77;	//	𖹷	0xf0 0x96 0xb9 0xb7	MEDEFAIDRIN SMALL LETTER NY
+				break;
+			case 0x16E58:		//	𖹘	0xf0 0x96 0xb9 0x98	MEDEFAIDRIN CAPITAL LETTER X
+				ch = 0x16E78;	//	𖹸	0xf0 0x96 0xb9 0xb8	MEDEFAIDRIN SMALL LETTER X
+				break;
+			case 0x16E59:		//	𖹙	0xf0 0x96 0xb9 0x99	MEDEFAIDRIN CAPITAL LETTER D
+				ch = 0x16E79;	//	𖹹	0xf0 0x96 0xb9 0xb9	MEDEFAIDRIN SMALL LETTER D
+				break;
+			case 0x16E5A:		//	𖹚	0xf0 0x96 0xb9 0x9a	MEDEFAIDRIN CAPITAL LETTER OE
+				ch = 0x16E7A;	//	𖹺	0xf0 0x96 0xb9 0xba	MEDEFAIDRIN SMALL LETTER OE
+				break;
+			case 0x16E5B:		//	𖹛	0xf0 0x96 0xb9 0x9b	MEDEFAIDRIN CAPITAL LETTER N
+				ch = 0x16E7B;	//	𖹻	0xf0 0x96 0xb9 0xbb	MEDEFAIDRIN SMALL LETTER N
+				break;
+			case 0x16E5C:		//	𖹜	0xf0 0x96 0xb9 0x9c	MEDEFAIDRIN CAPITAL LETTER R
+				ch = 0x16E7C;	//	𖹼	0xf0 0x96 0xb9 0xbc	MEDEFAIDRIN SMALL LETTER R
+				break;
+			case 0x16E5D:		//	𖹝	0xf0 0x96 0xb9 0x9d	MEDEFAIDRIN CAPITAL LETTER O
+				ch = 0x16E7D;	//	𖹽	0xf0 0x96 0xb9 0xbd	MEDEFAIDRIN SMALL LETTER O
+				break;
+			case 0x16E5E:		//	𖹞	0xf0 0x96 0xb9 0x9e	MEDEFAIDRIN CAPITAL LETTER AI
+				ch = 0x16E7E;	//	𖹾	0xf0 0x96 0xb9 0xbe	MEDEFAIDRIN SMALL LETTER AI
+				break;
+			case 0x16E5F:		//	𖹟	0xf0 0x96 0xb9 0x9f	MEDEFAIDRIN CAPITAL LETTER Y
+				ch = 0x16E7F;	//	𖹿	0xf0 0x96 0xb9 0xbf	MEDEFAIDRIN SMALL LETTER Y
+				break;
+			case 0x1E900:		//	𞤀	0xf0 0x9e 0xa4 0x80	ADLAM CAPITAL LETTER ALIF
+				ch = 0x1E922;	//	𞤢	0xf0 0x9e 0xa4 0xa2	ADLAM SMALL LETTER ALIF
+				break;
+			case 0x1E901:		//	𞤁	0xf0 0x9e 0xa4 0x81	ADLAM CAPITAL LETTER DAALI
+				ch = 0x1E923;	//	𞤣	0xf0 0x9e 0xa4 0xa3	ADLAM SMALL LETTER DAALI
+				break;
+			case 0x1E902:		//	𞤂	0xf0 0x9e 0xa4 0x82	ADLAM CAPITAL LETTER LAAM
+				ch = 0x1E924;	//	𞤤	0xf0 0x9e 0xa4 0xa4	ADLAM SMALL LETTER LAAM
+				break;
+			case 0x1E903:		//	𞤃	0xf0 0x9e 0xa4 0x83	ADLAM CAPITAL LETTER MIIM
+				ch = 0x1E925;	//	𞤥	0xf0 0x9e 0xa4 0xa5	ADLAM SMALL LETTER MIIM
+				break;
+			case 0x1E904:		//	𞤄	0xf0 0x9e 0xa4 0x84	ADLAM CAPITAL LETTER BA
+				ch = 0x1E926;	//	𞤦	0xf0 0x9e 0xa4 0xa6	ADLAM SMALL LETTER BA
+				break;
+			case 0x1E905:		//	𞤅	0xf0 0x9e 0xa4 0x85	ADLAM CAPITAL LETTER SINNYIIYHE
+				ch = 0x1E927;	//	𞤧	0xf0 0x9e 0xa4 0xa7	ADLAM SMALL LETTER SINNYIIYHE
+				break;
+			case 0x1E906:		//	𞤆	0xf0 0x9e 0xa4 0x86	ADLAM CAPITAL LETTER PE
+				ch = 0x1E928;	//	𞤨	0xf0 0x9e 0xa4 0xa8	ADLAM SMALL LETTER PE
+				break;
+			case 0x1E907:		//	𞤇	0xf0 0x9e 0xa4 0x87	ADLAM CAPITAL LETTER BHE
+				ch = 0x1E929;	//	𞤩	0xf0 0x9e 0xa4 0xa9	ADLAM SMALL LETTER BHE
+				break;
+			case 0x1E908:		//	𞤈	0xf0 0x9e 0xa4 0x88	ADLAM CAPITAL LETTER RA
+				ch = 0x1E92A;	//	𞤪	0xf0 0x9e 0xa4 0xaa	ADLAM SMALL LETTER RA
+				break;
+			case 0x1E909:		//	𞤉	0xf0 0x9e 0xa4 0x89	ADLAM CAPITAL LETTER E
+				ch = 0x1E92B;	//	𞤫	0xf0 0x9e 0xa4 0xab	ADLAM SMALL LETTER E
+				break;
+			case 0x1E90A:		//	𞤊	0xf0 0x9e 0xa4 0x8a	ADLAM CAPITAL LETTER FA
+				ch = 0x1E92C;	//	𞤬	0xf0 0x9e 0xa4 0xac	ADLAM SMALL LETTER FA
+				break;
+			case 0x1E90B:		//	𞤋	0xf0 0x9e 0xa4 0x8b	ADLAM CAPITAL LETTER I
+				ch = 0x1E92D;	//	𞤭	0xf0 0x9e 0xa4 0xad	ADLAM SMALL LETTER I
+				break;
+			case 0x1E90C:		//	𞤌	0xf0 0x9e 0xa4 0x8c	ADLAM CAPITAL LETTER O
+				ch = 0x1E92E;	//	𞤮	0xf0 0x9e 0xa4 0xae	ADLAM SMALL LETTER O
+				break;
+			case 0x1E90D:		//	𞤍	0xf0 0x9e 0xa4 0x8d	ADLAM CAPITAL LETTER DHA
+				ch = 0x1E92F;	//	𞤯	0xf0 0x9e 0xa4 0xaf	ADLAM SMALL LETTER DHA
+				break;
+			case 0x1E90E:		//	𞤎	0xf0 0x9e 0xa4 0x8e	ADLAM CAPITAL LETTER YHE
+				ch = 0x1E930;	//	𞤰	0xf0 0x9e 0xa4 0xb0	ADLAM SMALL LETTER YHE
+				break;
+			case 0x1E90F:		//	𞤏	0xf0 0x9e 0xa4 0x8f	ADLAM CAPITAL LETTER WAW
+				ch = 0x1E931;	//	𞤱	0xf0 0x9e 0xa4 0xb1	ADLAM SMALL LETTER WAW
+				break;
+			case 0x1E910:		//	𞤐	0xf0 0x9e 0xa4 0x90	ADLAM CAPITAL LETTER NUN
+				ch = 0x1E932;	//	𞤲	0xf0 0x9e 0xa4 0xb2	ADLAM SMALL LETTER NUN
+				break;
+			case 0x1E911:		//	𞤑	0xf0 0x9e 0xa4 0x91	ADLAM CAPITAL LETTER KAF
+				ch = 0x1E933;	//	𞤳	0xf0 0x9e 0xa4 0xb3	ADLAM SMALL LETTER KAF
+				break;
+			case 0x1E912:		//	𞤒	0xf0 0x9e 0xa4 0x92	ADLAM CAPITAL LETTER YA
+				ch = 0x1E934;	//	𞤴	0xf0 0x9e 0xa4 0xb4	ADLAM SMALL LETTER YA
+				break;
+			case 0x1E913:		//	𞤓	0xf0 0x9e 0xa4 0x93	ADLAM CAPITAL LETTER U
+				ch = 0x1E935;	//	𞤵	0xf0 0x9e 0xa4 0xb5	ADLAM SMALL LETTER U
+				break;
+			case 0x1E914:		//	𞤔	0xf0 0x9e 0xa4 0x94	ADLAM CAPITAL LETTER JIIM
+				ch = 0x1E936;	//	𞤶	0xf0 0x9e 0xa4 0xb6	ADLAM SMALL LETTER JIIM
+				break;
+			case 0x1E915:		//	𞤕	0xf0 0x9e 0xa4 0x95	ADLAM CAPITAL LETTER CHI
+				ch = 0x1E937;	//	𞤷	0xf0 0x9e 0xa4 0xb7	ADLAM SMALL LETTER CHI
+				break;
+			case 0x1E916:		//	𞤖	0xf0 0x9e 0xa4 0x96	ADLAM CAPITAL LETTER HA
+				ch = 0x1E938;	//	𞤸	0xf0 0x9e 0xa4 0xb8	ADLAM SMALL LETTER HA
+				break;
+			case 0x1E917:		//	𞤗	0xf0 0x9e 0xa4 0x97	ADLAM CAPITAL LETTER QAAF
+				ch = 0x1E939;	//	𞤹	0xf0 0x9e 0xa4 0xb9	ADLAM SMALL LETTER QAAF
+				break;
+			case 0x1E918:		//	𞤘	0xf0 0x9e 0xa4 0x98	ADLAM CAPITAL LETTER GA
+				ch = 0x1E93A;	//	𞤺	0xf0 0x9e 0xa4 0xba	ADLAM SMALL LETTER GA
+				break;
+			case 0x1E919:		//	𞤙	0xf0 0x9e 0xa4 0x99	ADLAM CAPITAL LETTER NYA
+				ch = 0x1E93B;	//	𞤻	0xf0 0x9e 0xa4 0xbb	ADLAM SMALL LETTER NYA
+				break;
+			case 0x1E91A:		//	𞤚	0xf0 0x9e 0xa4 0x9a	ADLAM CAPITAL LETTER TU
+				ch = 0x1E93C;	//	𞤼	0xf0 0x9e 0xa4 0xbc	ADLAM SMALL LETTER TU
+				break;
+			case 0x1E91B:		//	𞤛	0xf0 0x9e 0xa4 0x9b	ADLAM CAPITAL LETTER NHA
+				ch = 0x1E93D;	//	𞤽	0xf0 0x9e 0xa4 0xbd	ADLAM SMALL LETTER NHA
+				break;
+			case 0x1E91C:		//	𞤜	0xf0 0x9e 0xa4 0x9c	ADLAM CAPITAL LETTER VA
+				ch = 0x1E93E;	//	𞤾	0xf0 0x9e 0xa4 0xbe	ADLAM SMALL LETTER VA
+				break;
+			case 0x1E91D:		//	𞤝	0xf0 0x9e 0xa4 0x9d	ADLAM CAPITAL LETTER KHA
+				ch = 0x1E93F;	//	𞤿	0xf0 0x9e 0xa4 0xbf	ADLAM SMALL LETTER KHA
+				break;
+			case 0x1E91E:		//	𞤞	0xf0 0x9e 0xa4 0x9e	ADLAM CAPITAL LETTER GBE
+				ch = 0x1E940;	//	𞥀	0xf0 0x9e 0xa5 0x80	ADLAM SMALL LETTER GBE
+				break;
+			case 0x1E91F:		//	𞤟	0xf0 0x9e 0xa4 0x9f	ADLAM CAPITAL LETTER ZAL
+				ch = 0x1E941;	//	𞥁	0xf0 0x9e 0xa5 0x81	ADLAM SMALL LETTER ZAL
+				break;
+			case 0x1E920:		//	� 	0xf0 0x9e 0xa4 0xa0	ADLAM CAPITAL LETTER KPO
+				ch = 0x1E942;	//	𞥂	0xf0 0x9e 0xa5 0x82	ADLAM SMALL LETTER KPO
+				break;
+			case 0x1E921:		//	𞤡	0xf0 0x9e 0xa4 0xa1	ADLAM CAPITAL LETTER SHA
+				ch = 0x1E943;	//	𞥃	0xf0 0x9e 0xa5 0x83	ADLAM SMALL LETTER SHA
+				break;
+			}
+		}
+	}
+
+
+}
+
+/*******************************************************************************************
+
+UTF16
+
+*******************************************************************************************/
+
+size_t UTFConverter::CharLenUtf16(const wchar_t* pUtf16)
+{
+	size_t ztUtf16 = 0;
+	size_t ztNumwchar_ts = 0;
+
+	while (pUtf16[ztUtf16] != 0) {
+		ztNumwchar_ts++;
+
+		if (!(((uint16_t)pUtf16[ztUtf16] - 0xd800u) < 0x800u))
+			// 1 byte code point
+			ztUtf16 += 1;
+		else if ((((uint16_t)pUtf16[ztUtf16] & 0xfffffc00u) == 0xd800u) && ((((uint16_t)pUtf16[ztUtf16 + 1] & 0xfffffc00u) == 0xdc00u)))
+			// 2 byte code point
+			ztUtf16 += 2;
+	}
+	return ztNumwchar_ts;
+}
+
+
+
+std::vector<char32_t> UTFConverter::Utf16ToUtf32(const std::u16string& utf16String) {
+	std::vector<char32_t> utf32Result;
+
+	if (utf16String.empty()) {
+		return utf32Result;
+	}
+	// Reserve space in the vector
+	utf32Result.reserve(utf16String.length());
+
+	for (size_t i = 0; i < utf16String.length(); ) {
+		const char16_t& wc = utf16String[i];
+
+		if (!((wc - 0xd800u) < 0x800u)) {
+			// Normal character, just copy it
+			utf32Result.push_back(wc);
+			++i;
+		}
+		else if ((i + 1 < utf16String.length()) && ((wc & 0xfffffc00u) == 0xd800u) && ((utf16String[i + 1] & 0xfffffc00u) == 0xdc00u)) {
+			// Surrogate pair: converting a surrogate pair to a UTF-32 code point
+			utf32Result.push_back((((wc - 0xD800u) << 10) | (utf16String[i + 1] - 0xDC00u)) + 0x10000u);
+			i += 2;
+		}
+		else {
+			// Invalid surrogate pair - error handling can be added here
+			++i;
+		}
+	}
+
+	return utf32Result;
+}
+
+
+/*******************************************************************************************
+
+UTF8
+
+*******************************************************************************************/
+
+size_t UTFConverter::CharLenUtf8(const UTFConverter::Utf8Char* pUtf8)
+{
+	size_t ztUtf8 = 0;
+	size_t ztNumUtf8Chars = 0;
+
+	while (pUtf8[ztUtf8] != 0) {
+		ztNumUtf8Chars++;
+
+		if ((pUtf8[ztUtf8] & 0b10000000) == 0)
+			// 1 byte code point
+			ztUtf8 += 1;
+		else if ((pUtf8[ztUtf8] & 0b11100000) == 0b11000000)
+			// 2 byte code point
+			ztUtf8 += 2;
+		else if ((pUtf8[ztUtf8] & 0b11110000) == 0b11100000)
+			// 3 byte code point
+			ztUtf8 += 3;
+		else
+			// 4 byte code point
+			ztUtf8 += 4;
+	}
+	return ztNumUtf8Chars;
+}
+size_t UTFConverter::StrLenUtf32AsUtf8(const uint32_t* pUtf32)
+{
+	size_t ztUtf32 = 0;
+	size_t ztNumUtf8Chars = 0;
+	while (pUtf32[ztUtf32] != 0) {
+		if (pUtf32[ztUtf32] >= 0x10000u)
+			ztNumUtf8Chars += 3;
+		else if (pUtf32[ztUtf32] >= 0x800u)
+			ztNumUtf8Chars += 2;
+		else if (pUtf32[ztUtf32] >= 0x80u)
+			ztNumUtf8Chars += 1;
+		ztNumUtf8Chars++;
+		ztUtf32++;
+	}
+	return ztNumUtf8Chars;
+}
+
+std::vector<char32_t> UTFConverter::Utf8ToUtf32(const std::string& utf8String) {
+	std::vector<char32_t> utf32Result;
+
+	if (utf8String.empty()) {
+		return utf32Result;
+	}
+
+	// The Utf8Char type is defined as unsigned char
+
+	utf32Result.reserve(CharLenUtf8(reinterpret_cast<const Utf8Char*>(utf8String.c_str())));
+
+	const Utf8Char* pUtf8 = reinterpret_cast<const Utf8Char*>(utf8String.c_str());
+	size_t ztUtf8 = 0;
+	while (pUtf8[ztUtf8] != 0) {
+		char32_t ch = 0;
+		size_t extraBytes = 0;
+
+		if ((pUtf8[ztUtf8] & 0b10000000) == 0) {
+			// 1-byte code point, ASCII
+			ch = pUtf8[ztUtf8];
+			extraBytes = 0;
+		}
+		else if ((pUtf8[ztUtf8] & 0b11100000) == 0b11000000) {
+			// 2-byte code point
+			ch = pUtf8[ztUtf8] & 0b00011111;
+			extraBytes = 1;
+		}
+		else if ((pUtf8[ztUtf8] & 0b11110000) == 0b11100000) {
+			// 3-byte code point
+			ch = pUtf8[ztUtf8] & 0b00001111;
+			extraBytes = 2;
+		}
+		else if ((pUtf8[ztUtf8] & 0b11111000) == 0b11110000) {
+			// 4-byte code point
+			ch = pUtf8[ztUtf8] & 0b00000111;
+			extraBytes = 3;
+		}
+		else {
+			// error
+			ztUtf8++;
+			continue;
+		}
+
+		ztUtf8++;
+
+		for (size_t i = 0; i < extraBytes; i++) {
+			if ((pUtf8[ztUtf8] & 0b11000000) != 0b10000000) {
+				// Invalid UTF-8 encoding
+				break;
+			}
+			ch = (ch << 6) | (pUtf8[ztUtf8] & 0b00111111);
+			ztUtf8++;
+		}
+
+		if (ch >= 0xD800 && ch <= 0xDFFF) {
+			// Invalid UTF-8 encoding (UTF-16 surrogate range)
+			continue;
+		}
+
+		utf32Result.push_back(ch);
+	}
+
+	return utf32Result;
+}
+
+
