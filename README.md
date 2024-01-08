@@ -44,7 +44,7 @@ if you work with UTF-8:
 
 ```cpp
 std::map<int, std::string> entries;
-entries[0] = { "never these expenthisditure go been" };
+entries[0] = { "Expenthisditure never  been these Expenthisditure go been Expenthisditure" };
 entries[1] = { "asd every possession aaaaa" };
 entries[2] = { "this young permeveryissionevery" };
 entries[3] = { "understanding performance this young permeasdveryissionevery" };
@@ -52,7 +52,7 @@ entries[4] = { "asd every" };
 entries[5] = { "had each another every industrial line change" };
 entries[6] = { "keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { "its so say as had away white innovation" };
-entries[8] = { " ŁukaSz, Ekąb. ZZÓ. Żźoa ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
+entries[8] = { " ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
 DeliverEntries(searchEngine, &entries, UTF8Map);
 ```
 
@@ -60,7 +60,7 @@ for UTF-16 :
 
 ```cpp
 std::map<int, std::u16string> entries;
-entries[0] = { u"never these expenthisditure go been" };
+entries[0] = { u"Expenthisditure never  been these Expenthisditure go been Expenthisditure" };
 entries[1] = { u"asd every possession aaaaa" };
 entries[2] = { u"this young permeveryissionevery" };
 entries[3] = { u"understanding performance this young permeasdveryissionevery" };
@@ -68,7 +68,7 @@ entries[4] = { u"asd every" };
 entries[5] = { u"had each another every industrial line change" };
 entries[6] = { u"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { u"its so say as had away white innovation" };
-entries[8] = { u" ŁukaSz, Ekąb. ZZÓ. Żźoa ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
+entries[8] = { u" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
 DeliverEntries(searchEngine, &entries, UTF16Map);
 ```
 
@@ -76,7 +76,7 @@ for UTF-32:
 
 ```cpp
 std::map<int, std::u32string> entries;
-entries[0] = { U"never these expenthisditure go been" };
+entries[0] = { U"Expenthisditure never  been these Expenthisditure go been Expenthisditure" };
 entries[1] = { U"asd every possession aaaaa" };
 entries[2] = { U"this young permeveryissionevery" };
 entries[3] = { U"understanding performance this young permeasdveryissionevery" };
@@ -84,11 +84,13 @@ entries[4] = { U"asd every" };
 entries[5] = { U"had each another every industrial line change" };
 entries[6] = { U"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { U"its so say as had away white innovation" };
-entries[8] = { U" ŁukaSz, Ekąb. ZZÓ. Żźoa ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
+entries[8] = { U" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
 DeliverEntries(searchEngine, &entries, UTF32Map);
 ```
 
 now entries are delivered to the engine. then, perform search 
+
+### for words that can be substrings 
 
 for UTF-8:
 
@@ -101,7 +103,7 @@ int* x = FindWithinUTF8(searchEngine, searchTerm.c_str(), &resultLength);
 for UTF-16:
 
 ```cpp
-std::string searchTerm = "issio";
+std::u16string searchTerm = u"issio";
 int resultLength;
 int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
 ```
@@ -109,12 +111,49 @@ int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
 for UTF-32:
 
 ```cpp
-std::string searchTerm = "issio asd";
+std::u32string searchTerm = U"issio asd";
 int resultLength;
 int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
 ```
 
-now x returns the pointer to the map entries.
+now `resultLength` returns the number of hits and `x` returns the pointer to the map entries where keys are found to be matching the `searchTerm`.
+
+so now you can iterate through results (for simplifaction I am using `std::map<int, std::string>` as entries)
+
+```cpp
+ for (int i = 0; i < resultLength; ++i) {
+   
+     std::cout << "Key: " << x[i] << ", Value: "<<entries[x[i]]<< std::endl;
+ }
+```
+
+Results :
+```Key: 1, Value: asd every possession aaaaa
+Key: 2, Value: this young permeveryissionevery
+Key: 3, Value: understanding performance this young permeasdveryissionevery
+Key: 4, Value: asd every
+Key: 5, Value: had each another every industrial line change
+```
+
+### for words that have to be exact matches:
+
+use the same code as above but replace the following methods
+
+```FindWithinUTF8``` with ```FindExactUTF8```
+
+```FindExactUTF16``` with ```FindExactUTF16```
+
+```FindWithinUTF32``` with ```FindExactUTF32```
+
+
+to get following results
+
+```
+Key: 1, Value: asd every possession aaaaa
+Key: 4, Value: asd every
+Key: 5, Value: had each another every industrial line change
+```
+
 **Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
 
 ## **License**
