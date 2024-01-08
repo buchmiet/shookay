@@ -20,4 +20,16 @@ public:
 
 private:
     static bool IsSeparator(char32_t ch);
+    static std::vector<std::vector<char32_t>> GetWordsFromString(const std::vector<char32_t> wyrazenie);
+    struct VectorHash {
+        size_t operator()(const std::vector<char32_t>& v) const {
+            std::hash<char32_t> hasher;
+            size_t seed = 0;
+            for (char32_t i : v) {
+                seed ^= hasher(i) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            return seed;
+        }
+    };
+
 };

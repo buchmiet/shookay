@@ -3,9 +3,10 @@
 #include <cwctype>
 #include <chrono>
 #include <iostream>
-#include <set>
 #include "UtfConv.h"
 #include <algorithm>
+#include <unordered_set>
+
 
 std::string StringConverter::ConvertUTF8(const char* data, int length) {
     return std::string(data, length);
@@ -32,82 +33,16 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF8String(
         return std::vector<std::vector<char32_t>>();
     }
     std::vector<std::vector<char32_t>> words;
-    auto text = UTFConverter::Utf8ToUtf32(wyrazenie);
-    UTFConverter::StrToLwrUtf32(text);
-    std::vector<char32_t> currentWord;
-
-    for (char32_t ch : text) {
-        if (StringConverter::IsSeparator(ch)) {
-            if (!currentWord.empty()) {
-                words.push_back(currentWord);
-                currentWord.clear();
-            }
-        }
-        else {
-            currentWord.push_back(ch);
-        }
-    }
-
-    if (!currentWord.empty()) {
-        words.push_back(currentWord);
-    }
-
-    // Sortowanie wektora od najdłuższego do najkrótszego słowa
-    std::ranges::sort(words, [](const std::vector<char32_t>& a, const std::vector<char32_t>& b) {
-        return a.size() > b.size();
-        });
-
-
-    return words;
+    return GetWordsFromString(UTFConverter::Utf8ToUtf32(wyrazenie));  
 }
-
 
 
 std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF16String(const std::u16string& wyrazenie) {
   
     if (wyrazenie.empty()) {
         return std::vector<std::vector<char32_t>>();
-    }
-
-    std::vector<std::vector<char32_t>> words;
- 
-    auto text = UTFConverter::Utf16ToUtf32(wyrazenie);
-   
-    UTFConverter::StrToLwrUtf32(text);
-
-    std::u32string u32str(text.begin(), text.end());
-
-   
-
-
-    std::vector<char32_t> currentWord;
-  
-    for (char32_t ch : text) {
-        if (StringConverter::IsSeparator(ch)) {
-            if (!currentWord.empty()) {
-                words.push_back(currentWord);
-                currentWord.clear();
-            }
-        }
-        else {
-            currentWord.push_back(ch);
-        }
-    }
-
-    if (!currentWord.empty()) {
-        words.push_back(currentWord);
-    }
-
-    std::ranges::sort(words, [](const std::vector<char32_t>& a, const std::vector<char32_t>& b) {
-        return a.size() > b.size();
-        });
-
-
-
-
-
-
-    return words;
+    }      
+    return GetWordsFromString(UTFConverter::Utf16ToUtf32(wyrazenie));   
 }
 
 std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF32String(const std::u32string& wyrazenie)
@@ -117,16 +52,24 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF32String
     }
     std::vector<char32_t> text;
     text.assign(wyrazenie.begin(), wyrazenie.end());
+    return GetWordsFromString(text);   
+}
+
+
+std::vector<std::vector<char32_t>> StringConverter::GetWordsFromString(std::vector<char32_t> wyrazenie) {
     std::vector<std::vector<char32_t>> words;
+    std::unordered_set<std::vector<char32_t>,  VectorHash> uniqueWords;
 
-    UTFConverter::StrToLwrUtf32(text);
-
+    UTFConverter::StrToLwrUtf32(wyrazenie);
+    std::u32string u32str(wyrazenie.begin(), wyrazenie.end());
     std::vector<char32_t> currentWord;
-
-    for (char32_t ch : text) {
+    for (char32_t ch : wyrazenie) {
         if (StringConverter::IsSeparator(ch)) {
             if (!currentWord.empty()) {
-                words.push_back(currentWord);
+                if (uniqueWords.find(currentWord) == uniqueWords.end()) { 
+                    uniqueWords.insert(currentWord); 
+                    words.push_back(currentWord); 
+                }
                 currentWord.clear();
             }
         }
@@ -135,16 +78,13 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF32String
         }
     }
 
-    if (!currentWord.empty()) {
+    if (!currentWord.empty() && uniqueWords.find(currentWord) == uniqueWords.end()) {
         words.push_back(currentWord);
     }
-
-    // Sortowanie wektora od najdłuższego do najkrótszego słowa
+  
     std::ranges::sort(words, [](const std::vector<char32_t>& a, const std::vector<char32_t>& b) {
         return a.size() > b.size();
         });
-
-
+  
     return words;
 }
-
