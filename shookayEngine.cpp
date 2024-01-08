@@ -163,6 +163,7 @@ std::vector<int> shookayEngine::FindWithinUTF8(const char* wyrazenie) {
 
 
 std::vector<int> shookayEngine::FindWithinUTF16(const char16_t* wyrazenie){
+   
     return FindWithin(StringConverter::GetUTF32WordsFromUTF16String(wyrazenie));     
 }
 std::vector<int> shookayEngine::FindWithinUTF32(const char32_t* wyrazenie) {
@@ -292,7 +293,8 @@ std::vector<int> shookayEngine::FindExact(const std::vector<std::vector<char32_t
 
 std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_t>> expressions)
 {
-  
+
+   
     std::vector<int> returnVector;
     int totalRecordCount = recordOffsets.size();
     results = std::vector<int>(totalRecordCount, 1);
@@ -312,6 +314,7 @@ std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_
         };
     for (auto& expressionsItem : expressions)
     {
+
         if (expressionsItem.size() > 16)
         {
             indexToCharInContentArray = 0;
@@ -342,6 +345,7 @@ std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_
         }
         else
         {
+          
             FindWordsWithinUntilTheContentIsTooSmallOrEndOfRecordAsm(
                 totalRecordCount,
                 recordOffsets.data(),
@@ -354,6 +358,7 @@ std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_
                 expressionsItem.data(),
                 expressionsItem.size()
             );
+          
         }
     }
 

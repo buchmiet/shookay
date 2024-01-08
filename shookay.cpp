@@ -1,7 +1,10 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "shookayEngine.h"
 #include "shookay.h"
 #include "StringConverter.h"
+#include <iostream>
+#include <iomanip>
+
 
 extern "C" {
     shookayEngine* CreateSearchEngine() {
@@ -21,14 +24,18 @@ extern "C" {
         return resultsArray;
     }
 
-    int* FindWithinUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length) {
 
+
+
+    int* FindWithinUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length) {
 
 
         if (searchEngine == nullptr) {
             return nullptr;
         }
+     
         std::vector<int> results = searchEngine->FindWithinUTF16(wyrazenie);
+      
         *length = results.size();
         auto* resultsArray = new int[*length];
         std::ranges::copy(results.begin(), results.end(), resultsArray);

@@ -58,37 +58,10 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF8String(
         });
 
 
-   
-
-    //for (const auto& word : words) {
-    //    // Konwersja na u32string
-    //    std::u32string u32str(word.begin(), word.end());
-
-    //    // Wypisanie każdego słowa (jeśli środowisko wspiera wypisywanie char32_t)
-    //    for (auto ch : u32str) {
-    //        std::wcout << static_cast<wchar_t>(ch);
-    //    }
-    //    std::wcout << std::endl;
-    //}
-
-
     return words;
 }
 
-std::wstring ConvertU16StringToWString(const std::u16string& u16str) {
-    std::wstring wstr;
-    for (char16_t ch : u16str) {
-        if (ch <= 0xFFFF) {
-            wstr.push_back(static_cast<wchar_t>(ch));
-        }
-        else {
-            // Obsługa znaków poza zakresem BMP (Basic Multilingual Plane)
-            // To jest uproszczone i może nie obsługiwać wszystkich przypadków
-            throw std::runtime_error("Character outside BMP found, conversion not implemented.");
-        }
-    }
-    return wstr;
-}
+
 
 std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF16String(const std::u16string& wyrazenie) {
   
@@ -97,8 +70,7 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF16String
     }
 
     std::vector<std::vector<char32_t>> words;
-
-    // Przekształć UTF-16 na UTF-32
+ 
     auto text = UTFConverter::Utf16ToUtf32(wyrazenie);
    
     UTFConverter::StrToLwrUtf32(text);
@@ -171,18 +143,6 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF32String
     std::ranges::sort(words, [](const std::vector<char32_t>& a, const std::vector<char32_t>& b) {
         return a.size() > b.size();
         });
-
-
-    //for (const auto& word : words) {
-    //    // Konwersja na u32string
-    //    std::u32string u32str(word.begin(), word.end());
-
-    //    // Wypisanie każdego słowa (jeśli środowisko wspiera wypisywanie char32_t)
-    //    for (auto ch : u32str) {
-    //        std::wcout << static_cast<wchar_t>(ch);
-    //    }
-    //    std::wcout << std::endl;
-    //}
 
 
     return words;

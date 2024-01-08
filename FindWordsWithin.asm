@@ -5,7 +5,7 @@ FindWordsWithinUntilTheContentIsTooSmallOrEndOfRecordAsm PROC
         mov     QWORD PTR [rsp+24], r8
         mov     QWORD PTR [rsp+16], rdx
         mov     DWORD PTR [rsp+8], ecx
-        sub     rsp, 88
+        sub     rsp, 104
 
         mov [rsp+r12Local$],r12
         mov [rsp+r13Local$],r13
@@ -13,6 +13,7 @@ FindWordsWithinUntilTheContentIsTooSmallOrEndOfRecordAsm PROC
         mov [rsp+r15Local$],r15
         mov [rsp+rsiLocal$],rsi
         mov [rsp+rbxLocal$],rbx
+        mov [rsp+rdiLocal$],rdi
 
 
          jmp LoadWyrazenieItemToRs
@@ -351,8 +352,9 @@ koniec_glownej_petli:
         mov r14,qword ptr[rsp+r14Local$]
         mov r15,qword ptr[rsp+r15Local$]
         mov rsi,[rsp+rsiLocal$]
+        mov rdi,[rsp+rdiLocal$]
         mov rbx,[rsp+rbxLocal$]
-        add     rsp, 88                          
+        add     rsp, 104                          
         ret     0
 
        
@@ -524,14 +526,15 @@ r14Local$ = 48
 r15Local$ = 56
 rsiLocal$ = 64
 rbxLocal$ = 72
-iloscWszystkichRekordow$ = 96
-recordOffsets$ = 104
-results$ = 112
-locationArray$ = 120
-recordIds$ = 128
-contentArray$ = 136
-contentArraySize$ = 144
-descriptionArray$ = 152
-wyrazeniaItem$ = 160
-dlugoscWyrazeniaItem$ = 168
+rdiLocal$ = 80
+iloscWszystkichRekordow$ = 112
+recordOffsets$ = 120
+results$ = 128
+locationArray$ = 136
+recordIds$ = 144
+contentArray$ = 152
+contentArraySize$ = 160
+descriptionArray$ = 168
+wyrazeniaItem$ = 176
+dlugoscWyrazeniaItem$ = 184
 END
