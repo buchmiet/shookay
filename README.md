@@ -1,18 +1,16 @@
-**Shookay Search Engine Library v0.5**
+# **Shookay Search Engine Library v0.5.2**
 
-**Overview**
+## **Overview**
 Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. This universal library is suitable for various applications, making it a valuable tool for developers seeking an advanced, yet easy-to-use search solution.
 
-**Features**
-Fast Performance: Optimized with C++ and x64 assembly, Shookay ensures rapid search results even with large datasets.
-Flexible Search Options: Offers both 'FindWithin' and 'FindExact' search methods to cater to different search requirements.
-Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding, providing versatility for international applications.
-Dynamic Search Capabilities: Allows for searching by partial word fragments and associated terms, enhancing user experience.
-Separate Search Engine Instances: Each application component can utilize its own instance of the search engine for specialized data handling.
-Installation
-Zakładając, że tworzysz bibliotekę DLL w C++, instrukcje instalacji i integracji mogą wyglądać mniej więcej tak:
+## **Features**
+- Fast Performance: Optimized with C++ and x64 assembly, Shookay ensures rapid search results even with large datasets.
+- Flexible Search Options: Offers both 'FindWithin' and 'FindExact' search methods to cater to different search requirements.
+- Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding, providing versatility for international applications.
+- Dynamic Search Capabilities: Allows for searching by partial word fragments and associated terms, enhancing user experience.
+- Separate Search Engine Instances: Each application component can utilize its own instance of the search engine for specialized data handling.
 
-**Installation and Integration**
+## **Installation and Integration**
 
 **Compiling the Library**
 
@@ -119,25 +117,31 @@ int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
 now x returns the pointer to the map entries.
 **Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
 
-**License**
+## **License**
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-MIT License Summary
+### MIT License Summary
 
 The MIT License is a permissive license that is short and to the point. It lets people do anything they want with your code as long as they provide attribution back to you and don’t hold you liable.
 
-Permissions
-Commercial use
-Modification
-Distribution
-Private use
-Conditions
-Include the original license and copyright notice with the code
-Limitations
-No Liability
-No Warranty
+- Permissions
+- Commercial use
+- Modification
+- Distribution
+- Private use
+- Conditions
+- Include the original license and copyright notice with the code
+- Limitations
+- No Liability
+- No Warranty
 
-## [0.5.1] - 2024-01-08
-### fixed:
+## What's new:
+
+### [0.5.1] - 2024-01-07
+#### fixed:
 - Fixed bug: preserving RDX for the duration of the function due to the MSVC calling convention.
+### [0.5.2] - 2024-01-08
+#### improved:
+- removing text repetitions from the source 
+- refactored `GetWordsFromString`methods 
