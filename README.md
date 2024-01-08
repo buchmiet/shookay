@@ -137,3 +137,7 @@ Include the original license and copyright notice with the code
 Limitations
 No Liability
 No Warranty
+
+## [0.5.1] - 2024-01-08
+### fixed:
+- Fixed bug: preserving RDX for the duration of the function due to the MSVC calling convention.
