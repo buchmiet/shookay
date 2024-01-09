@@ -1,7 +1,7 @@
-# **Shookay Search Engine Library v0.5.2**
+# **Shookay Search Engine Library v0.5.3**
 
 ## **Overview**
-Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. This universal library is suitable for various applications, making it a valuable tool for developers seeking an advanced, yet easy-to-use search solution.
+Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. This universal library is suitable for various applications, making it a valuable tool for developers seeking an advanced, yet easy-to-use search solution. You can use it for Web API if you need results in instant, or in application with GUI, where responsiveness is the key and you want search results to be delivered sequentially.
 
 ## **Features**
 - Fast Performance: Optimized with C++ and x64 assembly, Shookay ensures rapid search results even with large datasets.
@@ -158,6 +158,60 @@ Key: 5, Value: had each another every industrial line change
 
 **Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
 
+
+## For applications with Graphical User Interface:
+
+
+shookay can indicate the progress of its processing.
+
+first, you will need to create your own callback function that matches the following delegate :
+
+```cpp
+typedef void (*ProgressCallback)(int progress);
+```
+
+for instance 
+
+```cpp
+void PrintProgress(int progress) {
+    std::cout << "Progress: " << progress << "%" << std::endl;
+}
+```
+
+then deliver your dictionary 
+
+```cpp
+DeliverEntriesUTF8WithCallback(searchEngine, data, totalSize, PrintProgress);
+```
+
+ or
+
+```cpp
+DeliverEntriesUTF16WithCallback(searchEngine, data, totalSize, PrintProgress);
+```
+
+  or
+
+```cpp
+DeliverEntriesUTF32WithCallback(searchEngine, data, totalSize, PrintProgress);
+```
+
+Result:
+
+```
+Progress: 0%
+Progress: 11%
+Progress: 22%
+Progress: 33%
+Progress: 44%
+Progress: 55%
+Progress: 66%
+Progress: 77%
+Progress: 88%
+```
+
+
+
 ## **License**
 
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -185,4 +239,7 @@ The MIT License is a permissive license that is short and to the point. It lets 
 ### [0.5.2] - 2024-01-08
 #### improved:
 - removing text repetitions from the source 
-- refactored `GetWordsFromString`methods 
+- refactored `GetWordsFromString`methods
+### [0.5.3] - 2024-01-09
+#### added:
+- ``` DeliverEntriesWithCallback``` methods that can report progress to your GUI
