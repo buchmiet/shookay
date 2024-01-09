@@ -32,7 +32,7 @@ add 
 
 to your project
 
-**Delivering Entries**
+**Initializing the search dictionary**
 
 Create instance of the engine:
 
@@ -90,7 +90,9 @@ DeliverEntries(searchEngine, &entries, UTF32Map);
 
 now entries are delivered to the engine. then, perform search 
 
-### for words that can be substrings 
+### Perform search
+
+##for words that can be substrings 
 
 for UTF-8:
 
@@ -135,7 +137,7 @@ Key: 4, Value: asd every
 Key: 5, Value: had each another every industrial line change
 ```
 
-### for words that have to be exact matches:
+## for words that have to be exact matches:
 
 use the same code as above but replace the following methods
 
