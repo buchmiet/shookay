@@ -95,10 +95,20 @@ extern "C" {
         auto mapEntries = shookayEngine::ReadEntries<std::string>(data, length, StringConverter::ConvertUTF8);
         searchEngine->DeliverEntriesUTF8(mapEntries);
     }
+    void DeliverEntriesUTF8WithCallback(shookayEngine* searchEngine, const char* data, int length, ProgressCallback progressCallback) {
+        auto mapEntries = shookayEngine::ReadEntries<std::string>(data, length, StringConverter::ConvertUTF8);
+        searchEngine->DeliverEntriesUTF8WithCallback(mapEntries, progressCallback);
+    }
 
     void DeliverEntriesUTF16(shookayEngine* searchEngine, const char* data, int length) {
         auto mapEntries = shookayEngine::ReadEntries<std::u16string>(data, length, StringConverter::ConvertUTF16);
         searchEngine->DeliverEntriesUTF16(mapEntries);
+    }
+
+    void DeliverEntriesUTF16WithCallback(shookayEngine* searchEngine, const char* data, int length, ProgressCallback progressCallback) {
+     
+        auto mapEntries = shookayEngine::ReadEntries<std::u16string>(data, length, StringConverter::ConvertUTF16);
+        searchEngine->DeliverEntriesUTF16WithCallback(mapEntries,progressCallback);
     }
 
     void DeliverEntriesUTF32(shookayEngine* searchEngine, const char* data, int length) {
@@ -106,7 +116,10 @@ extern "C" {
         searchEngine->DeliverEntriesUTF32(mapEntries);
     }
 
-
+    void DeliverEntriesUTF32WithCallback(shookayEngine* searchEngine, const char* data, int length, ProgressCallback progressCallback) {
+        auto mapEntries = shookayEngine::ReadEntries<std::u32string>(data, length, StringConverter::ConvertUTF32);
+        searchEngine->DeliverEntriesUTF32WithCallback(mapEntries, progressCallback);
+    }
 
 
     void DeliverEntries(shookayEngine* searchEngine, void* data, EncodingType encodingType) {
@@ -129,9 +142,28 @@ extern "C" {
             break; }
         }
     }
+    
 
+        void DeliverEntriesWithCallback(shookayEngine* searchEngine, void* data, EncodingType encodingType, ProgressCallback progressCallback) {
+        switch (encodingType) {
+        case UTF8Map: {
 
-
+            auto dataUTF8 = static_cast<std::map<int, std::string>*>(data);
+            searchEngine->DeliverEntriesUTF8(*dataUTF8);
+            break; }
+        case UTF16Map: {
+            auto dataUTF16 = static_cast<std::map<int, std::u16string>*>(data);
+            searchEngine->DeliverEntriesUTF16(*dataUTF16);
+            break; }
+        case UTF32Map: {
+            auto dataUTF32 = static_cast<std::map<int, std::u32string>*>(data);
+            searchEngine->DeliverEntriesUTF32(*dataUTF32);
+            break; }
+        default: {
+            // Error
+            break; }
+        }
+    }
 
 
 }

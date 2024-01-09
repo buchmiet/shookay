@@ -5,25 +5,25 @@
 #include <cstdint>
 #include "DwordDescription.h"
 #include <fstream>
+#include "common.h"
+
 class  shookayEngine {
 public:
     shookayEngine();
     void DeliverEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries);
+    void DeliverEntriesWithCallback(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries, ProgressCallback progressCallback);
     void DeliverEntriesUTF8(const std::map<int, std::string>& entries);
+    void DeliverEntriesUTF8WithCallback(const std::map<int, std::string>& entries, ProgressCallback progressCallback);
     void DeliverEntriesUTF16(const std::map<int, std::u16string>& entries);
+    void DeliverEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries, ProgressCallback progressCallback);
     void DeliverEntriesUTF32(const std::map<int, std::u32string>& entries);
+    void DeliverEntriesUTF32WithCallback(const std::map<int, std::u32string>& entries, ProgressCallback progressCallback);
     std::vector<int> FindWithinUTF8(const char* wyrazenie); 
     std::vector<int> FindWithinUTF16(const char16_t* wyrazenie);
     std::vector<int> FindWithinUTF32(const char32_t* wyrazenie);
     std::vector<int> FindExactUTF8(const char* wyrazenie);
     std::vector<int> FindExactUTF16(const char16_t* wyrazenie);
     std::vector<int> FindExactUTF32(const char32_t* wyrazenie);
-  
-    enum EncodingType {
-        UTF8Map,
-        UTF16Map,
-        UTF32Map
-    };
 
 
     template <typename String, typename StringConverter>

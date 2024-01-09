@@ -18,9 +18,9 @@
 #include "StringConverter.h"
 
 
-shookayEngine::shookayEngine() {
+shookayEngine::shookayEngine() = default;
 
-}
+
 
 void shookayEngine::DeliverEntriesUTF8(const std::map<int, std::string>& entries) {
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
@@ -28,6 +28,16 @@ void shookayEngine::DeliverEntriesUTF8(const std::map<int, std::string>& entries
         utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF8String(pair.second);
     }
     DeliverEntries(utf32entries);
+    utf32entries.clear();
+}
+
+
+void shookayEngine::DeliverEntriesUTF8WithCallback(const std::map<int, std::string>& entries, ProgressCallback progressCallback) {
+    std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
+    for (const auto& pair : entries) {
+        utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF8String(pair.second);
+    }
+    DeliverEntriesWithCallback(utf32entries, progressCallback);
     utf32entries.clear();
 }
 
@@ -40,6 +50,15 @@ void shookayEngine::DeliverEntriesUTF16(const std::map<int, std::u16string>& ent
     utf32entries.clear();
 }
 
+void shookayEngine::DeliverEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries,  ProgressCallback progressCallback) {
+    std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
+    for (const auto& pair : entries) {
+        utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF16String(pair.second);
+    }
+    DeliverEntriesWithCallback(utf32entries, progressCallback);
+    utf32entries.clear();
+}
+
 void shookayEngine::DeliverEntriesUTF32(const std::map<int, std::u32string>& entries) {
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
     for (const auto& pair : entries) {
@@ -48,6 +67,17 @@ void shookayEngine::DeliverEntriesUTF32(const std::map<int, std::u32string>& ent
     DeliverEntries(utf32entries);
     utf32entries.clear();
 }
+
+void shookayEngine::DeliverEntriesUTF32WithCallback(const std::map<int, std::u32string>& entries, ProgressCallback progressCallback) {
+    std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
+    for (const auto& pair : entries) {
+        utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF32String(pair.second);
+    }
+    DeliverEntriesWithCallback(utf32entries, progressCallback);
+    utf32entries.clear();
+}
+
+
 
 void shookayEngine::DeliverEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries) {
 
@@ -89,6 +119,54 @@ void shookayEngine::DeliverEntries(const std::map<int, std::vector<std::vector<c
     locationArray = std::move(initLocations);
 }
 
+void shookayEngine::DeliverEntriesWithCallback(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries, ProgressCallback progressCallback)
+{
+
+std::vector<int> initTable;
+std::vector<DwordDescription> initDescriptions;
+std::vector<int> initLocations;
+recordOffsets.resize(utf32entries.size());
+recordIds.resize(utf32entries.size());
+
+int currentPointer = 0;
+int j = 0;
+int totalEntries = utf32entries.size();
+
+for (const auto& entry : utf32entries) {
+    recordIds[j] = entry.first;
+    recordOffsets[j] = currentPointer;
+    for (const auto& item : entry.second) {
+
+        auto& innerEntries = item;
+        for (size_t i = 0; i < innerEntries.size(); ++i) {
+            DwordDescription dd;
+
+            if (i == 0) {
+                dd.isBeginningOfTheWord = 1;
+            }
+            dd.charIndex = static_cast<uint8_t>(i);
+            dd.wordLength = static_cast<uint8_t>(innerEntries.size());
+            dd.charIndexFromTheEnd = static_cast<uint8_t>(dd.wordLength - dd.charIndex);
+            initTable.push_back(innerEntries[i]);
+            initDescriptions.push_back(dd);
+            initLocations.push_back(entry.first);
+            currentPointer++;
+        }
+    }
+    auto progress = static_cast<int>((static_cast<double>(j) / totalEntries) * 100);
+
+  
+    if (progressCallback != nullptr) {
+    
+
+        progressCallback(progress);
+    }
+    j++;
+}
+contentArray = std::move(initTable);
+descriptionArray = std::move(initDescriptions);
+locationArray = std::move(initLocations);
+}
 
 extern "C" void FindExactWordsUntilTheContentIsTooSmallOrEndOfRecordAsm(
     int totalRecordCount,
