@@ -1,4 +1,4 @@
-# **Shookay Search Engine Library v0.5.3**
+# **Shookay Search Engine Library v0.5.4**
 
 ## **Overview**
 Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. This universal library is suitable for various applications, making it a valuable tool for developers seeking an advanced, yet easy-to-use search solution. You can use it for Web API if you need results in instant, or in application with GUI, where responsiveness is the key and you want search results to be delivered sequentially.
