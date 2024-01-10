@@ -564,31 +564,46 @@ void shookayEngine::FindWithinWithCallback(const std::vector<std::vector<char32_
             // that the searched string of words was not found in it
             indexToCharInContentArray = tempIndex;
 
-            while (expressionItem.size() < descriptionArray[indexToCharInContentArray].wordLength && indexToCharInContentArray < endRecord)
-            {             
-                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
-            }
-            if (expressionItem.size() > descriptionArray[indexToCharInContentArray].wordLength || indexToCharInContentArray == endRecord)
-            {             
+            if (expressionItem.size() > descriptionArray[indexToCharInContentArray].wordLength)
+            {               
                 found = false;
                 break;
-            }         
-            while (indexToCharInContentArray < endRecord && descriptionArray[indexToCharInContentArray].wordLength == expressionItem.size()) // go through the whole record
+            }
+
+
+            while (indexToCharInContentArray < endRecord) // go through the whole record
             {
-                found = true;             
-                for (int j = 0; j < expressionItem.size(); j++)
+                // now check if the expression is contained in any of the words of the record
+                int wordEnd = indexToCharInContentArray + descriptionArray[indexToCharInContentArray].wordLength;
+                while (descriptionArray[indexToCharInContentArray].charIndexFromTheEnd >= expressionItem.size()) // check until the word fits before its end
                 {
-                    if (contentArray[indexToCharInContentArray + j] != expressionItem[j]) // if a difference is found
-                    {                   
-                        found = false;
+                    found = true;
+                    for (int j = 0; j < expressionItem.size(); j++)
+                    {
+                        if (contentArray[indexToCharInContentArray + j] != expressionItem[j]) // if a difference is found
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
                         break;
                     }
+                    indexToCharInContentArray++;
                 }
                 if (found)
                 {
-                    break;
+                    indexToCharInContentArray = endRecord;
                 }
-                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
+                else
+                {
+                    indexToCharInContentArray = wordEnd;
+                }
+            }
+            if (!found)
+            {
+                break;
             }
         }
         if (found)
