@@ -318,43 +318,35 @@ void shookayEngine::FindExactWithCallback(const std::vector<std::vector<char32_t
             // if the sorted record starts with a word shorter than the searched one, skip searching the whole record and mark,
             // that the searched string of words was not found in it
             indexToCharInContentArray = tempIndex;
-
             while (expressionItem.size() < descriptionArray[indexToCharInContentArray].wordLength && indexToCharInContentArray < endRecord)
             {
                
                 indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
             }
             if (expressionItem.size() > descriptionArray[indexToCharInContentArray].wordLength)
-            {
-                //  Console.WriteLine("The record starts with a word shorter than the searched one, not searching through it");
+            {              
                 found = false;
                 break;
             }
 
             if (indexToCharInContentArray == endRecord)
-            {
-                //  Console.WriteLine("nie ma matcha dla tego slowa w tym rekordzie");
+            {             
                 found = false;
                 break;
             }
             while (indexToCharInContentArray < endRecord && descriptionArray[indexToCharInContentArray].wordLength == expressionItem.size()) // go through the whole record
             {
                 found = true;
-
-                //   Console.WriteLine($"comparing {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, expressionItem.Length)} with  {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)}");
                 for (int j = 0; j < expressionItem.size(); j++)
                 {
                     if (contentArray[indexToCharInContentArray + j] != expressionItem[j]) // if a difference is found
                     {
-                        //         Console.WriteLine($"NIEROWNE! {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, expressionItem.Length)} with  {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)}");
                         found = false;
                         break;
                     }
                 }
                 if (found)
-                {
-                    //    Console.WriteLine($"jest match, {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)} oraz {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, descriptionArray[indexToCharInContentArray].DlugoscSlowa)}");
-                       // indexToCharInContentArray = descriptionArray[indexToCharInContentArray].DlugoscSlowa;
+                {                    
                     break;
                 }
                 indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
@@ -363,8 +355,7 @@ void shookayEngine::FindExactWithCallback(const std::vector<std::vector<char32_t
             if (found)
             {
                 progressCallback(recordIds[i]);
-            }
-        
+            }        
     }
 }
 

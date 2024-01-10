@@ -85,13 +85,5 @@ std::vector<std::vector<char32_t>> StringConverter::GetWordsFromString(std::vect
         return a.size() > b.size();
         });
   
-    for (const auto& word : words) {
-        for (char32_t ch : word) {
-            std::wcout << static_cast<wchar_t>(ch);
-        }
-        std::cout << std::endl;
-    }
-
-
     return words;
 }

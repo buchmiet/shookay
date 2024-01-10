@@ -28,9 +28,11 @@ extern "C" {
     shookayEngine_API int* FindWithin(shookayEngine* searchEngine, void* data, int* length, EncodingType encodingType);
     shookayEngine_API void FindWithinWithCallback(shookayEngine* searchEngine, void* data, EncodingType encodingType, ProgressCallback progressCallback);
     shookayEngine_API int* FindExactUTF8(shookayEngine* searchEngine, const char* wyrazenie, int* length);
+    shookayEngine_API void FindExactUTF8WithCallback(shookayEngine* searchEngine, const char* wyrazenie, int* length, ProgressCallback progressCallback);
     shookayEngine_API int* FindExactUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length);
-    shookayEngine_API int* FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, ProgressCallback progressCallback);
+    shookayEngine_API void FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, ProgressCallback progressCallback);
     shookayEngine_API int* FindExactUTF32(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length);
+    shookayEngine_API void FindExactUTF32WithCallback(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length, ProgressCallback progressCallback);
     shookayEngine_API int* FindExact(shookayEngine* searchEngine, void* data, int* length, EncodingType encodingType);
     shookayEngine_API void FindExactWithCallback(shookayEngine* searchEngine, void* data, EncodingType encodingType, ProgressCallback progressCallback);
     shookayEngine_API void DeliverEntries(shookayEngine* searchEngine, void* data, EncodingType encodingType);

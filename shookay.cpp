@@ -84,6 +84,13 @@ extern "C" {
         return resultsArray;
     }
 
+    void FindExactUTF8WithCallback(shookayEngine* searchEngine, const char* wyrazenie, int* length, ProgressCallback progressCallback) {
+        if (searchEngine == nullptr) {
+            return;
+        }
+        searchEngine->FindExactUTF8WithCallback(wyrazenie, progressCallback);
+    }
+
     int* FindExactUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length) {
         if (searchEngine == nullptr) {
             return nullptr;
@@ -95,16 +102,11 @@ extern "C" {
         return resultsArray;
     }
 
-    int* FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, ProgressCallback progressCallback) {
+    void FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, ProgressCallback progressCallback) {
         if (searchEngine == nullptr) {
-            return nullptr;
+            return ;
         }
-        std::vector<int> results = searchEngine->FindExactUTF16(wyrazenie);
-        *length = results.size();
-        auto* resultsArray = new int[*length];
-        std::ranges::copy(results.begin(), results.end(), resultsArray);
-
-        return resultsArray;
+        searchEngine->FindExactUTF16WithCallback(wyrazenie,progressCallback);       
     }
 
     int* FindExactUTF32(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length) {
@@ -115,9 +117,16 @@ extern "C" {
         *length = results.size();
         auto* resultsArray = new int[*length];
         std::ranges::copy(results.begin(), results.end(), resultsArray);
-
         return resultsArray;
     }    
+
+    void FindExactUTF32WithCallback(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length, ProgressCallback progressCallback) {
+        if (searchEngine == nullptr) {
+            return;
+        }
+        searchEngine->FindExactUTF32WithCallback(wyrazenie, progressCallback);
+    }
+
    
     void DeliverEntriesUTF8(shookayEngine* searchEngine, const char* data, int length) {
         auto mapEntries = shookayEngine::ReadEntries<std::string>(data, length, StringConverter::ConvertUTF8);
