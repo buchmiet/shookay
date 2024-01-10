@@ -84,7 +84,7 @@ extern "C" {
         return resultsArray;
     }
 
-    void FindExactUTF8WithCallback(shookayEngine* searchEngine, const char* wyrazenie, int* length, ProgressCallback progressCallback) {
+    void FindExactUTF8WithCallback(shookayEngine* searchEngine, const char* wyrazenie,  ProgressCallback progressCallback) {
         if (searchEngine == nullptr) {
             return;
         }
@@ -102,7 +102,7 @@ extern "C" {
         return resultsArray;
     }
 
-    void FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, ProgressCallback progressCallback) {
+    void FindExactUTF16WithCallback(shookayEngine* searchEngine, const char16_t* wyrazenie, ProgressCallback progressCallback) {
         if (searchEngine == nullptr) {
             return ;
         }
@@ -120,7 +120,7 @@ extern "C" {
         return resultsArray;
     }    
 
-    void FindExactUTF32WithCallback(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length, ProgressCallback progressCallback) {
+    void FindExactUTF32WithCallback(shookayEngine* searchEngine, const char32_t* wyrazenie,  ProgressCallback progressCallback) {
         if (searchEngine == nullptr) {
             return;
         }
