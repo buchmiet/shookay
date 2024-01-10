@@ -288,29 +288,27 @@ For UTF8:
 
 ```cpp
 std::string searchTerm = "every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF8, PrintResults);
+FindExactWithCallback(searchEngine, &searchTerm, UTF8, PrintResults);
 ```
 
 For UTF16:
 
 ```cpp
 std::u16string searchTerm = u"every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF16, PrintResults);
+FindExactWithCallback(searchEngine, &searchTerm, UTF16, PrintResults);
 ```
 
 For UTF32:
 
 ```cpp
 std::string searchTerm = U"every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF32, PrintResults);
+FindExactWithCallback(searchEngine, &searchTerm, UTF32, PrintResults);
 ```
 
 And the result will be :
 
 ```
 Match at: 1
-Match at: 2
-Match at: 3
 Match at: 4
 Match at: 5
 ```
@@ -347,3 +345,6 @@ The MIT License is a permissive license that is short and to the point. It lets 
 ### [0.5.3] - 2024-01-09
 #### added:
 - ``` DeliverEntriesWithCallback``` methods that can report progress to your GUI
+### [0.5.4] - 2024-01-10
+#### added:
+- ``` FindExactWithCallback``` and ``` FindWithinWithCallback``` search functions that report search results on the go to your to your GUI
