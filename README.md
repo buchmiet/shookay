@@ -44,9 +44,9 @@ Depending on the encoding type of your map, you will need to provide a value fro
 
 ```cpp
 enum EncodingType {
-    UTF8Map,
-    UTF16Map,
-    UTF32Map
+    UTF8,
+    UTF16,
+    UTF32
 };
 ```
 
@@ -63,7 +63,7 @@ entries[5] = { "had each another every industrial line change" };
 entries[6] = { "keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { "its so say as had away white innovation" };
 entries[8] = { " ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF8Map);
+DeliverEntries(searchEngine, &entries, UTF8);
 ```
 
 for UTF-16 :
@@ -79,7 +79,7 @@ entries[5] = { u"had each another every industrial line change" };
 entries[6] = { u"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { u"its so say as had away white innovation" };
 entries[8] = { u" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF16Map);
+DeliverEntries(searchEngine, &entries, UTF16);
 ```
 
 for UTF-32:
@@ -95,7 +95,7 @@ entries[5] = { U"had each another every industrial line change" };
 entries[6] = { U"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { U"its so say as had away white innovation" };
 entries[8] = { U" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF32Map);
+DeliverEntries(searchEngine, &entries, UTF32);
 ```
 
 now entries are delivered to the engine. then, perform search 
@@ -109,7 +109,7 @@ for UTF-8:
 ```cpp
 std::string searchTerm = "issio";
 int resultLength;
-int* x = FindWithinUTF8(searchEngine, searchTerm.c_str(), &resultLength);
+int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF8);
 ```
 
 for UTF-16:
@@ -117,7 +117,7 @@ for UTF-16:
 ```cpp
 std::u16string searchTerm = u"issio";
 int resultLength;
-int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
+int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF16);
 ```
 
 for UTF-32:
@@ -125,7 +125,7 @@ for UTF-32:
 ```cpp
 std::u32string searchTerm = U"issio asd";
 int resultLength;
-int* x = FindWithinUTF16(searchEngine, searchTerm.c_str(), &resultLength);
+int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF32);
 ```
 
 now `resultLength` returns the number of hits and `x` returns the pointer to the map entries where keys are found to be matching the `searchTerm`.
@@ -149,13 +149,29 @@ Key: 5, Value: had each another every industrial line change
 
 ## for words that have to be exact matches:
 
-use the same code as above but replace the following methods
+for UTF-8:
 
-```FindWithinUTF8``` with ```FindExactUTF8```
+```cpp
+std::string searchTerm = "issio";
+int resultLength;
+int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF8);
+```
 
-```FindExactUTF16``` with ```FindExactUTF16```
+for UTF-16:
 
-```FindWithinUTF32``` with ```FindExactUTF32```
+```cpp
+std::u16string searchTerm = u"issio";
+int resultLength;
+int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF16);
+```
+
+for UTF-32:
+
+```cpp
+std::u32string searchTerm = U"issio asd";
+int resultLength;
+int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF32);
+```
 
 
 to get following results
