@@ -18,12 +18,18 @@ public:
     void DeliverEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries, ProgressCallback progressCallback);
     void DeliverEntriesUTF32(const std::map<int, std::u32string>& entries);
     void DeliverEntriesUTF32WithCallback(const std::map<int, std::u32string>& entries, ProgressCallback progressCallback);
-    std::vector<int> FindWithinUTF8(const char* wyrazenie); 
+    std::vector<int> FindWithinUTF8(const char* wyrazenie);
+    void FindWithinUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback);
     std::vector<int> FindWithinUTF16(const char16_t* wyrazenie);
+    void FindWithinUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback);
     std::vector<int> FindWithinUTF32(const char32_t* wyrazenie);
+    void FindWithinUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback);
     std::vector<int> FindExactUTF8(const char* wyrazenie);
+    void FindExactUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback);
     std::vector<int> FindExactUTF16(const char16_t* wyrazenie);
+    void FindExactUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback);
     std::vector<int> FindExactUTF32(const char32_t* wyrazenie);
+    void FindExactUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback);
 
 
     template <typename String, typename StringConverter>
@@ -58,8 +64,9 @@ private:
 
     bool CompareWordsUntilTheContentIsTooSmallOrEndOfRecord(const std::vector<char32_t>& WyszukiwaneWyrazenie, int pointerToEndOfTheRecord, int& IndexToCharInContentArray);
     std::vector<int> FindWithin(const std::vector<std::vector<char32_t>> wyrazenia);
-    std::vector<int> FindExact(const std::vector<std::vector<char32_t>> wyrazenia);
-    std::vector<int> locationArray;
+    std::vector<int> FindExact(const std::vector<std::vector<char32_t>> wyrazenia);  
+    void FindWithinWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback);
+    void FindExactWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback);
     std::vector<int> recordOffsets;
     std::vector<int> results;
     std::vector<int> recordIds;

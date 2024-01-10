@@ -32,7 +32,6 @@ std::vector<std::vector<char32_t>> StringConverter::GetUTF32WordsFromUTF8String(
     if (wyrazenie.empty()) {
         return std::vector<std::vector<char32_t>>();
     }
-    std::vector<std::vector<char32_t>> words;
     return GetWordsFromString(UTFConverter::Utf8ToUtf32(wyrazenie));  
 }
 
@@ -66,7 +65,7 @@ std::vector<std::vector<char32_t>> StringConverter::GetWordsFromString(std::vect
     for (char32_t ch : wyrazenie) {
         if (StringConverter::IsSeparator(ch)) {
             if (!currentWord.empty()) {
-                if (uniqueWords.find(currentWord) == uniqueWords.end()) { 
+                if (!uniqueWords.contains(currentWord)) { 
                     uniqueWords.insert(currentWord); 
                     words.push_back(currentWord); 
                 }
@@ -78,7 +77,7 @@ std::vector<std::vector<char32_t>> StringConverter::GetWordsFromString(std::vect
         }
     }
 
-    if (!currentWord.empty() && uniqueWords.find(currentWord) == uniqueWords.end()) {
+    if (!currentWord.empty() && !uniqueWords.contains(currentWord)) {
         words.push_back(currentWord);
     }
   
@@ -86,5 +85,13 @@ std::vector<std::vector<char32_t>> StringConverter::GetWordsFromString(std::vect
         return a.size() > b.size();
         });
   
+    for (const auto& word : words) {
+        for (char32_t ch : word) {
+            std::wcout << static_cast<wchar_t>(ch);
+        }
+        std::cout << std::endl;
+    }
+
+
     return words;
 }

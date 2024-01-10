@@ -36,6 +36,7 @@ void shookayEngine::DeliverEntriesUTF8WithCallback(const std::map<int, std::stri
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
     for (const auto& pair : entries) {
         utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF8String(pair.second);
+       
     }
     DeliverEntriesWithCallback(utf32entries, progressCallback);
     utf32entries.clear();
@@ -45,6 +46,7 @@ void shookayEngine::DeliverEntriesUTF16(const std::map<int, std::u16string>& ent
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
     for (const auto& pair : entries) {
         utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF16String(pair.second);
+      
     }
     DeliverEntries(utf32entries);
     utf32entries.clear();
@@ -54,6 +56,14 @@ void shookayEngine::DeliverEntriesUTF16WithCallback(const std::map<int, std::u16
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
     for (const auto& pair : entries) {
         utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF16String(pair.second);
+        for (const auto& word : utf32entries[pair.first]) {
+            // Iteracja po każdym znaku w słowie
+            for (char32_t ch : word) {
+                // Wyświetlanie znaku; std::char_traits<char32_t>::to_char_type konwertuje char32_t na char
+                std::wcout << static_cast<wchar_t>(ch);
+            }
+            std::cout << std::endl; // Nowa linia po każdym słowie
+        }
     }
     DeliverEntriesWithCallback(utf32entries, progressCallback);
     utf32entries.clear();
@@ -77,14 +87,12 @@ void shookayEngine::DeliverEntriesUTF32WithCallback(const std::map<int, std::u32
     utf32entries.clear();
 }
 
-
-
 void shookayEngine::DeliverEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries) {
 
 
     std::vector<int> initTable;
     std::vector<DwordDescription> initDescriptions;
-    std::vector<int> initLocations;
+ //   std::vector<int> initLocations;
     recordOffsets.resize(utf32entries.size());
     recordIds.resize(utf32entries.size());
 
@@ -108,7 +116,7 @@ void shookayEngine::DeliverEntries(const std::map<int, std::vector<std::vector<c
                 dd.charIndexFromTheEnd = static_cast<uint8_t>(dd.wordLength - dd.charIndex);
                 initTable.push_back(innerEntries[i]);
                 initDescriptions.push_back(dd);
-                initLocations.push_back(entry.first);
+            //    initLocations.push_back(entry.first);
                 currentPointer++;
             }
         }
@@ -116,7 +124,7 @@ void shookayEngine::DeliverEntries(const std::map<int, std::vector<std::vector<c
     }
     contentArray = std::move(initTable);
     descriptionArray = std::move(initDescriptions);
-    locationArray = std::move(initLocations);
+    //locationArray = std::move(initLocations);
 }
 
 void shookayEngine::DeliverEntriesWithCallback(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries, ProgressCallback progressCallback)
@@ -165,14 +173,14 @@ for (const auto& entry : utf32entries) {
 }
 contentArray = std::move(initTable);
 descriptionArray = std::move(initDescriptions);
-locationArray = std::move(initLocations);
+//locationArray = std::move(initLocations);
 }
 
 extern "C" void FindExactWordsUntilTheContentIsTooSmallOrEndOfRecordAsm(
     int totalRecordCount,
     int* recordOffsets,
     int* results,
-    int* locationArray,
+   
     int* recordIds,
     int* contentArray,
     int contentArraySize,
@@ -185,7 +193,7 @@ extern "C" void FindWordsWithinUntilTheContentIsTooSmallOrEndOfRecordAsm(
     int totalRecordCount,
     int* recordOffsets,
     int* results,
-    int* locationArray,
+   
     int* recordIds,
     int* contentArray,
     int contentArraySize,
@@ -238,27 +246,130 @@ std::vector<int> shookayEngine::FindWithinUTF8(const char* wyrazenie) {
     return FindWithin(StringConverter::GetUTF32WordsFromUTF8String(wyrazenie));
 }
 
-
+void shookayEngine::FindWithinUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback) {
+    FindWithinWithCallback(StringConverter::GetUTF32WordsFromUTF8String(wyrazenie), progressCallback);
+}
 
 std::vector<int> shookayEngine::FindWithinUTF16(const char16_t* wyrazenie){
    
     return FindWithin(StringConverter::GetUTF32WordsFromUTF16String(wyrazenie));     
 }
+
+void shookayEngine::FindWithinUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback) {
+    FindWithinWithCallback(StringConverter::GetUTF32WordsFromUTF16String(wyrazenie), progressCallback);
+}
+
 std::vector<int> shookayEngine::FindWithinUTF32(const char32_t* wyrazenie) {
 
     return FindWithin(StringConverter::GetUTF32WordsFromUTF32String(wyrazenie));
 }
 
+void shookayEngine::FindWithinUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback) {
+    FindWithinWithCallback(StringConverter::GetUTF32WordsFromUTF32String(wyrazenie), progressCallback);
+}
+
 std::vector<int> shookayEngine::FindExactUTF8(const char* wyrazenie) {
     return FindExact(StringConverter::GetUTF32WordsFromUTF8String(wyrazenie));
 }
-std::vector<int> shookayEngine::FindExactUTF16(const char16_t* wyrazenie) {
-   
+
+void shookayEngine::FindExactUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback) {
+    FindExactWithCallback(StringConverter::GetUTF32WordsFromUTF8String(wyrazenie), progressCallback);
+}
+
+std::vector<int> shookayEngine::FindExactUTF16(const char16_t* wyrazenie) {   
     return FindExact(StringConverter::GetUTF32WordsFromUTF16String(wyrazenie));
 }
+
+
+void shookayEngine::FindExactUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback) {
+    FindExactWithCallback(StringConverter::GetUTF32WordsFromUTF16String(wyrazenie),progressCallback);
+}
+
 std::vector<int> shookayEngine::FindExactUTF32(const char32_t* wyrazenie) {
     return FindExact(StringConverter::GetUTF32WordsFromUTF32String(wyrazenie));
 }
+
+void shookayEngine::FindExactUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback) {
+    FindExactWithCallback(StringConverter::GetUTF32WordsFromUTF32String(wyrazenie), progressCallback);
+}
+
+void shookayEngine::FindExactWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback) 
+{
+    int totalRecordCount = recordOffsets.size();
+    int indexToCharInContentArray; // Index to character in the content array   
+
+    for (int i = 0; i < totalRecordCount; i++)
+    {
+        indexToCharInContentArray = recordOffsets[i];
+        int endRecord;
+        if (i == totalRecordCount - 1)
+        {
+            endRecord = contentArray.size() - 1;
+        }
+        else
+        {
+            endRecord = recordOffsets[i + 1];
+        }
+        bool found = true;
+        int tempIndex = indexToCharInContentArray;
+       
+        for (auto& expressionItem : expressions) // for each searched expression
+        {
+            // if the sorted record starts with a word shorter than the searched one, skip searching the whole record and mark,
+            // that the searched string of words was not found in it
+            indexToCharInContentArray = tempIndex;
+
+            while (expressionItem.size() < descriptionArray[indexToCharInContentArray].wordLength && indexToCharInContentArray < endRecord)
+            {
+               
+                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
+            }
+            if (expressionItem.size() > descriptionArray[indexToCharInContentArray].wordLength)
+            {
+                //  Console.WriteLine("The record starts with a word shorter than the searched one, not searching through it");
+                found = false;
+                break;
+            }
+
+            if (indexToCharInContentArray == endRecord)
+            {
+                //  Console.WriteLine("nie ma matcha dla tego slowa w tym rekordzie");
+                found = false;
+                break;
+            }
+            while (indexToCharInContentArray < endRecord && descriptionArray[indexToCharInContentArray].wordLength == expressionItem.size()) // go through the whole record
+            {
+                found = true;
+
+                //   Console.WriteLine($"comparing {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, expressionItem.Length)} with  {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)}");
+                for (int j = 0; j < expressionItem.size(); j++)
+                {
+                    if (contentArray[indexToCharInContentArray + j] != expressionItem[j]) // if a difference is found
+                    {
+                        //         Console.WriteLine($"NIEROWNE! {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, expressionItem.Length)} with  {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)}");
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    //    Console.WriteLine($"jest match, {ConvertUTF32IntsToString(expressionItem, 0, expressionItem.Length)} oraz {ConvertUTF32IntsToString(contentArray, indexToCharInContentArray, descriptionArray[indexToCharInContentArray].DlugoscSlowa)}");
+                       // indexToCharInContentArray = descriptionArray[indexToCharInContentArray].DlugoscSlowa;
+                    break;
+                }
+                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
+            }
+        }
+            if (found)
+            {
+                progressCallback(recordIds[i]);
+            }
+        
+    }
+}
+
+
+
 
 std::vector<int> shookayEngine::FindExact(const std::vector<std::vector<char32_t>> expressions) {
 
@@ -347,7 +458,7 @@ std::vector<int> shookayEngine::FindExact(const std::vector<std::vector<char32_t
                 totalRecordCount,
                 recordOffsets.data(),
                 results.data(),
-                locationArray.data(),
+              
                 recordIds.data(),
                 contentArray.data(),
                 contentArray.size(),
@@ -371,8 +482,6 @@ std::vector<int> shookayEngine::FindExact(const std::vector<std::vector<char32_t
 
 std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_t>> expressions)
 {
-
-   
     std::vector<int> returnVector;
     int totalRecordCount = recordOffsets.size();
     results = std::vector<int>(totalRecordCount, 1);
@@ -427,8 +536,7 @@ std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_
             FindWordsWithinUntilTheContentIsTooSmallOrEndOfRecordAsm(
                 totalRecordCount,
                 recordOffsets.data(),
-                results.data(),
-                locationArray.data(),
+                results.data(),              
                 recordIds.data(),
                 contentArray.data(),
                 contentArray.size(),
@@ -447,3 +555,64 @@ std::vector<int> shookayEngine::FindWithin(const std::vector<std::vector<char32_
     }
     return returnVector;
 }
+
+void shookayEngine::FindWithinWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback)
+{  
+    int totalRecordCount = recordOffsets.size();   
+    int indexToCharInContentArray; // Index to character in the content array   
+    for (int i = 0; i < totalRecordCount; i++)
+    {
+        indexToCharInContentArray = recordOffsets[i];
+        int endRecord;
+        if (i == totalRecordCount - 1)
+        {
+            endRecord = contentArray.size() - 1;
+        }
+        else
+        {
+            endRecord = recordOffsets[i + 1];
+        }
+        bool found = true;
+        int tempIndex = indexToCharInContentArray;
+
+        for (auto& expressionItem : expressions) // for each searched expression
+        {
+            // if the sorted record starts with a word shorter than the searched one, skip searching the whole record and mark,
+            // that the searched string of words was not found in it
+            indexToCharInContentArray = tempIndex;
+
+            while (expressionItem.size() < descriptionArray[indexToCharInContentArray].wordLength && indexToCharInContentArray < endRecord)
+            {             
+                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
+            }
+            if (expressionItem.size() > descriptionArray[indexToCharInContentArray].wordLength || indexToCharInContentArray == endRecord)
+            {             
+                found = false;
+                break;
+            }         
+            while (indexToCharInContentArray < endRecord && descriptionArray[indexToCharInContentArray].wordLength == expressionItem.size()) // go through the whole record
+            {
+                found = true;             
+                for (int j = 0; j < expressionItem.size(); j++)
+                {
+                    if (contentArray[indexToCharInContentArray + j] != expressionItem[j]) // if a difference is found
+                    {                   
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    break;
+                }
+                indexToCharInContentArray += descriptionArray[indexToCharInContentArray].wordLength;
+            }
+        }
+        if (found)
+        {
+            progressCallback(recordIds[i]);
+        }
+    }
+    }
+
+

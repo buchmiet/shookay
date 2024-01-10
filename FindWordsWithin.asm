@@ -530,11 +530,10 @@ rdiLocal$ = 80
 iloscWszystkichRekordow$ = 112
 recordOffsets$ = 120
 results$ = 128
-locationArray$ = 136
-recordIds$ = 144
-contentArray$ = 152
-contentArraySize$ = 160
-descriptionArray$ = 168
-wyrazeniaItem$ = 176
-dlugoscWyrazeniaItem$ = 184
+recordIds$ = 136
+contentArray$ = 144
+contentArraySize$ = 152
+descriptionArray$ = 160
+wyrazeniaItem$ = 168
+dlugoscWyrazeniaItem$ = 176
 END

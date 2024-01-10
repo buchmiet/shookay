@@ -498,11 +498,10 @@ rbxLocal$ = 72
 iloscWszystkichRekordow$ = 96
 recordOffsets$ = 104
 results$ = 112
-locationArray$ = 120
-recordIds$ = 128
-contentArray$ = 136
-contentArraySize$ = 144
-descriptionArray$ = 152
-wyrazeniaItem$ = 160
-dlugoscWyrazeniaItem$ = 168
+recordIds$ = 120
+contentArray$ = 128
+contentArraySize$ = 136
+descriptionArray$ = 144
+wyrazeniaItem$ = 152
+dlugoscWyrazeniaItem$ = 160
 END
