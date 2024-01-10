@@ -284,7 +284,36 @@ Match at: 5
 
 ## For words that have to be exact matches:
 
+For UTF8:
 
+```cpp
+std::string searchTerm = "every";
+FindWithinWithCallback(searchEngine, &searchTerm, UTF8, PrintResults);
+```
+
+For UTF16:
+
+```cpp
+std::u16string searchTerm = u"every";
+FindWithinWithCallback(searchEngine, &searchTerm, UTF16, PrintResults);
+```
+
+For UTF32:
+
+```cpp
+std::string searchTerm = U"every";
+FindWithinWithCallback(searchEngine, &searchTerm, UTF32, PrintResults);
+```
+
+And the result will be :
+
+```
+Match at: 1
+Match at: 2
+Match at: 3
+Match at: 4
+Match at: 5
+```
 
 
 ## **License**
