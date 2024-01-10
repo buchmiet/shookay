@@ -40,6 +40,16 @@ Create instance of the engine:
 shookayEngine* searchEngine = CreateSearchEngine();
 ```
 
+Depending on the encoding type of your map, you will need to provide a value from the following enum
+
+```cpp
+enum EncodingType {
+    UTF8Map,
+    UTF16Map,
+    UTF32Map
+};
+```
+
 if you work with UTF-8:
 
 ```cpp
@@ -180,20 +190,22 @@ void PrintProgress(int progress) {
 
 then deliver your dictionary 
 
+for UTF-8
+
 ```cpp
-DeliverEntriesUTF8WithCallback(searchEngine, data, totalSize, PrintProgress);
+DeliverEntriesWithCallback(searchEngine, &entries, UTF8Map, PrintProgress);
 ```
 
- or
+for UTF-16
 
 ```cpp
-DeliverEntriesUTF16WithCallback(searchEngine, data, totalSize, PrintProgress);
+ DeliverEntriesWithCallback(searchEngine, &entries, UTF16Map, PrintProgress);
 ```
 
-  or
+for UTF-32
 
 ```cpp
-DeliverEntriesUTF32WithCallback(searchEngine, data, totalSize, PrintProgress);
+ DeliverEntriesWithCallback(searchEngine, &entries, UTF32Map, PrintProgress);
 ```
 
 Result:
