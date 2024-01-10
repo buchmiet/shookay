@@ -55,15 +55,7 @@ void shookayEngine::DeliverEntriesUTF16(const std::map<int, std::u16string>& ent
 void shookayEngine::DeliverEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries,  ProgressCallback progressCallback) {
     std::map<int, std::vector<std::vector<char32_t>>> utf32entries;
     for (const auto& pair : entries) {
-        utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF16String(pair.second);
-        for (const auto& word : utf32entries[pair.first]) {
-            // Iteracja po każdym znaku w słowie
-            for (char32_t ch : word) {
-                // Wyświetlanie znaku; std::char_traits<char32_t>::to_char_type konwertuje char32_t na char
-                std::wcout << static_cast<wchar_t>(ch);
-            }
-            std::cout << std::endl; // Nowa linia po każdym słowie
-        }
+        utf32entries[pair.first] = StringConverter::GetUTF32WordsFromUTF16String(pair.second);        
     }
     DeliverEntriesWithCallback(utf32entries, progressCallback);
     utf32entries.clear();
