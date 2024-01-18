@@ -1,14 +1,13 @@
-# **Shookay Search Engine Library v0.5.4**
+# **Shookay Search Engine Library v0.6.0**
 
 ## **Overview**
-Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. This universal library is suitable for various applications, making it a valuable tool for developers seeking an advanced, yet easy-to-use search solution. You can use it for Web API if you need results in instant, or in application with GUI, where responsiveness is the key and you want search results to be delivered sequentially.
+Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. It is pretty universal, as you can integrate it with any application that can provide simple text data. 
 
 ## **Features**
-- Fast Performance: Optimized with C++ and x64 assembly, Shookay ensures rapid search results even with large datasets.
-- Flexible Search Options: Offers both 'FindWithin' and 'FindExact' search methods to cater to different search requirements.
-- Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding, providing versatility for international applications.
-- Dynamic Search Capabilities: Allows for searching by partial word fragments and associated terms, enhancing user experience.
-- Separate Search Engine Instances: Each application component can utilize its own instance of the search engine for specialized data handling.
+- Fast Performance: It's based on Inverted Index method;
+- Flexible Search Options: You can use parenthesis, logical AND, OR and NOT operators. You can also loook for words being the very exact matches or words being only substrings;
+- Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding - it accepts text in any language you can think of; 
+- Separate Search Engine Instances: you can run many separate search engines on different datasets at the same time
 
 ## **Installation and Integration**
 
