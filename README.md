@@ -52,17 +52,17 @@ enum EncodingType {
 if you work with UTF-8:
 
 ```cpp
-std::map<int, std::string> entries;
-entries[0] = { "Expenthisditure never  been these Expenthisditure go been Expenthisditure" };
-entries[1] = { "asd every possession aaaaa" };
-entries[2] = { "this young permeveryissionevery" };
-entries[3] = { "understanding performance this young permeasdveryissionevery" };
-entries[4] = { "asd every" };
-entries[5] = { "had each another every industrial line change" };
-entries[6] = { "keep specialization had America are leave realization by enough population here countryside back" };
-entries[7] = { "its so say as had away white innovation" };
-entries[8] = { " ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF8);
+std::map<int, std::u8string> entries;
+entries[0] = u8"Expenthisditure never  been these Expenthisditure go been Expenthisditure" ;
+entries[1] = u8"asd every possession aaaaa" ;
+entries[2] = u8"this young permeveryissionevery" ;
+entries[3] = u8"understanding performance this young permeasdveryissionevery" ;
+entries[4] = u8"asd every" ;
+entries[5] = u8"had each another every industrial line change" ;
+entries[6] = u8"keep specialization had America are leave realization by enough population here countryside back" ;
+entries[7] = u8"its so say as had away white innovation" ;
+entries[8] = u8" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." ;
+PrepareEntries(searchEngine, &entries, UTF8);
 ```
 
 for UTF-16 :
@@ -78,7 +78,7 @@ entries[5] = { u"had each another every industrial line change" };
 entries[6] = { u"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { u"its so say as had away white innovation" };
 entries[8] = { u" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF16);
+PrepareEntries(searchEngine, &entries, UTF16);
 ```
 
 for UTF-32:
@@ -94,21 +94,31 @@ entries[5] = { U"had each another every industrial line change" };
 entries[6] = { U"keep specialization had America are leave realization by enough population here countryside back" };
 entries[7] = { U"its so say as had away white innovation" };
 entries[8] = { U" ŁukaSz, Ekąb. ZZÓ. Żźoa      ,,,/fTQs ..Ł \\aa,,,,grgtrUIOUK...." };
-DeliverEntries(searchEngine, &entries, UTF32);
+PrepareEntries(searchEngine, &entries, UTF32);
 ```
 
-now entries are delivered to the engine. then, perform search 
+now entries are delivered to the engine. 
 
-### Perform search
+### Performing search
+
+You will be using the following 
+
+```cpp
+enum WordMatchMethod
+{
+    Exact,
+    Within
+};
+```
 
 ##for words that can be substrings 
 
 for UTF-8:
 
 ```cpp
-std::string searchTerm = "issio";
+std::u8string searchTerm = u8"issio";
 int resultLength;
-int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF8);
+int* results = FindUTF8(searchEngine, searchTerm, &resultLength, Within);
 ```
 
 for UTF-16:
@@ -116,7 +126,7 @@ for UTF-16:
 ```cpp
 std::u16string searchTerm = u"issio";
 int resultLength;
-int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF16);
+int* results = FindUTF16(searchEngine, searchTerm, &resultLength, Within);
 ```
 
 for UTF-32:
@@ -124,7 +134,7 @@ for UTF-32:
 ```cpp
 std::u32string searchTerm = U"issio asd";
 int resultLength;
-int* results = FindWithin(searchEngine, &searchTerm, &resultLength, UTF32);
+int* results = FindUTF32(searchEngine, searchTerm, &resultLength, Within);
 ```
 
 now `resultLength` returns the number of hits and `x` returns the pointer to the map entries where keys are found to be matching the `searchTerm`.
@@ -153,7 +163,7 @@ for UTF-8:
 ```cpp
 std::string searchTerm = "issio";
 int resultLength;
-int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF8);
+int* results = FindUTF8(searchEngine, searchTerm, &resultLength, Exact);
 ```
 
 for UTF-16:
@@ -161,7 +171,7 @@ for UTF-16:
 ```cpp
 std::u16string searchTerm = u"issio";
 int resultLength;
-int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF16);
+int* results = FindUTF16(searchEngine, searchTerm, &resultLength, Exact);
 ```
 
 for UTF-32:
@@ -169,7 +179,7 @@ for UTF-32:
 ```cpp
 std::u32string searchTerm = U"issio asd";
 int resultLength;
-int* results = FindExact(searchEngine, &searchTerm, &resultLength, UTF32);
+int* results = FindUTF32(searchEngine, searchTerm, &resultLength, Exact);
 ```
 
 
@@ -192,13 +202,13 @@ shookay can indicate the progress of its processing.
 first, you will need to create your own callback function that matches the following delegate :
 
 ```cpp
-typedef void (*ProgressCallback)(int progress);
+typedef void (*ProgressCallback)(float progress);
 ```
 
 for instance 
 
 ```cpp
-void PrintProgress(int progress) {
+void PrintProgress(float progress) {
     std::cout << "Progress: " << progress << "%" << std::endl;
 }
 ```
@@ -208,19 +218,19 @@ then deliver your dictionary
 for UTF-8
 
 ```cpp
-DeliverEntriesWithCallback(searchEngine, &entries, UTF8Map, PrintProgress);
+PrepareEntriesWithCallback(searchEngine, &entries, UTF8, PrintProgress);
 ```
 
 for UTF-16
 
 ```cpp
- DeliverEntriesWithCallback(searchEngine, &entries, UTF16Map, PrintProgress);
+ DeliverEntriesWithCallback(searchEngine, &entries, UTF16, PrintProgress);
 ```
 
 for UTF-32
 
 ```cpp
- DeliverEntriesWithCallback(searchEngine, &entries, UTF32Map, PrintProgress);
+ DeliverEntriesWithCallback(searchEngine, &entries, UTF32, PrintProgress);
 ```
 
 Result:
@@ -235,81 +245,6 @@ Progress: 55%
 Progress: 66%
 Progress: 77%
 Progress: 88%
-```
-
-## To perform search :
-
-## For words that can be substrings 
-
-First define your callback method, for instance
-
-```cpp
-void PrintResults(int progress) {
-    std::cout << "Match at: " << progress <<  std::endl;
-}
-```
-
-
-For UTF8:
-
-```cpp
-std::string searchTerm = "every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF8, PrintResults);
-```
-
-For UTF16:
-
-```cpp
-std::u16string searchTerm = u"every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF16, PrintResults);
-```
-
-For UTF32:
-
-```cpp
-std::string searchTerm = U"every";
-FindWithinWithCallback(searchEngine, &searchTerm, UTF32, PrintResults);
-```
-
-And the result will be :
-
-```
-Match at: 1
-Match at: 2
-Match at: 3
-Match at: 4
-Match at: 5
-```
-
-## For words that have to be exact matches:
-
-For UTF8:
-
-```cpp
-std::string searchTerm = "every";
-FindExactWithCallback(searchEngine, &searchTerm, UTF8, PrintResults);
-```
-
-For UTF16:
-
-```cpp
-std::u16string searchTerm = u"every";
-FindExactWithCallback(searchEngine, &searchTerm, UTF16, PrintResults);
-```
-
-For UTF32:
-
-```cpp
-std::string searchTerm = U"every";
-FindExactWithCallback(searchEngine, &searchTerm, UTF32, PrintResults);
-```
-
-And the result will be :
-
-```
-Match at: 1
-Match at: 4
-Match at: 5
 ```
 
 
@@ -347,3 +282,5 @@ The MIT License is a permissive license that is short and to the point. It lets 
 ### [0.5.4] - 2024-01-10
 #### added:
 - ``` FindExactWithCallback``` and ``` FindWithinWithCallback``` search functions that report search results on the go to your to your GUI
+### [0.6.0] - 2024-01-18
+- Major changes to the API and search method
