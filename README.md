@@ -6,7 +6,7 @@ Shookay is a versatile, high-performance search engine library designed to offer
 ## **Features**
 - Fast Performance: It's based on Inverted Index method;
 - Flexible Search Options: You can use parenthesis, logical AND, OR and NOT operators. You can also loook for words being the very exact matches or words being only substrings;
-- Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding - it accepts text in any language you can think of; 
+- Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding - it accepts text in any language you can fit in that encoding; 
 - Separate Search Engine Instances: you can run many separate search engines on different datasets at the same time
 
 ## **Installation and Integration**
