@@ -26,5 +26,5 @@ public:
     // Static methods for UTF-8
     static size_t CharLenUtf8(const Utf8Char* pUtf8);
     static size_t StrLenUtf32AsUtf8(const uint32_t* pUtf32);
-    static std::vector<char32_t> Utf8ToUtf32(const std::string& utf8String);
+    static std::vector<char32_t> Utf8ToUtf32(const std::u8string& utf8String);
 };

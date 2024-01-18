@@ -4197,7 +4197,7 @@ size_t UTFConverter::StrLenUtf32AsUtf8(const uint32_t* pUtf32)
 	return ztNumUtf8Chars;
 }
 
-std::vector<char32_t> UTFConverter::Utf8ToUtf32(const std::string& utf8String) {
+std::vector<char32_t> UTFConverter::Utf8ToUtf32(const std::u8string& utf8String) {
 	std::vector<char32_t> utf32Result;
 
 	if (utf8String.empty()) {

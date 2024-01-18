@@ -8,9 +8,9 @@ struct DwordDescription {
     uint8_t charIndexFromTheEnd; // Distance from the end of the word
 
     DwordDescription(uint32_t value) {
-        // Constructor accepting a uint32_t value
+   
     }
     DwordDescription() : isBeginningOfTheWord(0), charIndex(0), wordLength(0), charIndexFromTheEnd(0) {
-        // Default constructor
+   
     }
 };

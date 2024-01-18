@@ -143,30 +143,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
-    <ClInclude Include="DwordDescription.h" />
+    <ClInclude Include="expressionNode.h" />
+    <ClInclude Include="expressionTokenizer.h" />
+    <ClInclude Include="expressionTreeBuilder.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="myIntHashSet.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="postfixItem.h" />
+    <ClInclude Include="quickSorter.h" />
     <ClInclude Include="shookay.h" />
     <ClInclude Include="shookayEngine.h" />
-    <ClInclude Include="StringConverter.h" />
-    <ClInclude Include="UtfConv.h" />
+    <ClInclude Include="stringConverter.h" />
+    <ClInclude Include="utfConv.h" />
+    <ClInclude Include="wordDescription.h" />
+    <ClInclude Include="wordOperations.h" />
+    <ClInclude Include="wordStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="expressionTokenizer.cpp" />
+    <ClCompile Include="expressionTreeBuilder.cpp" />
+    <ClCompile Include="myIntHashSet.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="postfixItem.cpp" />
+    <ClCompile Include="quickSorter.cpp" />
     <ClCompile Include="shookay.cpp" />
     <ClCompile Include="shookayEngine.cpp" />
-    <ClCompile Include="StringConverter.cpp" />
-    <ClCompile Include="UtfConv.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <MASM Include="FindExactWords.asm" />
-    <MASM Include="FindWordsWithin.asm" />
+    <ClCompile Include="stringConverter.cpp" />
+    <ClCompile Include="utfConv.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

@@ -3,74 +3,44 @@
 #include <vector>
 #include <map>
 #include <cstdint>
-#include "DwordDescription.h"
 #include <fstream>
 #include "common.h"
+#include "wordDescription.h"
+#include <ranges>
+#include "myIntHashSet.h"
+#include "common.h"
+#include "expressionNode.h"
 
 class  shookayEngine {
 public:
-    shookayEngine();
-    void DeliverEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries);
-    void DeliverEntriesWithCallback(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries, ProgressCallback progressCallback);
-    void DeliverEntriesUTF8(const std::map<int, std::string>& entries);
-    void DeliverEntriesUTF8WithCallback(const std::map<int, std::string>& entries, ProgressCallback progressCallback);
-    void DeliverEntriesUTF16(const std::map<int, std::u16string>& entries);
-    void DeliverEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries, ProgressCallback progressCallback);
-    void DeliverEntriesUTF32(const std::map<int, std::u32string>& entries);
-    void DeliverEntriesUTF32WithCallback(const std::map<int, std::u32string>& entries, ProgressCallback progressCallback);
-    std::vector<int> FindWithinUTF8(const char* wyrazenie);
-    void FindWithinUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback);
-    std::vector<int> FindWithinUTF16(const char16_t* wyrazenie);
-    void FindWithinUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback);
-    std::vector<int> FindWithinUTF32(const char32_t* wyrazenie);
-    void FindWithinUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback);
-    std::vector<int> FindExactUTF8(const char* wyrazenie);
-    void FindExactUTF8WithCallback(const char* wyrazenie, ProgressCallback progressCallback);
-    std::vector<int> FindExactUTF16(const char16_t* wyrazenie);
-    void FindExactUTF16WithCallback(const char16_t* wyrazenie, ProgressCallback progressCallback);
-    std::vector<int> FindExactUTF32(const char32_t* wyrazenie);
-    void FindExactUTF32WithCallback(const char32_t* wyrazenie, ProgressCallback progressCallback);
 
-
-    template <typename String, typename StringConverter>
-    static std::map<int, String> ReadEntries(const char* data, int length, StringConverter converter) {
-        std::map<int, String> mapEntries;
-        const char* current = data;
-
-        int numEntries;
-        memcpy(&numEntries, current, sizeof(int));
-        current += sizeof(int);
-
-        for (int i = 0; i < numEntries; ++i) {
-            int key;
-            memcpy(&key, current, sizeof(int));
-            current += sizeof(int);
-
-            int strLength;
-            memcpy(&strLength, current, sizeof(int));
-            current += sizeof(int);
-
-            mapEntries[key] = converter(current, strLength);
-            current += strLength;
-        }
-
-        return mapEntries;
-    }
-
-   
-
+	shookayEngine();
+	void PrepareEntriesWithCallback(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries, ProgressCallback progressCallback);
+	void PrepareEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries);
+	void PrepareEntriesUTF8WithCallback(const std::map<int, std::u8string>& entries, ProgressCallback progressCallback);
+	void PrepareEntriesUTF16WithCallback(const std::map<int, std::u16string>& entries, ProgressCallback progressCallback);
+	void PrepareEntriesUTF32WithCallback(const std::map<int, std::u32string>& entries, ProgressCallback progressCallback);
+	void PrepareEntriesUTF8(const std::map<int, std::u8string>& entries);
+	void PrepareEntriesUTF16(const std::map<int, std::u16string>& entries);
+	void PrepareEntriesUTF32(const std::map<int, std::u32string>& entries);
+	std::vector<int> FindUTF8(const std::u8string& wyrazenie, WordMatchMethod method);	
+	std::vector<int> FindUTF16(const std::u16string& wyrazenie, WordMatchMethod method);
+    std::vector<int> FindUTF32(const std::u32string& wyrazenie, WordMatchMethod method);	
 
 private:
-
-    bool CompareWordsUntilTheContentIsTooSmallOrEndOfRecord(const std::vector<char32_t>& WyszukiwaneWyrazenie, int pointerToEndOfTheRecord, int& IndexToCharInContentArray);
-    std::vector<int> FindWithin(const std::vector<std::vector<char32_t>> wyrazenia);
-    std::vector<int> FindExact(const std::vector<std::vector<char32_t>> wyrazenia);  
-    void FindWithinWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback);
-    void FindExactWithCallback(const std::vector<std::vector<char32_t>> expressions, ProgressCallback progressCallback);
-    std::vector<int> recordOffsets;
-    std::vector<int> results;
-    std::vector<int> recordIds;
-    std::vector<int> contentArray;
-    std::vector<DwordDescription> descriptionArray;
-    std::string architectureFlag;
+	
+	std::vector<int> Find(const std::vector<char32_t>& wyrazenia, WordMatchMethod method);
+	std::shared_ptr<MyIntHashSet> ProcessNode(const std::shared_ptr<ExpressionNode>& node, MyIntHashSet& allRecords, WordMatchMethod method);
+	MyIntHashSet IsTheWordMatch(const std::vector<char32_t>& word, WordMatchMethod method);
+	void CheckIfWordIsAMatchWithinAndReturnIndices(MyIntHashSet& indices, const std::vector<char32_t>& wordToLookFor, const std::ranges::subrange<std::vector<int>::iterator>& wordWhereFirstWordCanBe, int pointer2IndicesArray, int numberOfIndices, int& internalCurrentWordArrayIndex);
+	std::vector<int> recordIds;
+	std::vector<int> indicesArray;
+	std::vector<int> indicesArrayOffsets;
+	std::vector<int> wordEnds;
+	std::vector<int> wordLengths;
+	std::vector<int> wordsArray;
+	std::map<std::vector<char32_t>, std::vector<int>> invertedIndex;
+	std::map<int, int> recordIdsDict;
+	std::vector<int> numbersOfIndices;
+	
 };
