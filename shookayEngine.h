@@ -23,9 +23,9 @@ public:
 	void PrepareEntriesUTF8(const std::map<int, std::u8string>& entries);
 	void PrepareEntriesUTF16(const std::map<int, std::u16string>& entries);
 	void PrepareEntriesUTF32(const std::map<int, std::u32string>& entries);
-	std::vector<int> FindUTF8(const std::u8string& wyrazenie, WordMatchMethod method);	
-	std::vector<int> FindUTF16(const std::u16string& wyrazenie, WordMatchMethod method);
-    std::vector<int> FindUTF32(const std::u32string& wyrazenie, WordMatchMethod method);	
+	std::vector<int> FindUTF8(const char8_t* wyrazenie, WordMatchMethod method);
+	std::vector<int> FindUTF16(const char16_t* wyrazenie, WordMatchMethod method);
+    std::vector<int> FindUTF32(const char32_t* wyrazenie, WordMatchMethod method);
 
 private:
 	

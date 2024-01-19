@@ -13,6 +13,7 @@
 #include "expressionTreeBuilder.h"
 #include "utfConv.h"
 #include <algorithm>
+#include <iostream>
 
 
 
@@ -220,14 +221,13 @@ void shookayEngine::PrepareEntriesWithCallback(const std::map<int, std::vector<s
     }
 }
 
-std::vector<int> shookayEngine::Find(const std::vector<char32_t>& wyrazenia, WordMatchMethod method)
-{  
+std::vector<int> shookayEngine::Find(const std::vector<char32_t>& wyrazenia, WordMatchMethod method){  
     std::vector<char32_t> wyrazeniaVec(wyrazenia.begin(), wyrazenia.end());
     UTFConverter::StrToLwrUtf32(wyrazeniaVec);
     MyIntHashSet IndicesOffAllRecordsMatchingSearchTerm(recordIds);
     auto dzialania = ExpressionTokenizer:: TokenizeExpression(wyrazeniaVec);
     auto goodyts = ExpressionTokenizer::CorrectTokens(dzialania);
-    auto root = ExpressionTreeBuilder::BuildTree(goodyts);
+    auto root = ExpressionTreeBuilder::BuildTree(goodyts);    
     auto zwrotka = ProcessNode(root, IndicesOffAllRecordsMatchingSearchTerm, method);
     std::vector<int> retka;
     for (int k = 0; k < zwrotka->Length(); k++)
@@ -240,8 +240,7 @@ std::vector<int> shookayEngine::Find(const std::vector<char32_t>& wyrazenia, Wor
     return retka;
 }
 
-MyIntHashSet shookayEngine::IsTheWordMatch(const std::vector<char32_t>& word, WordMatchMethod method)
-{
+MyIntHashSet shookayEngine::IsTheWordMatch(const std::vector<char32_t>& word, WordMatchMethod method){    
     size_t length = word.size();
     int currentWordArrayIndex = 0;
     int x = 0;
@@ -265,13 +264,13 @@ MyIntHashSet shookayEngine::IsTheWordMatch(const std::vector<char32_t>& word, Wo
     return zwrotka;
 }
 
-std::shared_ptr<MyIntHashSet> shookayEngine::ProcessNode(const std::shared_ptr<ExpressionNode>& node, MyIntHashSet& allRecords, WordMatchMethod method) {
+std::shared_ptr<MyIntHashSet> shookayEngine::ProcessNode(const std::shared_ptr<ExpressionNode>& node, MyIntHashSet& allRecords, WordMatchMethod method) {   
     if (node->Operation == WordOperations::None) {
-        const auto& zwro = node->Value;
+        const auto& zwro = node->Value;        
         return std::make_shared<MyIntHashSet>(IsTheWordMatch(zwro, method));
-    }
+    }    
     std::shared_ptr<MyIntHashSet> leftSet = (node->Left != nullptr) ? ProcessNode(node->Left, allRecords, method) : nullptr;
-    std::shared_ptr<MyIntHashSet> rightSet = (node->Right != nullptr) ? ProcessNode(node->Right, allRecords, method) : nullptr;
+    std::shared_ptr<MyIntHashSet> rightSet = (node->Right != nullptr) ? ProcessNode(node->Right, allRecords, method) : nullptr;    
     if (node->Operation == WordOperations::AND) {
         if (leftSet && rightSet) {
             leftSet->IntersectWith(*rightSet);
@@ -317,19 +316,24 @@ void shookayEngine::CheckIfWordIsAMatchWithinAndReturnIndices(MyIntHashSet& indi
 }
 
 
-std::vector<int> shookayEngine::FindUTF8(const std::u8string& wyrazenie, WordMatchMethod method) {
+std::vector<int> shookayEngine::FindUTF8(const char8_t* wyrazenie, WordMatchMethod method) {
     auto wyrazenia = UTFConverter::Utf8ToUtf32(wyrazenie);
     return Find(wyrazenia, method);
 }
 
 
-std::vector<int> shookayEngine::FindUTF16(const std::u16string& wyrazenie, WordMatchMethod method){
+std::vector<int> shookayEngine::FindUTF16(const char16_t* wyrazenie, WordMatchMethod method){    
     auto wyrazenia = UTFConverter::Utf16ToUtf32(wyrazenie);
     return Find(wyrazenia, method);
 }
 
 
-std::vector<int> shookayEngine::FindUTF32(const std::u32string& wyrazenie, WordMatchMethod method){
-    return Find(std::vector<char32_t>(wyrazenie.begin(), wyrazenie.end()), method);
+std::vector<int> shookayEngine::FindUTF32(const char32_t* wyrazenie, WordMatchMethod method){
+    std::vector<char32_t> vec;
+    while (*wyrazenie != '\0') { 
+        vec.push_back(*wyrazenie);
+        wyrazenie++; 
+    }
+    return Find(std::vector<char32_t>(vec.begin(), vec.end()), method);
 }
 

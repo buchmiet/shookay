@@ -118,7 +118,7 @@ for UTF-8:
 ```cpp
 std::u8string searchTerm = u8"issio";
 int resultLength;
-int* results = FindUTF8(searchEngine, searchTerm, &resultLength, Within);
+int* results = FindUTF8(searchEngine, searchTerm.c_str(), &resultLength, Within);
 ```
 
 for UTF-16:
@@ -126,7 +126,7 @@ for UTF-16:
 ```cpp
 std::u16string searchTerm = u"issio";
 int resultLength;
-int* results = FindUTF16(searchEngine, searchTerm, &resultLength, Within);
+int* results = FindUTF16(searchEngine, searchTerm.c_str(), &resultLength, Within);
 ```
 
 for UTF-32:
@@ -134,7 +134,7 @@ for UTF-32:
 ```cpp
 std::u32string searchTerm = U"issio asd";
 int resultLength;
-int* results = FindUTF32(searchEngine, searchTerm, &resultLength, Within);
+int* results = FindUTF32(searchEngine, searchTerm.c_str(), &resultLength, Within);
 ```
 
 now `resultLength` returns the number of hits and `x` returns the pointer to the map entries where keys are found to be matching the `searchTerm`.
@@ -163,7 +163,7 @@ for UTF-8:
 ```cpp
 std::string searchTerm = "issio";
 int resultLength;
-int* results = FindUTF8(searchEngine, searchTerm, &resultLength, Exact);
+int* results = FindUTF8(searchEngine, searchTerm.c_str(), &resultLength, Exact);
 ```
 
 for UTF-16:
@@ -171,7 +171,7 @@ for UTF-16:
 ```cpp
 std::u16string searchTerm = u"issio";
 int resultLength;
-int* results = FindUTF16(searchEngine, searchTerm, &resultLength, Exact);
+int* results = FindUTF16(searchEngine, searchTerm.c_str(), &resultLength, Exact);
 ```
 
 for UTF-32:
@@ -179,7 +179,7 @@ for UTF-32:
 ```cpp
 std::u32string searchTerm = U"issio asd";
 int resultLength;
-int* results = FindUTF32(searchEngine, searchTerm, &resultLength, Exact);
+int* results = FindUTF32(searchEngine, searchTerm.c_str(), &resultLength, Exact);
 ```
 
 
@@ -284,3 +284,5 @@ The MIT License is a permissive license that is short and to the point. It lets 
 - ``` FindExactWithCallback``` and ``` FindWithinWithCallback``` search functions that report search results on the go to your to your GUI
 ### [0.6.0] - 2024-01-18
 - Major changes to the API and search method
+### [0.6.1] - 2024-01-19
+- Minor big fixes

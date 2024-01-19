@@ -11,7 +11,7 @@ extern "C" {
         return new shookayEngine();
     }
 
-    int* FindUTF8(shookayEngine* searchEngine, const std::u8string& wyrazenie, int* length, WordMatchMethod method) {
+    int* FindUTF8(shookayEngine* searchEngine, const char8_t* wyrazenie, int* length, WordMatchMethod method) {
         if (searchEngine == nullptr) {
             return nullptr;
         }
@@ -23,7 +23,8 @@ extern "C" {
     }
 
 
-    int* FindUTF16(shookayEngine* searchEngine, const std::u16string& wyrazenie, int* length, WordMatchMethod method) {
+ 
+    int* FindUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, WordMatchMethod method) {
         if (searchEngine == nullptr) {
             return nullptr;
         }
@@ -35,7 +36,7 @@ extern "C" {
     }
 
 
-    int* FindUTF32(shookayEngine* searchEngine, const std::u32string& wyrazenie, int* length, WordMatchMethod method) {
+    int* FindUTF32(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length, WordMatchMethod method) {
         if (searchEngine == nullptr) {
             return nullptr;
         }
@@ -87,6 +88,27 @@ extern "C" {
         }
     }
     
+    void DeliverEntriesWithCallback(shookayEngine* searchEngine, const char* data, EncodingType encodingType, ProgressCallback progressCallback) {
+        switch (encodingType) {
+        case UTF8: {
+            auto mapEntries = StringConverter::ReadEntries<std::u8string>(data, StringConverter::ConvertUTF8);
+            searchEngine->PrepareEntriesUTF8WithCallback(mapEntries, progressCallback);
+            break; }
+        case UTF16: {
+            auto mapEntries = StringConverter::ReadEntries<std::u16string>(data, StringConverter::ConvertUTF16);
+            searchEngine->PrepareEntriesUTF16WithCallback(mapEntries, progressCallback);
+            break; }
+        case UTF32: {
+            auto mapEntries = StringConverter::ReadEntries<std::u32string>(data, StringConverter::ConvertUTF32);
+            searchEngine->PrepareEntriesUTF32WithCallback(mapEntries, progressCallback);
+            break; }
+        default: {
+            // Error
+            break; }
+        }
+    }
+
+
     void PrepareEntriesWithCallback(shookayEngine* searchEngine, void* data, EncodingType encodingType, ProgressCallback progressCallback) {
         switch (encodingType) {
         case UTF8: {
