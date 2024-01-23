@@ -1,11 +1,11 @@
-# **Shookay Search Engine Library v0.6.1**
+# **Shookay Search Engine Library v0.6.2**
 
 ## **Overview**
 Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. It is pretty universal, as you can integrate it with any application that can provide simple text data. 
 
 ## **Features**
 - Fast Performance: It's based on Inverted Index method;
-- Flexible Search Options: You can use parenthesis, logical AND, OR and NOT operators. You can also loook for words being the very exact matches or words being only substrings;
+- Flexible Search Options: You can use parenthesis, logical AND, OR and NOT operators. You can also look for words being the very exact matches or words being only substrings;
 - Multilingual Support: Compatible with UTF-8, UTF-16, and UTF-32 encoding - it accepts text in any language you can fit in that encoding; 
 - Separate Search Engine Instances: you can run many separate search engines on different datasets at the same time
 
@@ -182,7 +182,6 @@ int resultLength;
 int* results = FindUTF32(searchEngine, searchTerm.c_str(), &resultLength, Exact);
 ```
 
-
 to get following results
 
 ```
@@ -191,7 +190,39 @@ Key: 4, Value: asd every
 Key: 5, Value: had each another every industrial line change
 ```
 
+
+
+#You can add entries for your dictionary:
+
+
+for UTF-8:
+
+```cpp
+std::u8string noweentry = u8"never every these expenthisditure go been";
+AddEntryUTF8(searchEngine,9, noweentry.c_str());
+```
+
+for UTF-16:
+
+```cpp
+std::u16string noweentry1 = u"never every these expenthisditure go been";
+AddEntryUTF16(searchEngine, 10, noweentry1.c_str());
+```
+
+for UTF-32:
+
+```cpp
+std::u32string noweentry2 = U"never every these expenthisditure go been";
+AddEntryUTF32(searchEngine, 11, noweentry2.c_str());
+```
+
+
+
 **Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
+
+
+
+
 
 
 ## For applications with Graphical User Interface:
@@ -286,3 +317,5 @@ The MIT License is a permissive license that is short and to the point. It lets 
 - Major changes to the API and search method
 ### [0.6.1] - 2024-01-19
 - Minor big fixes
+### [0.6.2] - 2024-01-23
+- Added AddEntry method
