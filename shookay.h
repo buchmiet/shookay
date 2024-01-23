@@ -14,6 +14,9 @@ extern "C" {
     shookayEngine_API int* FindUTF8(shookayEngine* searchEngine, const char8_t* wyrazenie, int* length, WordMatchMethod method);
     shookayEngine_API int* FindUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, WordMatchMethod method);
     shookayEngine_API int* FindUTF32(shookayEngine* searchEngine, const char32_t* wyrazenie, int* length, WordMatchMethod method);
+    shookayEngine_API void AddEntryUTF8(shookayEngine* searchEngine, int id, const char8_t* wyrazenie);
+    shookayEngine_API void AddEntryUTF16(shookayEngine* searchEngine, int id, const char16_t* wyrazenie);
+    shookayEngine_API void AddEntryUTF32(shookayEngine* searchEngine, int id, const char32_t* wyrazenie);
     shookayEngine_API void PrepareEntries(shookayEngine* searchEngine, void* data, EncodingType encodingType);
     shookayEngine_API void DeliverEntries(shookayEngine* searchEngine, const char* data, EncodingType encodingType);
     shookayEngine_API void PrepareEntriesWithCallback(shookayEngine* searchEngine, void* data, EncodingType encodingType, ProgressCallback progressCallback);

@@ -26,6 +26,10 @@ public:
 	std::vector<int> FindUTF8(const char8_t* wyrazenie, WordMatchMethod method);
 	std::vector<int> FindUTF16(const char16_t* wyrazenie, WordMatchMethod method);
     std::vector<int> FindUTF32(const char32_t* wyrazenie, WordMatchMethod method);
+	void AddEntryUTF8(int id, const char8_t* wyrazenie);
+	void AddEntryUTF16(int id,const char16_t* wyrazenie);
+	void AddEntryUTF32(int id, const char32_t* wyrazenie);
+	void AddEntry(int id, std::vector<std::vector<char32_t>> wyrazenie);
 
 private:
 	
@@ -42,5 +46,5 @@ private:
 	std::map<std::vector<char32_t>, std::vector<int>> invertedIndex;
 	std::map<int, int> recordIdsDict;
 	std::vector<int> numbersOfIndices;
-	
+	std::vector<WordDescription> wordDescriptions;
 };

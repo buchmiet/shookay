@@ -22,6 +22,8 @@ extern "C" {
         return resultsArray;
     }
 
+  
+    
 
  
     int* FindUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, WordMatchMethod method) {
@@ -128,6 +130,17 @@ extern "C" {
             // Error
             break; }
         }
+    }
+
+    void AddEntryUTF8(shookayEngine* searchEngine, int id, const char8_t* wyrazenie) {
+        searchEngine->AddEntryUTF8(id, wyrazenie);
+    }
+
+    void AddEntryUTF16(shookayEngine* searchEngine, int id, const char16_t* wyrazenie) {
+        searchEngine->AddEntryUTF16(id, wyrazenie);
+    }
+    void AddEntryUTF32(shookayEngine* searchEngine, int id, const char32_t* wyrazenie) {
+        searchEngine->AddEntryUTF32(id, wyrazenie);
     }
 
 }
