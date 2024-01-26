@@ -1,4 +1,4 @@
-# **Shookay Search Engine Library v0.6.2**
+# **Shookay Search Engine Library v0.6.3**
 
 ## **Overview**
 Shookay is a versatile, high-performance search engine library designed to offer efficient and dynamic search capabilities. It is pretty universal, as you can integrate it with any application that can provide simple text data. 
@@ -98,6 +98,8 @@ PrepareEntries(searchEngine, &entries, UTF32);
 ```
 
 now entries are delivered to the engine. 
+
+**Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
 
 ### Performing search
 
@@ -218,10 +220,36 @@ AddEntryUTF32(searchEngine, 11, noweentry2.c_str());
 
 
 
-**Note**: Once you submit entries, data is converted to UTF-32, therefore search term and entries may use different encodings.
+
+#You can remove entries from your dictionary : ```bool RemoveEntry(shookayEngine* searchEngine, int id);```
+
+```cpp
+bool result = RemoveEntry(searchEngine,9);
+```
+
+result will be false when no entry with given id is found
 
 
+#You can update entries in your dictionary : 
 
+
+for UTF-8:
+
+```cpp
+bool result = RefreshEntryUTF8(searchEngine,1, u8"never every these expenthisditure go been");
+```
+
+for UTF-16:
+
+```cpp
+bool result = RefreshEntryUTF16(searchEngine,1, u"never every these expenthisditure go been");
+```
+
+for UTF-32:
+
+```cpp
+bool result = RefreshEntryUTF32(searchEngine,1, U"never every these expenthisditure go been");
+```
 
 
 
@@ -319,3 +347,5 @@ The MIT License is a permissive license that is short and to the point. It lets 
 - Minor big fixes
 ### [0.6.2] - 2024-01-23
 - Added AddEntry method
+### [0.6.3] - 2024-01-26
+- Added RemoveEntry and RefreshEntry methods
