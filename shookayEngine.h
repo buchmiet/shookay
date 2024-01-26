@@ -29,10 +29,17 @@ public:
 	void AddEntryUTF8(int id, const char8_t* wyrazenie);
 	void AddEntryUTF16(int id,const char16_t* wyrazenie);
 	void AddEntryUTF32(int id, const char32_t* wyrazenie);
-	void AddEntry(int id, std::vector<std::vector<char32_t>> wyrazenie);
+	bool RemoveEntry(int id);
+	bool RefreshEntryUTF8(int id, const char8_t* wyrazenie);
+	bool RefreshEntryUTF16(int id, const char16_t* wyrazenie);
+	bool RefreshEntryUTF32(int id, const char32_t* wyrazenie);
+
 
 private:
-	
+	bool RefreshEntry(int id,const std::vector<std::vector<char32_t>>& wyrazenie);
+	void AddEntry(int id,const std::vector<std::vector<char32_t>>& wyrazenie);
+	void CreateRecords(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries);
+	void CreateIndexes();
 	std::vector<int> Find(const std::vector<char32_t>& wyrazenia, WordMatchMethod method);
 	std::shared_ptr<MyIntHashSet> ProcessNode(const std::shared_ptr<ExpressionNode>& node, MyIntHashSet& allRecords, WordMatchMethod method);
 	MyIntHashSet IsTheWordMatch(const std::vector<char32_t>& word, WordMatchMethod method);
@@ -47,4 +54,5 @@ private:
 	std::map<int, int> recordIdsDict;
 	std::vector<int> numbersOfIndices;
 	std::vector<WordDescription> wordDescriptions;
+	std::map<int,std::vector<std::vector<char32_t>>> records;
 };

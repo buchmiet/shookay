@@ -11,6 +11,21 @@ extern "C" {
         return new shookayEngine();
     }
 
+    bool RemoveEntry(shookayEngine* searchEngine, int id) {
+        return searchEngine->RemoveEntry(id);
+    }
+
+    bool RefreshEntryUTF8(shookayEngine* searchEngine, int id, const char8_t* wyrazenie) {
+        return searchEngine->RefreshEntryUTF8(id, wyrazenie);
+    }
+
+    bool RefreshEntryUTF16(shookayEngine* searchEngine, int id, const char16_t* wyrazenie) {
+        return searchEngine->RefreshEntryUTF16(id, wyrazenie);
+    }
+    bool RefreshEntryUTF32(shookayEngine* searchEngine, int id, const char32_t* wyrazenie) {
+        return searchEngine->RefreshEntryUTF32(id, wyrazenie);
+    }
+
     int* FindUTF8(shookayEngine* searchEngine, const char8_t* wyrazenie, int* length, WordMatchMethod method) {
         if (searchEngine == nullptr) {
             return nullptr;
@@ -21,11 +36,7 @@ extern "C" {
         std::ranges::copy(results.begin(), results.end(), resultsArray);
         return resultsArray;
     }
-
-  
-    
-
- 
+      
     int* FindUTF16(shookayEngine* searchEngine, const char16_t* wyrazenie, int* length, WordMatchMethod method) {
         if (searchEngine == nullptr) {
             return nullptr;

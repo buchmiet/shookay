@@ -53,38 +53,41 @@ void shookayEngine::PrepareEntriesUTF32(const std::map<int, std::u32string>& ent
     utf32entries.clear();
 }
 
-void shookayEngine::PrepareEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries) {
-    
+void shookayEngine::CreateRecords(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries) {
+    records = utf32entries;
+}
+
+void shookayEngine::CreateIndexes() {
     int i = 0;
     int j = 0;
+    invertedIndex.clear();
+    wordDescriptions.clear();
 
     int totalLengthOfWordsArray = 0;
     int totalNumberOfIndices = 0;
-    recordIds.resize(utf32entries.size());
-    
-    for (const auto& [key, value] : utf32entries)
+    recordIds.resize(records.size());
+
+    for (const auto& [key, value] : records)
     {
         recordIds[j] = key;
-        recordIdsDict[key] = j;        
+        recordIdsDict[key] = j;
         for (const auto& item : value)
         {
             auto it = invertedIndex.find(item);
             if (it == invertedIndex.end()) {
-                invertedIndex[item] = std::vector<int>{ key };             
+                invertedIndex[item] = std::vector<int>{ key };
                 wordDescriptions.push_back(WordDescription{ &(*invertedIndex.find(item)), static_cast<int>(item.size()) });
                 totalNumberOfIndices++;
                 totalLengthOfWordsArray += item.size();
                 i++;
             }
             else {
-           
                 it->second.push_back(key);
                 totalNumberOfIndices++;
-            }          
+            }
         }
         j++;
     }
-    
     QuickSorter::Sort(wordDescriptions);
     wordsArray.resize(totalLengthOfWordsArray);
     indicesArray.resize(totalNumberOfIndices);
@@ -96,17 +99,13 @@ void shookayEngine::PrepareEntries(const std::map<int, std::vector<std::vector<c
     wordEnds.resize(invertedIndex.size());
     indicesArrayOffsets.resize(invertedIndex.size());
     int pointer2IndicesArray = 0;
-
     for (const auto& item : wordDescriptions) {
         const auto& pair = *(item.pairPtr);
-      
         localLength = pair.first.size();
-      
         std::ranges::copy(pair.first.begin(), pair.first.begin() + localLength, wordsArray.begin() + totalOffset);
-      
         numbersOfIndices[i] = pair.second.size();
         indicesArrayOffsets[i] = pointer2IndicesArray;
-      
+
         for (const int item2 : pair.second) {
             indicesArray[pointer2IndicesArray] = recordIdsDict[item2];
             pointer2IndicesArray++;
@@ -116,7 +115,12 @@ void shookayEngine::PrepareEntries(const std::map<int, std::vector<std::vector<c
         wordLengths[i] = localLength;
         wordEnds[i] = totalOffset;
         i++;
-    } 
+    }
+}
+
+void shookayEngine::PrepareEntries(const std::map<int, std::vector<std::vector<char32_t>>>& utf32entries) {    
+    CreateRecords(utf32entries);
+    CreateIndexes();
 }
 
 
@@ -148,82 +152,70 @@ void shookayEngine::PrepareEntriesUTF32WithCallback(const std::map<int, std::u32
 }
 
 
-void shookayEngine::AddEntry(int id, std::vector<std::vector<char32_t>>  wyrazenie) {
-    int i = 0;   
-    recordIds.push_back(id);
-    recordIdsDict[id] = recordIds.size() - 1;
-    int newords = 0;
-    int newindices = 0;
-    int totalLengthOfWordsArray = 0;
+void shookayEngine::AddEntry(int id,const std::vector<std::vector<char32_t>>&  wyrazenie) {
+	int i = 0;
+	records[id] = wyrazenie;
+	recordIds.push_back(id);
+	recordIdsDict[id] = recordIds.size() - 1;
+	int newords = 0;
+	int newindices = 0;
+	int totalLengthOfWordsArray = 0;
 
-        for (const auto& item : wyrazenie)
-        {
-            auto it = invertedIndex.find(item);
-            if (it == invertedIndex.end()) {
-                invertedIndex[item] = std::vector<int>{ id };
-                wordDescriptions.push_back(WordDescription{ &(*invertedIndex.find(item)), static_cast<int>(item.size()) });
-                newords++;
-                newindices++;
-                totalLengthOfWordsArray += item.size();
-                i++;
-            }
-            else {
+	for (const auto& item : wyrazenie)
+	{
+		auto it = invertedIndex.find(item);
+		if (it == invertedIndex.end()) {
+			invertedIndex[item] = std::vector<int>{ id };
+			wordDescriptions.push_back(WordDescription{ &(*invertedIndex.find(item)), static_cast<int>(item.size()) });
+			newords++;
+			newindices++;
+			totalLengthOfWordsArray += item.size();
+			i++;
+		}
+		else {
 
-                it->second.push_back(id);
-                newindices++;
-            }
-        }
+			it->second.push_back(id);
+			newindices++;
+		}
+	}
+	QuickSorter::Sort(wordDescriptions);
+	int x = wordsArray.size() + totalLengthOfWordsArray;
+	wordsArray.resize(x);
+	indicesArray.resize(indicesArray.size() + newindices);
+	numbersOfIndices.resize(wordDescriptions.size());
+	i = 0;
+	size_t totalOffset = 0;
+	size_t localLength;
+	wordLengths.resize(invertedIndex.size());
+	wordEnds.resize(invertedIndex.size());
+	indicesArrayOffsets.resize(invertedIndex.size());
+	int pointer2IndicesArray = 0;
+	for (const auto& item : wordDescriptions) {
+		const auto& pair = *(item.pairPtr);
+		localLength = pair.first.size();
+		std::ranges::copy(pair.first.begin(), pair.first.begin() + localLength, wordsArray.begin() + totalOffset);
+		numbersOfIndices[i] = pair.second.size();
+		indicesArrayOffsets[i] = pointer2IndicesArray;
+		for (const int item2 : pair.second) {
+			indicesArray[pointer2IndicesArray] = recordIdsDict[item2];
+			pointer2IndicesArray++;
+		}
+		totalOffset += localLength;
+		wordLengths[i] = localLength;
+		wordEnds[i] = totalOffset;
 
-       
+		i++;
+	}
+}
 
-    
-
-    QuickSorter::Sort(wordDescriptions);
-
-    int x = wordsArray.size() + totalLengthOfWordsArray;
-    wordsArray.resize(x);
-  
-
-    indicesArray.resize(indicesArray.size()+ newindices);
-    numbersOfIndices.resize(wordDescriptions.size());
-    i = 0;
-    size_t totalOffset = 0;
-    size_t localLength;
-
-  
-    wordLengths.resize(invertedIndex.size());
-
-  
-    wordEnds.resize(invertedIndex.size());
-
-  
-    indicesArrayOffsets.resize(invertedIndex.size());
-    int pointer2IndicesArray = 0;
-
-    
-    
-    
-    
-
-    for (const auto& item : wordDescriptions) {
-        const auto& pair = *(item.pairPtr);
-        localLength = pair.first.size();
-        std::ranges::copy(pair.first.begin(), pair.first.begin() + localLength, wordsArray.begin() + totalOffset);
-        numbersOfIndices[i] = pair.second.size();
-        indicesArrayOffsets[i] = pointer2IndicesArray;
-        for (const int item2 : pair.second) {
-            indicesArray[pointer2IndicesArray] = recordIdsDict[item2];
-            pointer2IndicesArray++;
-        }
-        totalOffset += localLength;
-        wordLengths[i] = localLength;
-        wordEnds[i] = totalOffset;
-     
-        i++;
-    }
-
-
-
+bool shookayEngine::RemoveEntry(int id) {
+    auto it = records.find(id);
+    if (it == records.end()) {      
+        return false;
+    }    
+    records.erase(it);
+    CreateIndexes();
+    return true;
 }
 
 
@@ -231,12 +223,12 @@ void shookayEngine::PrepareEntriesWithCallback(const std::map<int, std::vector<s
 
     int i = 0;
     int j = 0;
-
+    CreateRecords(utf32entries);
     int totalLengthOfWordsArray = 0;
     int totalNumberOfIndices = 0;
-    recordIds.resize(utf32entries.size());
-    size_t totalSize = utf32entries.size();
-    for (const auto& [key, value] : utf32entries)
+    recordIds.resize(records.size());
+    size_t totalSize = records.size();
+    for (const auto& [key, value] : records)
     {
         recordIds[j] = key;
         recordIdsDict[key] = j;
@@ -426,4 +418,25 @@ void shookayEngine::AddEntryUTF16(int id, const char16_t* wyrazenie) {
 
 void shookayEngine::AddEntryUTF32(int id, const char32_t* wyrazenie) {
     AddEntry(id, StringConverter::GetUTF32WordsFromUTF32String(wyrazenie));
+}
+
+bool shookayEngine::RefreshEntry(int id,const std::vector<std::vector<char32_t>>& wyrazenie) {
+    auto it = records.find(id);
+    if (it == records.end()) {
+        return false;
+    }
+    records.erase(it);
+    AddEntry(id, wyrazenie);
+    return true;
+}
+
+bool shookayEngine::RefreshEntryUTF8(int id, const char8_t* wyrazenie) {
+    return RefreshEntry(id, StringConverter::GetUTF32WordsFromUTF8String(wyrazenie));
+}
+
+bool shookayEngine::RefreshEntryUTF16(int id, const char16_t* wyrazenie) {
+    return RefreshEntry(id, StringConverter::GetUTF32WordsFromUTF16String(wyrazenie));
+}
+bool shookayEngine::RefreshEntryUTF32(int id, const char32_t* wyrazenie) {
+    return RefreshEntry(id, StringConverter::GetUTF32WordsFromUTF32String(wyrazenie));
 }
